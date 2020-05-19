@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --mode development",
     "start-dev": "webpack -w & nodemon server",
+    "deploy": "script/deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
