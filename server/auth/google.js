@@ -17,6 +17,7 @@ const verificationCallback = async (
     console.log("created user via mongoose and user is : ", user);
     done(null, user);
   } catch (err) {
+    console.log('GOOGLE OAUTH ERROR ', err)
     done(err);
   }
 };
