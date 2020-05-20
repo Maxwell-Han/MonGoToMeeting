@@ -4,16 +4,6 @@ const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const { User } = require("../db/models");
 if(process.env.NODE_ENV !== 'production') require("../../secrets");
 
-router.get("/", passport.authenticate("google", { scope: "email" }));
-
-router.get(
-  "/callback",
-  passport.authenticate("google", {
-    successRedirect: "/home",
-    failureRedirect: "/"
-  })
-);
-
 const verificationCallback = async (
   accessToken,
   refreshToken,
@@ -41,5 +31,15 @@ const strategy = new GoogleStrategy(
 );
 
 passport.use(strategy);
+
+router.get("/", passport.authenticate("google", { scope: "email" }));
+
+router.get(
+  "/callback",
+  passport.authenticate("google", {
+    successRedirect: "/home",
+    failureRedirect: "/"
+  })
+);
 
 module.exports = router;
