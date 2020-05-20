@@ -7,7 +7,7 @@ const app = express();
 const morgan = require("morgan");
 const path = require("path");
 const { db, User } = require("./db");
-if(process.env.NODE_ENV !== 'development') require("../secrets");
+if(process.env.NODE_ENV !== 'production') require("../secrets");
 
 app.use(morgan("dev"));
 app.use(express.json());
