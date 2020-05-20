@@ -2,7 +2,7 @@ const router = require("express").Router();
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const { User } = require("../db/models");
-const secrets = require("../../secrets");
+if(process.env.NODE_ENV !== 'production') require("../../secrets");
 
 router.get("/", passport.authenticate("google", { scope: "email" }));
 
@@ -33,8 +33,8 @@ const verificationCallback = async (
 
 const strategy = new GoogleStrategy(
   {
-    clientID: secrets.clientId,
-    clientSecret: secrets.clientSecret,
+    clientID: process.env.clientId,
+    clientSecret: process.env.clientSecret,
     callbackURL: "/auth/google/callback"
   },
   verificationCallback

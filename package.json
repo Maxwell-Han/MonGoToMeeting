@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node server",
-    "start-dev": "webpack -w & nodemon server",
+    "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
     "deploy": "script/deploy",
+    "start-server": "nodemon server",
+    "build-client-watch": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

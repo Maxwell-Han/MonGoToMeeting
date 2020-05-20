@@ -7,7 +7,7 @@ const app = express();
 const morgan = require("morgan");
 const path = require("path");
 const { db, User } = require("./db");
-const secrets = require("../secrets");
+if(process.env.NODE_ENV !== 'development') require("../secrets");
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -20,7 +20,7 @@ app.use(
       mongooseConnection: mongoose.connection,
       ttl: 7 * 24 * 60 * 60
     }),
-    secret: process.env.SESSION_SECRET || secrets.sessionsSecret,
+    secret: process.env.sessionsSecret,
     resave: false,
     saveUninitialized: false
   })
