@@ -35,7 +35,7 @@ const strategy = new GoogleStrategy(
   {
     clientID: process.env.clientId,
     clientSecret: process.env.clientSecret,
-    callbackURL: "/auth/google/callback"
+    callbackURL: process.env.googleCallback
   },
   verificationCallback
 );
