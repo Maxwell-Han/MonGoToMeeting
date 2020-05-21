@@ -1,5 +1,11 @@
 const User = require('./user')
+const Message = require('./message')
+const Room = require('./room')
+const MeetingItem = require('./meetingItem')
 
 module.exports = {
-  User
+  User,
+  Message,
+  Room,
+  MeetingItem
 }
