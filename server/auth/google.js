@@ -15,7 +15,7 @@ const verificationCallback = async (
       {
         googleId: profile.id,
       },
-      {userName = `${profile.firstName} ${profile.lastName}`},
+      {userName: `${profile.firstName} ${profile.lastName}`},
       { email: profile.emails[0].value }
     );
     console.log("created user via mongoose and user is : ", user);
