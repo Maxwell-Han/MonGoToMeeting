@@ -1,11 +1,28 @@
-import React, { useState, useReducer, useContext, createContext } from "react";
-import { DispatchContext, userReducer } from "./reducer";
+import axios from "axios";
+// import history from '../history';
+// import socket from '../socket'
 
-const DispatchContext = createContext(null);
+const GET_USER = "GET_USER";
+const REMOVE_USER = "REMOVE_USER";
 
-const initialUser = {};
+const getUser = user => ({ type: GET_USER, user });
+const removeUser = () => ({ type: REMOVE_USER });
 
-const userReducer = (state, action) => {
+export const me = async dispatch => {
+  console.log('running me function')
+  try {
+    const res = await axios.get("/auth/me");
+    console.log('getting user via me ', res.data, dispatch)
+    return getUser(res.data || initialUser);
+    // socket.emit('GET_USER', res.data)
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const initialUser = {};
+
+export const userReducer = (state, action) => {
   switch (action.type) {
     case GET_USER:
       return action.user;
@@ -16,4 +33,4 @@ const userReducer = (state, action) => {
   }
 };
 
-export default { DispatchContext, initialUser, userReducer };
+// export default {initialUser, userReducer}
