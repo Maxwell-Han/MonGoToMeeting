@@ -1,22 +1,35 @@
 import React, { useEffect, useContext } from "react";
+import { connect } from "react-redux";
 import "./index.css";
-import { DispatchContext } from "./app";
-import { me } from "./store/reducer";
+import { logout } from "./store";
 
-const Home = () => {
-  const {user, dispatch} = useContext(DispatchContext);
-  console.log('user is ', user , ' dispatch is ', typeof dispatch, dispatch)
-  useEffect(() => {
-    console.log("using useEffect");
-    dispatch(me());
-  }, []);
-
+const Home = (props) => {
+  const { handleLogout } = props;
   return (
     <div>
       <h4>Welcome to the home page</h4>
       <h3>You have been logged in!</h3>
+      <h3>{`Welcome ${props.user.email}`}</h3>
+      <a href="#" onClick={handleLogout}>
+        Logout
+      </a>
     </div>
   );
 };
 
-export default Home;
+const mapState = state => {
+  return {
+    isLoggedIn: !!state.user.id,
+    user: state.user
+  };
+};
+
+const mapDispatch = dispatch => {
+  return {
+    handleLogout() {
+      dispatch(logout());
+    }
+  };
+};
+
+export default connect(mapState, mapDispatch)(Home);

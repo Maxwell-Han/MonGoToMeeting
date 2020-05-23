@@ -1,39 +1,49 @@
 import React, { useState, useReducer, createContext, useEffect } from "react";
-// import Routes from './routes';
-import { initialUser, userReducer, me } from "./store/reducer";
+import { me } from "./store";
 import Home from "./home";
 import LoginForm from "./LoginForm";
+import {connect} from 'react-redux';
+import {withRouter, Route, Switch} from 'react-router-dom';
 
 export const DispatchContext = createContext(null);
 
-const App = () => {
-  const isPromise = (obj) => {
-    return (
-      !!obj &&
-      (typeof obj === "object" || typeof obj === "function") &&
-      typeof obj.then === "function"
-    );
-  };
-  const middleware = (dispatch) => {
-    return (action) => {
-      if (isPromise(action.user)) {
-        action.user.then((v) => {
-          dispatch({ type: action.type, user: v });
-        });
-      } else {
-        dispatch(action);
-      }
-    };
-  };
-  const [user, dispatchUser] = useReducer(userReducer, initialUser);
-  const dispatch = (action) => [dispatchUser].forEach((fn) => fn(action));
-
+const App = (props) => {
+  useEffect(() => {
+    props.loadInitialData();
+  }, []);
+  const { isLoggedIn } = props;
   return (
-    <DispatchContext.Provider value={{ user, dispatch : middleware(dispatch) }}>
-      {/* <Routes /> */}
-      <Home />
-    </DispatchContext.Provider>
+    <Switch>
+      {/* Routes placed here are available to all visitors */}
+      <Route path="/login" component={LoginForm} />
+      {/* <Route path="/signup" component={SignUp} /> */}
+      {/* <Route path="/demo" component={Home} /> */}
+      {isLoggedIn && (
+        <Switch>
+          {/* Routes placed here are only available after logging in */}
+          <Route path="/" component={Home} />
+        </Switch>
+      )}
+      {/* Displays our Login component as a fallback */}
+      <Route component={LoginForm} />
+    </Switch>
   );
 };
 
-export default App;
+const mapState = (state) => {
+  return {
+    // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
+    // Otherwise, state.user will be an empty object, and state.user.id will be falsey
+    isLoggedIn: !!state.user._id,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    loadInitialData() {
+      dispatch(me());
+    },
+  };
+};
+export default withRouter(connect(mapState, mapDispatch)(App));
+

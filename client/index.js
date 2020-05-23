@@ -1,11 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import LoginForm from "./LoginForm";
 import store from "./store";
-import Home from "./home";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import App from "./app";
+import history from "./history";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+// import { DndProvider } from "react-dnd";
+// import Backend from "react-dnd-html5-backend";
+import App from "./App";
 import "./index.css";
+import "./socket";
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(
+  <Provider store={store}>
+    <Router history={history}>
+      {/* <DndProvider backend={Backend}> */}
+      <App />
+      {/* </DndProvider> */}
+    </Router>
+  </Provider>,
+  document.getElementById("app")
+);
