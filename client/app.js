@@ -3,7 +3,7 @@ import { me } from "./store"
 import LoginForm from "./LoginForm";
 import {connect} from 'react-redux';
 import {withRouter, Route, Switch} from 'react-router-dom';
-import {SignUp, Login, Landing} from './components'
+import {SignUp, Login, Layout, Landing} from './components'
 import Home from './home'
 
 export const DispatchContext = createContext(null);
@@ -23,7 +23,7 @@ const App = (props) => {
       {isLoggedIn && (
         <Switch>
           {/* Routes placed here are only available after logging in */}
-          <Route path="/home" component={Home} />
+          <Route path="/home" component={Layout} />
         </Switch>
       )}
       {/* Displays our Login component as a fallback */}
