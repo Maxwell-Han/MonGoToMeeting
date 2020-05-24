@@ -1,9 +1,10 @@
 import React, { useState, useReducer, createContext, useEffect } from "react";
-import { me } from "./store";
-import Home from "./home";
+import { me } from "./store"
 import LoginForm from "./LoginForm";
 import {connect} from 'react-redux';
 import {withRouter, Route, Switch} from 'react-router-dom';
+import {SignUp, Login, Landing} from './components'
+import Home from './home'
 
 export const DispatchContext = createContext(null);
 
@@ -15,17 +16,18 @@ const App = (props) => {
   return (
     <Switch>
       {/* Routes placed here are available to all visitors */}
-      <Route path="/login" component={LoginForm} />
+      <Route path="/login" component={Login} />
+      <Route path="/signup" component={SignUp} />
       {/* <Route path="/signup" component={SignUp} /> */}
       {/* <Route path="/demo" component={Home} /> */}
       {isLoggedIn && (
         <Switch>
           {/* Routes placed here are only available after logging in */}
-          <Route path="/" component={Home} />
+          <Route path="/home" component={Home} />
         </Switch>
       )}
       {/* Displays our Login component as a fallback */}
-      <Route component={LoginForm} />
+      <Route component={Login} />
     </Switch>
   );
 };
@@ -35,6 +37,7 @@ const mapState = (state) => {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user._id,
+    userName: state.user.userName || 'user'
   };
 };
 

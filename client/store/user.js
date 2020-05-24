@@ -27,16 +27,14 @@ export const auth = (
   email,
   password,
   method,
-  zipCode
 ) => async dispatch => {
   let res;
-  console.log('dispatching auth ', userName, email, password, method, zipCode)
+  console.log('dispatching auth ', userName, email, password, method)
   try {
     res = await axios.post(`/auth/${method}`, {
       userName,
       email,
       password,
-      zipCode
     });
   } catch (authError) {
     return dispatch(getUser({ error: authError }));
@@ -45,8 +43,9 @@ export const auth = (
   try {
     dispatch(getUser(res.data));
     console.log('socket from AUTH thunk ', res.data)
+    history.push("/home");
     socket.emit('GET_USER', res.data)
-    history.push("/main");
+    console.log(history)
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr);
   }

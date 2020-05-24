@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 import history from "./history";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Router, Switch, Route, Link } from "react-router-dom";
 // import { DndProvider } from "react-dnd";
 // import Backend from "react-dnd-html5-backend";
 import App from "./App";

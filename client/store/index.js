@@ -1,4 +1,5 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import user from './user'
 // import users from './users'
 // import buddies from './buddies'
@@ -24,13 +25,11 @@ const reducer = combineReducers({
   // currentItems
 });
 
-const store = createStore(
-  reducer,
-  applyMiddleware(
-    thunkMiddleware,
-    createLogger()
-  )
+const middleware = composeWithDevTools(
+  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 );
+
+const store = createStore(reducer, middleware);
 
 export default store;
 export * from './user'
