@@ -4,10 +4,13 @@ import PropTypes from "prop-types";
 import { auth } from "../store";
 import { Button, Box, FormField, TextInput } from "grommet";
 import { Google } from "grommet-icons";
+import history from "../history";
 
 const AuthForm = (props) => {
   console.log("on authform props are ", props);
   const { name, displayName, handleSubmit, error } = props;
+  const message =
+    name === "login" ? "Log in as an existing user" : "Sign up as a new user";
   return (
     <div>
       <Box
@@ -18,6 +21,26 @@ const AuthForm = (props) => {
         gap="small"
         width="large"
       >
+        <Box
+          border
+          round
+          gap="small"
+          pad="small"
+          hoverIndicator
+          onClick={() => history.push("/signup")}
+        >
+          Sign Up
+        </Box>
+        <Box
+          border
+          round
+          gap="small"
+          pad="small"
+          hoverIndicator
+          onClick={() => history.push("/login")}
+        >
+          Log In
+        </Box>
         <h4>Welcome to MonGoToMeeting!</h4>
         <Button
           icon={<Google color="plain" />}
@@ -41,19 +64,32 @@ const AuthForm = (props) => {
             }}
           />
         </div>
-        <p>Auth message to sign in or sign up</p>
+        <p>{message}</p>
         <form onSubmit={handleSubmit} name={name}>
-          <FormField name="userName" htmlfor="userName" label="User Name">
-            <TextInput id="userName" name="userName" />
-          </FormField>
-          <FormField name="email" htmlfor="email" label="email">
+          {name === "signup" && (
+            <FormField
+              name="userName"
+              htmlfor="userName"
+              label="User Name"
+              required
+            >
+              <TextInput id="userName" name="userName" />
+            </FormField>
+          )}
+          <FormField name="email" htmlfor="email" label="Email" required>
             <TextInput id="email" name="email" />
           </FormField>
           <FormField name="password" htmlfor="password" label="password">
             <TextInput id="password" name="password" type="password" />
           </FormField>
           <div>
-            <Button color="light-2" primary type="submit">
+            <Button
+              color="light-2"
+              plain={false}
+              hoverIndicator
+              primary
+              type="submit"
+            >
               {displayName}
             </Button>
           </div>
@@ -86,7 +122,7 @@ const mapDispatch = (dispatch) => {
       evt.preventDefault();
       console.log("handling submit ", evt.target.name);
       const formName = evt.target.name;
-      const userName = evt.target.userName.value;
+      const userName = formName === 'login' ? '' : evt.target.userName.value
       const email = evt.target.email.value;
       const password = evt.target.password.value;
       dispatch(auth(userName, email, password, formName));

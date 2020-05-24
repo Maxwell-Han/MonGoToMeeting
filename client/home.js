@@ -42,8 +42,8 @@ const Home = (props) => {
           </LeftResizable>
           <Fill>
             <Box border={{ color: "brand", size: "large" }} fill>
-              <Header background="brand">
-                <h3>Chat Menu goes here</h3>
+              <Header background="brand" height="xxsmall">
+                <h4>Chat Menu goes here</h4>
               </Header>
               <Box basis="3/4">
                 <h4>Chat messages go here</h4>
