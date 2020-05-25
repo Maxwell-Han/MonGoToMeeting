@@ -1,43 +1,30 @@
 import React, { useEffect, useContext } from "react";
 import { connect } from "react-redux";
-import "./index.css";
-import { logout } from "./store";
+import { logout } from "../store";
 import * as Space from "react-spaces";
 import { ViewPort, Fill, BottomResizable, LeftResizable } from "react-spaces";
 import { Header, Nav, Box, TextArea } from "grommet";
+import { Contacts, Rooms } from '../components'
 
 const Home = (props) => {
   const { handleLogout } = props;
   return (
     <>
       <ViewPort>
+        {/* top nav menu */}
         <Fill>
-          <Header background="brand">
-            <h3>Menu goes here</h3>
-            <Nav direction="row">
-              <a href="#" onClick={handleLogout}>
-                Logout
-              </a>
-            </Nav>
-          </Header>
-          <h4>Welcome to the home page</h4>
-          <h3>You have been logged in!</h3>
-          <h3>{`Welcome ${props.user.email}`}</h3>
+          {/* meeting items section */}
         </Fill>
         <BottomResizable size={500} style={{ border: "2px solid blue" }}>
           <LeftResizable size={360} style={{ border: "2px solid blue" }}>
             <Fill>
-              <Header background="brand" height="xxsmall" elevation="medium">
-                <h4>Rooms Menu</h4>
-              </Header>
+              <Rooms />
             </Fill>
             <BottomResizable
               size={200}
               style={{ border: "2px solid aliceblue" }}
             >
-              <Header background="brand" height="xxsmall" elevation="medium">
-                <h3>Contacts</h3>
-              </Header>
+              <Contacts />
             </BottomResizable>
           </LeftResizable>
           <Fill>
