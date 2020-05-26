@@ -1,9 +1,9 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import user from './user'
+import rooms from './rooms'
 // import users from './users'
 // import buddies from './buddies'
-// import rooms from './rooms'
 // import currentChat from './currentChat'
 // import currentRoomUsers from './currentRoomUsers'
 // import currentRoomId from './currentRoomId'
@@ -15,7 +15,7 @@ import { createLogger } from 'redux-logger';
 
 const reducer = combineReducers({
   user,
-  // rooms,
+  rooms,
   // buddies,
   // onlineBuddies,
   // users,
@@ -33,9 +33,9 @@ const store = createStore(reducer, middleware);
 
 export default store;
 export * from './user'
+export * from './rooms'
 // export * from './users'
 // export * from './buddies'
-// export * from './rooms'
 // export * from './currentChat'
 // export * from './currentRoomUsers'
 // export * from './currentRoomId'
