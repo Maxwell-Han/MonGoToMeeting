@@ -21,11 +21,11 @@ const Rooms = (props) => {
   const onClose = () => setOpen(undefined);
   const onOpen = () => setOpen(true);
 
-  const handleCreateRoom = async e => {
+  const handleCreateRoom = async (e) => {
     e.preventDefault();
     const ownerId = user._id;
     console.log(roomName, user);
-    await props.createRoom(roomName, ownerId)
+    await props.createRoom(roomName, ownerId);
     onClose();
   };
 
@@ -35,12 +35,12 @@ const Rooms = (props) => {
   };
 
   return (
-    <section>
+    <section className="roomContainer">
       <Header background="brand" height="xxsmall" elevation="medium">
         <h4>Rooms Menu</h4>
         <Button plain icon={<AddCircle />} onClick={onOpen} />
       </Header>
-      <div>
+      <div className="room-list-container">
         <h4>Rooms list</h4>
       </div>
       {open && (

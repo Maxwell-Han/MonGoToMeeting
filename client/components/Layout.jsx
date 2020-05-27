@@ -1,21 +1,48 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { connect } from "react-redux";
 import { logout } from "../store";
-import * as Space from "react-spaces";
-import { ViewPort, Fill, BottomResizable, LeftResizable } from "react-spaces";
-import { Header, Nav, Box, TextArea } from "grommet";
-import { Contacts, Rooms } from '../components'
+import {
+  ViewPort,
+  Fill,
+  BottomResizable,
+  LeftResizable,
+  TopResizable,
+  Bottom,
+} from "react-spaces";
+import { Button, Header, Nav, Box, TextArea } from "grommet";
+import { Contacts, Rooms, Chat } from "../components";
 
 const Home = (props) => {
-  const { handleLogout } = props;
+  useEffect(() => {
+    console.log("loading main page running use effect");
+  }, []);
+  const [size, setSize] = useState(300);
+  const handleSize = (newSize) => {
+    console.log("handling on resize end ", size);
+    setSize(newSize);
+    console.log("size in state now ", size);
+  };
+  const ref = useRef(null);
+  const checkResize = () => console.log("checking resize");
   return (
-    <>
+    <section>
       <ViewPort>
         {/* top nav menu */}
-        <Fill>
-          {/* meeting items section */}
-        </Fill>
-        <BottomResizable size={500} style={{ border: "2px solid blue" }}>
+        <div>
+          <Button onClick={props.handleLogout}>Log Out</Button>
+        </div>
+        {/* meeting items section */}
+        <BottomResizable
+          size={300}
+          onResizeEnd={() => {
+            console.log(
+              "CHECKING REF HEIGHT ",
+              ref.current.pageY
+            );
+            setSize(ref.current.getBoundingClientRect().top);
+          }}
+        >
+          <div ref={ref}></div>
           <LeftResizable size={360} style={{ border: "2px solid blue" }}>
             <Fill>
               <Rooms />
@@ -23,35 +50,20 @@ const Home = (props) => {
             <BottomResizable
               size={200}
               style={{ border: "2px solid aliceblue" }}
+              trackSize={true}
+              maximumSize={Math.floor(size * 0.8)}
+              // minimumSize={100}
+              onClick={() => console.log("HIT ON CLICK LEFT PANEL")}
             >
               <Contacts />
             </BottomResizable>
           </LeftResizable>
           <Fill>
-            <Box border={{ color: "brand", size: "large" }} fill>
-              <Header background="brand" height="xxsmall">
-                <h4>Chat Menu goes here</h4>
-              </Header>
-              <Box basis="3/4">
-                <h4>Chat messages go here</h4>
-                <a href="#" onClick={handleLogout}>
-                  Logout
-                </a>
-              </Box>
-              <Box basis="auto" align="end">
-                <Box fill>
-                  <TextArea
-                    value={
-                      "Hello world Hello world Hello worldHello world Hello world"
-                    }
-                  ></TextArea>
-                </Box>
-              </Box>
-            </Box>
+            <Chat />
           </Fill>
         </BottomResizable>
       </ViewPort>
-    </>
+    </section>
   );
 };
 
