@@ -16,3 +16,13 @@ body {
   height: 100%;
   border: 1px solid yellow;
 }
+
+.room-menu-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.room-name:hover {
+  cursor: pointer;
+}

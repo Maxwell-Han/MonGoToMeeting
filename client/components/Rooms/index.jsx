@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { createRoom, getRooms } from "../../store";
 import {
@@ -11,15 +11,19 @@ import {
   FormField,
   TextInput,
 } from "grommet";
-import { AddCircle } from "grommet-icons";
+import { AddCircle, Close } from "grommet-icons";
 
 const Rooms = (props) => {
-  const { user } = props;
-  const [open, setOpen] = React.useState();
-  const [roomName, setRoomName] = React.useState("");
+  const { user, rooms } = props;
+  const [open, setOpen] = useState();
+  const [roomName, setRoomName] = useState("");
 
   const onClose = () => setOpen(undefined);
   const onOpen = () => setOpen(true);
+
+  useEffect(() => {
+    props.getRooms(user._id);
+  }, []);
 
   const handleCreateRoom = async (e) => {
     e.preventDefault();
@@ -41,7 +45,28 @@ const Rooms = (props) => {
         <Button plain icon={<AddCircle />} onClick={onOpen} />
       </Header>
       <div className="room-list-container">
-        <h4>Rooms list</h4>
+        <Box gap="xxsmall" direction="column">
+          {Object.keys(rooms).length > 0 &&
+            Object.keys(rooms).map((id) => (
+              <Box
+                key={id}
+                id={id}
+                direction="row"
+                justify="between"
+                align="center"
+                elevation="medium"
+                pad="small"
+                overflow="hidden"
+                height={{ "max": "3rem" }}
+              >
+                <p className="room-name">{rooms[id].roomName}</p>
+                <div className="room-menu-container">
+                  <p>#</p>
+                  <Button plain icon={<Close />}></Button>
+                </div>
+              </Box>
+            ))}
+        </Box>
       </div>
       {open && (
         <Layer position="center" onClickOutside={onClose} onEsc={onClose}>
@@ -82,12 +107,14 @@ const Rooms = (props) => {
 const mapState = (state) => {
   return {
     user: state.user,
+    rooms: state.rooms,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
     createRoom: (roomName, ownerId) => dispatch(createRoom(roomName, ownerId)),
+    getRooms: (userId) => dispatch(getRooms(userId)),
   };
 };
 

@@ -42,6 +42,7 @@ router.get('/:userId/rooms/', async (req, res, next) => {
   try {
     const userId = req.params.userId
     const rooms = await Room.find({ users: userId})
+    console.log('get rooms  user is ', userId, ' rooms are ', rooms)
     res.json(toObj(rooms))
   } catch (err) {
     console.log('there was an error ', err)
