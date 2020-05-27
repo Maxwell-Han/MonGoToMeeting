@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import { logout } from "../store";
 import {
+  Custom,
   ViewPort,
   Fill,
   BottomResizable,
@@ -13,36 +14,27 @@ import { Button, Header, Nav, Box, TextArea } from "grommet";
 import { Contacts, Rooms, Chat } from "../components";
 
 const Home = (props) => {
-  useEffect(() => {
-    console.log("loading main page running use effect");
-  }, []);
   const [size, setSize] = useState(300);
   const handleSize = (newSize) => {
-    console.log("handling on resize end ", size);
     setSize(newSize);
-    console.log("size in state now ", size);
   };
-  const ref = useRef(null);
-  const checkResize = () => console.log("checking resize");
   return (
     <section>
       <ViewPort>
-        {/* top nav menu */}
-        <div>
-          <Button onClick={props.handleLogout}>Log Out</Button>
-        </div>
-        {/* meeting items section */}
+        <Fill>
+          {/* top nav menu */}
+          <div>
+            <Button onClick={props.handleLogout}>Log Out</Button>
+          </div>
+          {/* meeting items section */}
+        </Fill>
         <BottomResizable
+          trackSize={true}
           size={300}
-          onResizeEnd={() => {
-            console.log(
-              "CHECKING REF HEIGHT ",
-              ref.current.pageY
-            );
-            setSize(ref.current.getBoundingClientRect().top);
+          onResizeEnd={(newSize) => {
+            setSize(newSize);
           }}
         >
-          <div ref={ref}></div>
           <LeftResizable size={360} style={{ border: "2px solid blue" }}>
             <Fill>
               <Rooms />
@@ -51,9 +43,8 @@ const Home = (props) => {
               size={200}
               style={{ border: "2px solid aliceblue" }}
               trackSize={true}
-              maximumSize={Math.floor(size * 0.8)}
-              // minimumSize={100}
-              onClick={() => console.log("HIT ON CLICK LEFT PANEL")}
+              maximumSize={Math.floor(size) - 50}
+              minimumSize={100}
             >
               <Contacts />
             </BottomResizable>
