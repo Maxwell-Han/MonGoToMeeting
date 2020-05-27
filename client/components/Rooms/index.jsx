@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { createRoom, getRooms } from "../../store";
+import { createRoom, getRooms, setRoom } from "../../store";
 import {
   Header,
   Button,
@@ -33,6 +33,15 @@ const Rooms = (props) => {
     onClose();
   };
 
+  const handleSelectRoom = (roomId) => {
+    console.log("clicked handle room select ", "..", roomId, roomId.length);
+    // await this.props.getMessages(roomId);
+    // await this.props.getMembers(roomId);
+    // await this.props.gotRoomId(roomId);
+    // await this.props.getItems(roomId);
+    props.setRoom(roomId);
+  };
+
   const onChange = (e) => {
     const { value: newValue } = event.target;
     setRoomName(newValue);
@@ -57,9 +66,11 @@ const Rooms = (props) => {
                 elevation="medium"
                 pad="small"
                 overflow="hidden"
-                height={{ "max": "3rem" }}
+                height={{ max: "3rem" }}
               >
-                <p className="room-name">{rooms[id].roomName}</p>
+                <p className="room-name" onClick={() => handleSelectRoom(id)}>
+                  {rooms[id].roomName}
+                </p>
                 <div className="room-menu-container">
                   <p>#</p>
                   <Button plain icon={<Close />}></Button>
@@ -108,6 +119,7 @@ const mapState = (state) => {
   return {
     user: state.user,
     rooms: state.rooms,
+    currentRoom: state.currentRoom
   };
 };
 
@@ -115,6 +127,7 @@ const mapDispatch = (dispatch) => {
   return {
     createRoom: (roomName, ownerId) => dispatch(createRoom(roomName, ownerId)),
     getRooms: (userId) => dispatch(getRooms(userId)),
+    setRoom: (roomId) => dispatch(setRoom(roomId)),
   };
 };
 

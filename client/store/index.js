@@ -4,7 +4,7 @@ import user from './user'
 import rooms from './rooms'
 // import users from './users'
 // import buddies from './buddies'
-// import currentChat from './currentChat'
+import currentRoom from './currentRoom'
 // import currentRoomUsers from './currentRoomUsers'
 // import currentRoomId from './currentRoomId'
 // import currentItems from './currentItems'
@@ -20,7 +20,7 @@ const reducer = combineReducers({
   // onlineBuddies,
   // users,
   // currentRoomId,
-  // currentChat,
+  currentRoom,
   // currentRoomUsers,
   // currentItems
 });
@@ -36,7 +36,7 @@ export * from './user'
 export * from './rooms'
 // export * from './users'
 // export * from './buddies'
-// export * from './currentChat'
+export * from './currentRoom'
 // export * from './currentRoomUsers'
 // export * from './currentRoomId'
 // export * from './currentItems'
