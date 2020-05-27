@@ -60,7 +60,7 @@ const createApp = () => {
 };
 
 const startListening = () => {
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 8080;
   const server = app.listen(port, function() {
     console.log("Starting up server from server/index.js");
     console.log(`Your server, listening on port ${port}`);
