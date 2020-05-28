@@ -16,6 +16,7 @@ export const setRoom = (roomId) => ({ type: SET_CURRENT_ROOM_ID, roomId });
 export const getMessages = (roomId) => async (dispatch) => {
   try {
     const { data: messages } = await axios.get(`/api/rooms/${roomId}/messages`);
+    console.log('room messages are ', roomId, messages)
     dispatch(gotMessages(messages));
   } catch (err) {
     console.error(err);
@@ -25,9 +26,9 @@ export const getMessages = (roomId) => async (dispatch) => {
 export const addMessage = (roomId, message) => async () => {
   try {
     const { data } = await axios.post(`/api/rooms/${roomId}`, message);
-    console.log("thunk poseted message for addMessage is ", data);
-    socket.emit("ADD_MESSAGE", data);
+    console.log("thunk posted message for addMessage is ", data);
     // ../socket.js will dispatch
+    socket.emit("ADD_MESSAGE", data);
   } catch (err) {
     console.error(err);
   }
@@ -36,7 +37,7 @@ export const addMessage = (roomId, message) => async () => {
 // Initial State
 const defaultRoom = {
   users: {},
-  messages: {},
+  messages: [],
   roomId: ''
 };
 
@@ -46,9 +47,9 @@ export default function (state = defaultRoom, action) {
     case SET_CURRENT_ROOM_ID:
       return { ...state, roomId: action.roomId };
     case GET_MESSAGES:
-      return action.messages;
+      return { ...state, messages: action.messages};
     case ADD_MESSAGE:
-      return { ...state, [action.message._id]: action.message };
+      return { ...state, messages: [...state.messages, action.message] };
     default:
       return state;
   }

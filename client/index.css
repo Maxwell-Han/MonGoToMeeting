@@ -39,3 +39,10 @@ body {
   flex-direction: column;
   flex-grow: 1;
 }
+
+
+/* CHAT */
+.chat-input-menu {
+  display: flex;
+  justify-content: flex-end;
+}

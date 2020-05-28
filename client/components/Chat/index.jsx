@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Header, Box, Button, TextInput, extendDefaultTheme } from "grommet";
 import { Send } from "grommet-icons";
 import { base } from "grommet/themes";
 import { deepMerge } from "grommet/utils";
-import { logout } from "../../store";
+import { logout, addMessage } from "../../store";
+import { getRooms } from '../../store/rooms';
 
 extendDefaultTheme(
   deepMerge(base, {
@@ -17,13 +18,23 @@ extendDefaultTheme(
 );
 
 const Chat = (props) => {
-  const { currentRoom } = props;
+  const { user, currentRoom, addMessage } = props;
+
   const [userMessage, setMessage] = useState("");
   const [currentTab, setTab] = useState({ messages: false, items: false });
   const selectTab = (tabName) => {
     if (tabName === "messages") setTab({ messages: true, items: false });
     else setTab({ messages: false, items: true });
   };
+  const handleAddMessage = async (e) => {
+    e.preventDefault();
+    const userId = user._id;
+    const roomId = currentRoom.roomId;
+    const message = { content: userMessage, userId, roomId };
+    console.log("adding message to room ", message);
+    await addMessage(roomId, message);
+    setMessage("")
+  }
   return (
     <Box fill>
       <Header
@@ -57,21 +68,21 @@ const Chat = (props) => {
       <Box style={!currentTab["messages"] ? { visibility: "hidden" } : {} } fill>
         <section className="messages-container">
           <ul>
-            <li>message</li>
-            <li>message</li>
-            <li>message</li>
-            <li>message</li>
+            {currentRoom.messages.length && currentRoom.messages.map(message => (
+              <li key={message._id}>{message.content}</li>
+            ))}
           </ul>
         </section>
         <TextInput
           value={userMessage}
           onChange={(e) => setMessage(e.target.value)}
         ></TextInput>
-        <div>
+        <div className="chat-input-menu">
           <Button
             plain={false}
             icon={<Send size="small" />}
-            onClick={() => {}}
+            onClick={handleAddMessage}
+            disabled={ (userMessage === '' || currentRoom.roomId === '') ? true: false}
           />
         </div>
       </Box>
@@ -88,9 +99,8 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    handleLogout() {
-      dispatch(logout());
-    },
+    handleLogout : dispatch(logout),
+    addMessage: (roomId, message) => dispatch(addMessage(roomId, message))
   };
 };
 

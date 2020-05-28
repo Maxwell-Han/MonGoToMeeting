@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 import store from './store'
-// import { addedMessage } from './store/currentChat'
+import { addedMessage } from './store'
 // import { addedBuddyToRoom } from './store/currentRoomUsers'
 // import { getRooms, createdRoom } from './store/rooms'
 // import { gotConnectedBuddy, gotDisconnectedBuddy } from './store/onlineBuddies'

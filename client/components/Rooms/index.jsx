@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { createRoom, getRooms, setRoom } from "../../store";
+import { createRoom, getRooms, setRoom, getMessages } from "../../store";
 import {
   Header,
   Button,
@@ -14,7 +14,7 @@ import {
 import { AddCircle, Close } from "grommet-icons";
 
 const Rooms = (props) => {
-  const { user, rooms } = props;
+  const { user, rooms, currentRoom, getMessages } = props;
   const [open, setOpen] = useState();
   const [roomName, setRoomName] = useState("");
 
@@ -34,12 +34,11 @@ const Rooms = (props) => {
   };
 
   const handleSelectRoom = (roomId) => {
-    console.log("clicked handle room select ", "..", roomId, roomId.length);
-    // await this.props.getMessages(roomId);
+    props.setRoom(roomId);
+    getMessages(roomId);
     // await this.props.getMembers(roomId);
     // await this.props.gotRoomId(roomId);
     // await this.props.getItems(roomId);
-    props.setRoom(roomId);
   };
 
   const onChange = (e) => {
@@ -128,6 +127,7 @@ const mapDispatch = (dispatch) => {
     createRoom: (roomName, ownerId) => dispatch(createRoom(roomName, ownerId)),
     getRooms: (userId) => dispatch(getRooms(userId)),
     setRoom: (roomId) => dispatch(setRoom(roomId)),
+    getMessages: roomId => dispatch(getMessages(roomId))
   };
 };
 
