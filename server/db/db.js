@@ -10,7 +10,7 @@ const url =
     ? `mongodb://localhost/${dbName}`
     : process.env.MONGODB_URL;
 
-const db = mongoose.connect(url);
+const db = mongoose.connect(url, { useNewUrlParser: true });
 
 mongoose.Promise = Promise;
 
