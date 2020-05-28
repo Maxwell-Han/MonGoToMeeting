@@ -68,7 +68,7 @@ const Chat = (props) => {
       <Box style={!currentTab["messages"] ? { visibility: "hidden" } : {} } fill>
         <section className="messages-container">
           <ul>
-            {currentRoom.messages.length && currentRoom.messages.map(message => (
+            {!!currentRoom.messages.length && currentRoom.messages.map(message => (
               <li key={message._id}>{message.content}</li>
             ))}
           </ul>

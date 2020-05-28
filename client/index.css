@@ -46,3 +46,25 @@ body {
   display: flex;
   justify-content: flex-end;
 }
+
+/* CONTACTS */
+.add-contact-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 2rem;
+
+}
+
+.contact-search {
+  margin: 1rem;
+}
+
+.add-contact-title {
+  text-align: center;
+}
+
+.contact-list-container {
+  max-height: 20rem;
+  overflow-y: auto;
+}

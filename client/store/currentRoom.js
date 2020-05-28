@@ -36,7 +36,6 @@ export const addMessage = (roomId, message) => async () => {
 
 // Initial State
 const defaultRoom = {
-  users: {},
   messages: [],
   roomId: ''
 };

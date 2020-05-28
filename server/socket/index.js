@@ -60,6 +60,7 @@ module.exports = io => {
     });
 
     socket.on("disconnect", async () => {
+      console.log('SOCKET SERVER LINE 63')
       const onlineIds = Object.values(onlineUsers);
       let userId
       for(let k in onlineUsers) {

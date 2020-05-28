@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import {
-  Header,
-  Heading,
-  Button,
-  Box,
-  Layer,
-  Text,
-  FormField,
-  TextInput,
-} from "grommet";
-import { UserAdd } from "grommet-icons";
-const Contacts = () => {
+import { connect } from "react-redux";
+import { Header, Button, Box } from "grommet";
+import AddContactsMenu from "./AddContactsMenu";
+import MenuCard from "../Card/MenuCard";
+import { UserAdd, FormClose } from "grommet-icons";
+
+const Contacts = (props) => {
+  const { currentRoomUsers } = props;
   const [open, setOpen] = useState();
   const [searchText, setSearchText] = useState("");
   const onOpen = () => setOpen(true);
-  const onClose = () => setOpen(undefined);
+  const onClose = () => {
+    console.log("running on close");
+    setOpen(undefined);
+  };
   const onChange = (e) => {
     const { value: newValue } = event.target;
     setSearchText(newValue);
@@ -26,48 +25,35 @@ const Contacts = () => {
         <Button plain icon={<UserAdd />} onClick={onOpen} />
       </Header>
       <div className="contact-list-container">
-        <Box gap="xxsmall" direction="column">
-          <ul>
-            <li>contact name</li>
-            <li>contact name</li>
-            <li>contact name</li>
-            <li>contact name</li>
-          </ul>
+        <Box gap="xxsmall" direction="column" elevation="medium">
+          <section>
+            {!!Object.keys(currentRoomUsers).length &&
+              Object.keys(currentRoomUsers).map((id) => (
+                <MenuCard
+                  key={id}
+                  displayName={currentRoomUsers[id].userName}
+                  onlineOrCount={false}
+                  buttonHandler={() => {console.log('handling button')}}
+                  buttonIcon={<FormClose />}
+                  handlerArgs={[null]}
+                />
+              ))}
+          </section>
         </Box>
       </div>
       {/* MODAL TO ADD CONTACT */}
-      {open && (
-        <Layer position="center" onClickOutside={onClose} onEsc={onClose}>
-          <Box pad="medium" gap="small" width="medium">
-            <Heading level={3} margin="none">
-              <Text>Add a Contact to the Room</Text>
-            </Heading>
-            <Box
-              as="footer"
-              gap="small"
-              direction="row"
-              align="center"
-              justify="end"
-              pad={{ top: "medium", bottom: "small" }}
-            >
-              <FormField label="search">
-                <TextInput onChange={onChange} />
-              </FormField>
-              <section>
-                <ul>
-                  <li>person</li>
-                  <li>person</li>
-                  <li>person</li>
-                  <li>person</li>
-                  <li>person</li>
-                </ul>
-              </section>
-            </Box>
-          </Box>
-        </Layer>
-      )}
+      {open && <AddContactsMenu onClose={onClose} />}
     </section>
   );
 };
 
-export default Contacts;
+const mapState = (state) => {
+  return {
+    user: state.user,
+    rooms: state.rooms,
+    currentRoom: state.currentRoom,
+    currentRoomUsers: state.currentRoomUsers,
+  };
+};
+
+export default connect(mapState)(Contacts);

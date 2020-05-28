@@ -10,14 +10,16 @@ const verificationCallback = async (
   profile,
   done
 ) => {
+  console.log("attempting google auth and profile is ", profile);
   try {
-    const { doc: user } = await User.findOrCreate(
-      {
-        googleId: profile.id,
-      },
-      {userName: `${profile.firstName} ${profile.lastName}`},
-      { email: profile.emails[0].value }
-    );
+    const googleId = profile.id;
+    const email = profile.emails[0].value;
+    const userName = profile.name.givenName;
+    const { doc: user } = await User.findOrCreate({
+      googleId,
+      email,
+      userName,
+    });
     console.log("created user via mongoose and user is : ", user);
     done(null, user);
   } catch (err) {
