@@ -79,11 +79,11 @@ router.delete("/:roomId/:userId", async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
     const userId = req.params.userId;
-    const users = await Room.findOneAndUpdate(
+    const { users } = await Room.findOneAndUpdate(
       { _id: roomId },
       { $pull: { users: userId } },
       { new: true }
-    ).select("users");
+    ).select("users").populate('users');
     res.json(toObj(users));
   } catch (err) {
     next(err);

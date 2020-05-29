@@ -30,7 +30,7 @@ const Home = (props) => {
         </Fill>
         <BottomResizable
           trackSize={true}
-          size={300}
+          size={365}
           onResizeEnd={(newSize) => {
             setSize(newSize);
           }}

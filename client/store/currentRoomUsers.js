@@ -6,10 +6,16 @@ import socket from "../socket";
 // ACTION TYPES
 const GET_ROOM_MEMBERS = "GET_ROOM_MEMBERS";
 const ADD_BUDDY_TO_ROOM = "ADD_BUDDY_TO_ROOM";
+const DELETE_USER_FROM_ROOM = "DELETE_USER_FROM_ROOM";
 
 // ACTION CREATORS
 const gotMembers = (members) => ({ type: GET_ROOM_MEMBERS, members });
 export const addedBuddyToRoom = (buddy) => ({ type: ADD_BUDDY_TO_ROOM, buddy });
+
+const deletedUserFromRoom = (users) => ({
+  type: DELETE_USER_FROM_ROOM,
+  users,
+});
 
 // THUNK CREATORS
 export const getMembers = (roomId) => async (dispatch) => {
@@ -34,6 +40,16 @@ export const addBuddyToRoom = (roomId, buddyId) => async (dispatch) => {
   }
 };
 
+export const deleteUserFromRoom = (roomId, userId) => async (dispatch) => {
+  try {
+    const { data: users } = await axios.delete(`/api/rooms/${roomId}/${userId}`);
+    console.log('GOT USERS are ', users)
+    dispatch(deletedUserFromRoom(users));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 // Initial State
 const defaultMembers = {};
 
@@ -44,6 +60,8 @@ export default function (state = defaultMembers, action) {
       return action.members;
     case ADD_BUDDY_TO_ROOM:
       return { ...state, [action.buddy._id]: action.buddy };
+    case DELETE_USER_FROM_ROOM:
+      return action.users
     default:
       return state;
   }

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { deleteUserFromRoom } from "../../store";
 import { Header, Button, Box } from "grommet";
 import AddContactsMenu from "./AddContactsMenu";
 import MenuCard from "../Card/MenuCard";
-import { UserAdd, FormClose } from "grommet-icons";
+import { UserAdd, FormClose, StatusDisabledSmall, StatusGoodSmall } from "grommet-icons";
 
 const Contacts = (props) => {
-  const { currentRoomUsers } = props;
+  const { currentRoom, currentRoomUsers, deleteUserFromRoom } = props;
   const [open, setOpen] = useState();
   const [searchText, setSearchText] = useState("");
   const onOpen = () => setOpen(true);
@@ -33,9 +34,9 @@ const Contacts = (props) => {
                   key={id}
                   displayName={currentRoomUsers[id].userName}
                   onlineOrCount={false}
-                  buttonHandler={() => {console.log('handling button')}}
+                  buttonHandler={deleteUserFromRoom}
                   buttonIcon={<FormClose />}
-                  handlerArgs={[null]}
+                  handlerArgs={[currentRoom.roomId, id]}
                 />
               ))}
           </section>
@@ -56,4 +57,11 @@ const mapState = (state) => {
   };
 };
 
-export default connect(mapState)(Contacts);
+const mapDispatch = (dispatch) => {
+  return {
+    deleteUserFromRoom: (roomId, userId) =>
+      dispatch(deleteUserFromRoom(roomId, userId)),
+  };
+};
+
+export default connect(mapState, mapDispatch)(Contacts);

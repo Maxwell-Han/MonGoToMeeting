@@ -5,7 +5,8 @@ import { Send } from "grommet-icons";
 import { base } from "grommet/themes";
 import { deepMerge } from "grommet/utils";
 import { logout, addMessage } from "../../store";
-import { getRooms } from '../../store/rooms';
+import { getRooms } from "../../store/rooms";
+import MessageCard from "../Card/MessageCard";
 
 extendDefaultTheme(
   deepMerge(base, {
@@ -18,7 +19,7 @@ extendDefaultTheme(
 );
 
 const Chat = (props) => {
-  const { user, currentRoom, addMessage } = props;
+  const { user, currentRoom, currentRoomUsers, addMessage } = props;
 
   const [userMessage, setMessage] = useState("");
   const [currentTab, setTab] = useState({ messages: false, items: false });
@@ -29,12 +30,13 @@ const Chat = (props) => {
   const handleAddMessage = async (e) => {
     e.preventDefault();
     const userId = user._id;
+    const userName = user.userName
     const roomId = currentRoom.roomId;
-    const message = { content: userMessage, userId, roomId };
+    const message = { content: userMessage, userName, userId, roomId };
     console.log("adding message to room ", message);
     await addMessage(roomId, message);
-    setMessage("")
-  }
+    setMessage("");
+  };
   return (
     <Box fill>
       <Header
@@ -65,25 +67,32 @@ const Chat = (props) => {
           </Button>
         </div>
       </Header>
-      <Box style={!currentTab["messages"] ? { visibility: "hidden" } : {} } fill>
+      <Box style={!currentTab["messages"] ? { visibility: "hidden" } : {}} fill>
         <section className="messages-container">
-          <ul>
-            {!!currentRoom.messages.length && currentRoom.messages.map(message => (
-              <li key={message._id}>{message.content}</li>
+          {!!currentRoom.messages.length &&
+            currentRoom.messages.map((message) => (
+              <MessageCard
+                key={message._id}
+                content={message.content}
+                userName={message.userName}
+              />
             ))}
-          </ul>
         </section>
-        <TextInput
-          value={userMessage}
-          onChange={(e) => setMessage(e.target.value)}
-        ></TextInput>
-        <div className="chat-input-menu">
-          <Button
-            plain={false}
-            icon={<Send size="small" />}
-            onClick={handleAddMessage}
-            disabled={ (userMessage === '' || currentRoom.roomId === '') ? true: false}
-          />
+        <div className="chat-input-container">
+          <TextInput
+            value={userMessage}
+            onChange={(e) => setMessage(e.target.value)}
+          ></TextInput>
+          <div className="chat-input-menu">
+            <Button
+              plain={false}
+              icon={<Send size="small" />}
+              onClick={handleAddMessage}
+              disabled={
+                userMessage === "" || currentRoom.roomId === "" ? true : false
+              }
+            />
+          </div>
         </div>
       </Box>
     </Box>
@@ -94,13 +103,14 @@ const mapState = (state) => {
   return {
     user: state.user,
     currentRoom: state.currentRoom,
+    currentRoomUsers: state.currentRoomUsers,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
-    handleLogout : dispatch(logout),
-    addMessage: (roomId, message) => dispatch(addMessage(roomId, message))
+    handleLogout: dispatch(logout),
+    addMessage: (roomId, message) => dispatch(addMessage(roomId, message)),
   };
 };
 

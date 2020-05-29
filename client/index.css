@@ -34,14 +34,15 @@ body {
   justify-content: space-between;
 }
 
-.messages-container {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
 
 
 /* CHAT */
+.chat-input-container {
+  width: 100%;
+  padding: 3px;
+  min-height: 43px;
+  flex-shrink: 0;
+}
 .chat-input-menu {
   display: flex;
   justify-content: flex-end;
@@ -67,4 +68,20 @@ body {
 .contact-list-container {
   max-height: 20rem;
   overflow-y: auto;
+}
+
+/* MESSAGE CARD */
+.message-content-container {
+  display: grid;
+  grid-template-rows: 1rem auto;
+  width: 95%;
+  padding-left: 0.75rem;
+
+}
+
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow-y: scroll;
 }

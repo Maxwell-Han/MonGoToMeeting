@@ -11,7 +11,7 @@ import {
   FormField,
   TextInput,
 } from "grommet";
-import { AddCircle, Close } from "grommet-icons";
+import { AddCircle, FormClose } from "grommet-icons";
 
 const Rooms = (props) => {
   const { user, rooms, currentRoom, getMessages, getMembers } = props;
@@ -72,7 +72,7 @@ const Rooms = (props) => {
                 </p>
                 <div className="room-menu-container">
                   <p>#</p>
-                  <Button plain icon={<Close />}></Button>
+                  <Button plain icon={<FormClose />}></Button>
                 </div>
               </Box>
             ))}
