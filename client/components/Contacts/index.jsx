@@ -20,7 +20,7 @@ const Contacts = (props) => {
     setSearchText(newValue);
   };
   return (
-    <section className="contactsContainer">
+    <section className="contacts-container">
       <Header background="brand" height="xxsmall" elevation="medium">
         <h3>Contacts</h3>
         <Button plain icon={<UserAdd />} onClick={onOpen} />
