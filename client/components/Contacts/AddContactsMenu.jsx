@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { getUsers, addBuddyToRoom } from "../../store";
+import { getUsers, addBuddyToRoom, addBuddy } from "../../store";
 import {
   Header,
   Heading,
@@ -16,21 +16,29 @@ import MenuCard from "../Card/MenuCard";
 
 const AddContactsMenu = (props) => {
   const {
+    addBuddy,
     addBuddyToRoom,
     currentRoom,
     currentRoomUsers,
     onClose,
     getUsers,
     users,
+    user
   } = props;
   useEffect(() => {
     getUsers();
   }, []);
   const [searchText, setSearchText] = useState("");
   const onChange = (e) => {
-    const { value: newValue } = event.target;
+    const { value: newValue } = event.target;a
     setSearchText(newValue);
   };
+
+  const handleAddContact = async (roomId, buddyId, userId) => {
+    console.log('handling add a contact')
+    await addBuddyToRoom(roomId, buddyId)
+    await addBuddy(userId, buddyId)
+  }
 
   return (
     <Layer position="center" onClickOutside={onClose} onEsc={onClose}>
@@ -56,15 +64,15 @@ const AddContactsMenu = (props) => {
 
         <Box fill margin="small" className="contact-list-container">
           <section>
-            {Object.keys(users).length &&
+            {!!Object.keys(users).length &&
               Object.keys(users).map((id) => (
                 <MenuCard
                   displayName={users[id].userName}
                   key={users[id]["_id"]}
                   onlineOrCount={id in currentRoomUsers}
-                  buttonHandler={addBuddyToRoom}
+                  buttonHandler={handleAddContact}
                   buttonIcon={<Add />}
-                  handlerArgs={[currentRoom.roomId, users[id]._id]}
+                  handlerArgs={[currentRoom.roomId, users[id]._id, user._id]}
                 />
               ))}
           </section>
@@ -88,6 +96,7 @@ const mapDispatch = (dispatch) => {
     getUsers: () => dispatch(getUsers()),
     addBuddyToRoom: (roomId, buddyId) =>
       dispatch(addBuddyToRoom(roomId, buddyId)),
+    addBuddy: (userId, buddyId) => dispatch(addBuddy(userId, buddyId))
   };
 };
 

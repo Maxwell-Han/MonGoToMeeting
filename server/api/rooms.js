@@ -74,7 +74,19 @@ router.get("/:roomId/users", async (req, res, next) => {
     next(err);
   }
 });
-// in prog
+
+// delete room
+router.delete("/:roomId", async (req, res, next) => {
+  try {
+    const roomId = req.params.roomId;
+    await Room.deleteRoom(roomId)
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// delete user from room
 router.delete("/:roomId/:userId", async (req, res, next) => {
   try {
     const roomId = req.params.roomId;

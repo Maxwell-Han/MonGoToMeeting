@@ -9,7 +9,7 @@ module.exports = io => {
 
     socket.on('LOG_STATE', () => {
       console.log('ONLINE USERS ARE ', onlineUsers)
-      console.log(socket.rooms)
+      console.log('ROOMS ARE ', socket.rooms)
     })
 
     socket.on("ADD_MESSAGE", message => {

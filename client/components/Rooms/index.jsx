@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { createRoom, getRooms, setRoom, getMessages, getMembers } from "../../store";
+import {
+  createRoom,
+  getRooms,
+  setRoom,
+  getMessages,
+  getMembers,
+  deleteRoom,
+} from "../../store";
 import {
   Header,
   Button,
@@ -14,7 +21,14 @@ import {
 import { AddCircle, FormClose } from "grommet-icons";
 
 const Rooms = (props) => {
-  const { user, rooms, currentRoom, getMessages, getMembers } = props;
+  const {
+    user,
+    rooms,
+    currentRoom,
+    deleteRoom,
+    getMessages,
+    getMembers,
+  } = props;
   const [open, setOpen] = useState();
   const [roomName, setRoomName] = useState("");
 
@@ -72,7 +86,11 @@ const Rooms = (props) => {
                 </p>
                 <div className="room-menu-container">
                   <p>#</p>
-                  <Button plain icon={<FormClose />}></Button>
+                  <Button
+                    plain
+                    icon={<FormClose />}
+                    onClick={() => deleteRoom(id)}
+                  ></Button>
                 </div>
               </Box>
             ))}
@@ -118,7 +136,7 @@ const mapState = (state) => {
   return {
     user: state.user,
     rooms: state.rooms,
-    currentRoom: state.currentRoom
+    currentRoom: state.currentRoom,
   };
 };
 
@@ -127,8 +145,9 @@ const mapDispatch = (dispatch) => {
     createRoom: (roomName, ownerId) => dispatch(createRoom(roomName, ownerId)),
     getRooms: (userId) => dispatch(getRooms(userId)),
     setRoom: (roomId) => dispatch(setRoom(roomId)),
-    getMessages: roomId => dispatch(getMessages(roomId)),
-    getMembers: roomId => dispatch(getMembers(roomId))
+    getMessages: (roomId) => dispatch(getMessages(roomId)),
+    getMembers: (roomId) => dispatch(getMembers(roomId)),
+    deleteRoom: (roomId) => dispatch(deleteRoom(roomId)),
   };
 };
 

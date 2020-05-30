@@ -27,12 +27,13 @@ export const getMembers = (roomId) => async (dispatch) => {
   }
 };
 
+//add buddy to room and user's buddy list
 export const addBuddyToRoom = (roomId, buddyId) => async (dispatch) => {
   try {
     const { data: buddy } = await axios.put(`/api/rooms/${roomId}/user`, {
       userId: buddyId,
     });
-    // socket.emit(ADD_BUDDY_TO_ROOM, buddy);
+    socket.emit(ADD_BUDDY_TO_ROOM, buddy);
     // console.log("addBuddytoRoom thunk  has socket of ", socket.id, socket);
     dispatch(addedBuddyToRoom(buddy));
   } catch (err) {
