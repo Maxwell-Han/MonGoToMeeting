@@ -84,6 +84,11 @@ router.delete("/:roomId/:userId", async (req, res, next) => {
       { $pull: { users: userId } },
       { new: true }
     ).select("users").populate('users');
+    await User.findOneAndUpdate(
+      { _id: userId },
+      { $pull: { rooms: roomId } },
+      { new: true }
+    )
     res.json(toObj(users));
   } catch (err) {
     next(err);

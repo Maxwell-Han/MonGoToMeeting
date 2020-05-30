@@ -24,7 +24,7 @@ export const createRoom = (roomName, ownerId) => async dispatch => {
   try {
     const data = {roomName, ownerId}
     const res = await axios.post("/api/rooms", data);
-    // socket.emit(CREATE_ROOM, res.data)
+    socket.emit(CREATE_ROOM, res.data)
     console.log('thunk creator for creating room')
     dispatch(createdRoom(res.data))
   } catch (err) {

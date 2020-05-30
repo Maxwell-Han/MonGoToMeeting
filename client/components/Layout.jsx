@@ -12,12 +12,16 @@ import {
 } from "react-spaces";
 import { Button, Header, Nav, Box, TextArea } from "grommet";
 import { Contacts, Rooms, Chat } from "../components";
+import socket from '../socket'
 
 const Home = (props) => {
   const [size, setSize] = useState(300);
   const handleSize = (newSize) => {
     setSize(newSize);
   };
+  const logSockets = () => {
+    socket.emit("LOG_STATE");
+  }
   return (
     <section>
       <ViewPort>
@@ -25,6 +29,7 @@ const Home = (props) => {
           {/* top nav menu */}
           <div>
             <Button onClick={props.handleLogout}>Log Out</Button>
+            <Button onClick={logSockets}>Print Sockets Server</Button>
           </div>
           {/* meeting items section */}
         </Fill>
