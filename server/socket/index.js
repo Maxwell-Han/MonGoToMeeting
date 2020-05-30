@@ -9,7 +9,6 @@ module.exports = io => {
 
     socket.on("ADD_MESSAGE", message => {
       console.log("SERVER: socket got message: " + message);
-      console.log("SERVER: message was sent to room ", message.roomId);
       io.to(message.roomId).emit("ADD_MESSAGE", message);
     });
 

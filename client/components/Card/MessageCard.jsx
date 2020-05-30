@@ -9,7 +9,7 @@ const MessageCard = (props) => {
       align="center"
       justify="between"
       pad="xsmall"
-      elevation="xsmall"
+      elevation="small"
       height={{"min": "2.4rem", "max": "2.75rem"}}
       className="message-card-container"
     >

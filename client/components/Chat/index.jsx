@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { Header, Box, Button, TextInput, extendDefaultTheme } from "grommet";
 import { Send } from "grommet-icons";
@@ -27,16 +27,28 @@ const Chat = (props) => {
     if (tabName === "messages") setTab({ messages: true, items: false });
     else setTab({ messages: false, items: true });
   };
+
+  const messagesContainer = useRef();
+  const updateScrollY = () => {
+    messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight
+    console.log('Updateing scroll! ', messagesContainer.current.scrollTop, messagesContainer.current.scrollHeight)
+  }
   const handleAddMessage = async (e) => {
     e.preventDefault();
     const userId = user._id;
-    const userName = user.userName
+    const userName = user.userName;
     const roomId = currentRoom.roomId;
     const message = { content: userMessage, userName, userId, roomId };
     console.log("adding message to room ", message);
     await addMessage(roomId, message);
+    console.log('component update fn is ', updateScrollY)
     setMessage("");
   };
+
+  useEffect( () => {
+    updateScrollY()
+  }, [currentRoom])
+
   return (
     <Box fill>
       <Header
@@ -68,7 +80,8 @@ const Chat = (props) => {
         </div>
       </Header>
       <Box style={!currentTab["messages"] ? { visibility: "hidden" } : {}} fill>
-        <section className="messages-container">
+        <section className="messages-container" ref={messagesContainer} >
+          <Box fill direction="row" pad="xsmall" />
           {!!currentRoom.messages.length &&
             currentRoom.messages.map((message) => (
               <MessageCard

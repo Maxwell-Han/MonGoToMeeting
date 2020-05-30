@@ -89,4 +89,11 @@ body {
   flex-direction: column;
   flex-grow: 1;
   overflow-y: scroll;
+  border: 2px solid yellow;
 }
+
+.messages-container > :first-child {
+  margin-top: auto !important;
+  /* use !important to prevent breakage from child margin settings */
+}
+
