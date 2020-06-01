@@ -8,6 +8,7 @@ const MenuCard = ({
   buttonHandler,
   buttonIcon,
   handlerArgs,
+  statusIcon
 }) => {
   return (
     <Box
@@ -19,7 +20,8 @@ const MenuCard = ({
     >
       <p>{displayName}</p>
       <div className="menu-card-options">
-        {onlineOrCount && <Checkmark />}
+        {Array.isArray(statusIcon) && onlineOrCount ? statusIcon[0] : statusIcon[1]}
+        {!Array.isArray(statusIcon) && onlineOrCount ? statusIcon : null}
         <Button
           icon={buttonIcon}
           disabled={onlineOrCount}

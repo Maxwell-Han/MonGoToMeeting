@@ -7,7 +7,7 @@ import buddies from './buddies'
 import currentRoom from './currentRoom'
 import currentRoomUsers from './currentRoomUsers'
 // import currentRoomId from './currentRoomId'
-// import currentItems from './currentItems'
+import items from './items'
 import onlineUsers from './onlineUsers'
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
@@ -22,7 +22,7 @@ const reducer = combineReducers({
   // currentRoomId,
   currentRoom,
   currentRoomUsers,
-  // currentItems
+  items
 });
 
 const middleware = composeWithDevTools(
@@ -39,5 +39,5 @@ export * from './buddies'
 export * from './currentRoom'
 export * from './currentRoomUsers'
 // export * from './currentRoomId'
-// export * from './currentItems'
+export * from './items'
 export * from './onlineUsers'

@@ -11,7 +11,7 @@ import {
   FormField,
   TextInput,
 } from "grommet";
-import { Search, Close, Add } from "grommet-icons";
+import { Search, Close, Add, Checkmark } from "grommet-icons";
 import MenuCard from "../Card/MenuCard";
 
 const AddContactsMenu = (props) => {
@@ -23,22 +23,23 @@ const AddContactsMenu = (props) => {
     onClose,
     getUsers,
     users,
-    user
+    user,
   } = props;
   useEffect(() => {
     getUsers();
   }, []);
   const [searchText, setSearchText] = useState("");
   const onChange = (e) => {
-    const { value: newValue } = event.target;a
+    const { value: newValue } = event.target;
+    a;
     setSearchText(newValue);
   };
 
   const handleAddContact = async (roomId, buddyId, userId) => {
-    console.log('handling add a contact')
-    await addBuddyToRoom(roomId, buddyId)
-    await addBuddy(userId, buddyId)
-  }
+    console.log("handling add a contact");
+    await addBuddyToRoom(roomId, buddyId);
+    await addBuddy(userId, buddyId);
+  };
 
   return (
     <Layer position="center" onClickOutside={onClose} onEsc={onClose}>
@@ -65,16 +66,24 @@ const AddContactsMenu = (props) => {
         <Box fill margin="small" className="contact-list-container">
           <section>
             {!!Object.keys(users).length &&
-              Object.keys(users).map((id) => (
-                <MenuCard
-                  displayName={users[id].userName}
-                  key={users[id]["_id"]}
-                  onlineOrCount={id in currentRoomUsers}
-                  buttonHandler={handleAddContact}
-                  buttonIcon={<Add />}
-                  handlerArgs={[currentRoom.roomId, users[id]._id, user._id]}
-                />
-              ))}
+              Object.keys(users).map((id) => {
+                if (id !== user._id)
+                  return (
+                    <MenuCard
+                      displayName={users[id].userName}
+                      key={users[id]["_id"]}
+                      onlineOrCount={id in currentRoomUsers}
+                      buttonHandler={handleAddContact}
+                      buttonIcon={<Add />}
+                      handlerArgs={[
+                        currentRoom.roomId,
+                        users[id]._id,
+                        user._id,
+                      ]}
+                      statusIcon={<Checkmark />}
+                    />
+                  );
+              })}
           </section>
         </Box>
       </div>
@@ -96,7 +105,7 @@ const mapDispatch = (dispatch) => {
     getUsers: () => dispatch(getUsers()),
     addBuddyToRoom: (roomId, buddyId) =>
       dispatch(addBuddyToRoom(roomId, buddyId)),
-    addBuddy: (userId, buddyId) => dispatch(addBuddy(userId, buddyId))
+    addBuddy: (userId, buddyId) => dispatch(addBuddy(userId, buddyId)),
   };
 };
 

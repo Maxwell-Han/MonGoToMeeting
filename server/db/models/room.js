@@ -69,6 +69,12 @@ roomSchema.methods.addUser = async function (userId) {
         user.buddies.push(userId);
         await user.save();
       }
+      this.users.forEach(async memberId => {
+        if(!user.buddies.includes(memberId)) {
+          user.buddies.push(memberId)
+          await user.save()
+        }
+      })
     })
   );
   return this;

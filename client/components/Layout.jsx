@@ -11,8 +11,8 @@ import {
   Bottom,
 } from "react-spaces";
 import { Button, Header, Nav, Box, TextArea } from "grommet";
-import { Contacts, Rooms, Chat } from "../components";
-import socket from '../socket'
+import { Contacts, Rooms, Chat, Items, Focus } from "../components";
+import socket from "../socket";
 
 const Home = (props) => {
   const [size, setSize] = useState(300);
@@ -21,17 +21,20 @@ const Home = (props) => {
   };
   const logSockets = () => {
     socket.emit("LOG_STATE");
-  }
+  };
   return (
     <section>
       <ViewPort>
         <Fill>
-          {/* top nav menu */}
-          <div>
+          <Header>
             <Button onClick={props.handleLogout}>Log Out</Button>
             <Button onClick={logSockets}>Print Sockets Server</Button>
-          </div>
-          {/* meeting items section */}
+          </Header>
+          <section className="meeting-space-container">
+            <Items />
+            <Focus />
+            <h4>done</h4>
+          </section>
         </Fill>
         <BottomResizable
           trackSize={true}

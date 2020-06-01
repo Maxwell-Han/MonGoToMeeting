@@ -4,10 +4,21 @@ import { deleteUserFromRoom } from "../../store";
 import { Header, Button, Box } from "grommet";
 import AddContactsMenu from "./AddContactsMenu";
 import MenuCard from "../Card/MenuCard";
-import { UserAdd, FormClose, StatusDisabledSmall, StatusGoodSmall } from "grommet-icons";
+import {
+  UserAdd,
+  FormClose,
+  StatusDisabled,
+  StatusInfoSmall,
+} from "grommet-icons";
 
 const Contacts = (props) => {
-  const { currentRoom, currentRoomUsers, deleteUserFromRoom } = props;
+  const {
+    currentRoom,
+    currentRoomUsers,
+    deleteUserFromRoom,
+    onlineUsers,
+    user,
+  } = props;
   const [open, setOpen] = useState();
   const [searchText, setSearchText] = useState("");
   const onOpen = () => setOpen(true);
@@ -29,16 +40,20 @@ const Contacts = (props) => {
         <Box gap="xxsmall" direction="column" elevation="medium">
           <section>
             {!!Object.keys(currentRoomUsers).length &&
-              Object.keys(currentRoomUsers).map((id) => (
-                <MenuCard
-                  key={id}
-                  displayName={currentRoomUsers[id].userName}
-                  onlineOrCount={false}
-                  buttonHandler={deleteUserFromRoom}
-                  buttonIcon={<FormClose />}
-                  handlerArgs={[currentRoom.roomId, id]}
-                />
-              ))}
+              Object.keys(currentRoomUsers).map((id) => {
+                if (id !== user._id)
+                  return (
+                    <MenuCard
+                      key={id}
+                      displayName={currentRoomUsers[id].userName}
+                      onlineOrCount={onlineUsers.includes(id)}
+                      buttonHandler={deleteUserFromRoom}
+                      buttonIcon={<FormClose />}
+                      handlerArgs={[currentRoom.roomId, id]}
+                      statusIcon={[<StatusInfoSmall />, <StatusDisabled />]}
+                    />
+                  );
+              })}
           </section>
         </Box>
       </div>
@@ -54,6 +69,7 @@ const mapState = (state) => {
     rooms: state.rooms,
     currentRoom: state.currentRoom,
     currentRoomUsers: state.currentRoomUsers,
+    onlineUsers: state.onlineUsers,
   };
 };
 

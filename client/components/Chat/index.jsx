@@ -7,6 +7,8 @@ import { deepMerge } from "grommet/utils";
 import { logout, addMessage } from "../../store";
 import { getRooms } from "../../store/rooms";
 import MessageCard from "../Card/MessageCard";
+import ItemMenu from "./ItemMenu";
+import Messages from "./Messages";
 
 extendDefaultTheme(
   deepMerge(base, {
@@ -21,33 +23,33 @@ extendDefaultTheme(
 const Chat = (props) => {
   const { user, currentRoom, currentRoomUsers, addMessage } = props;
 
-  const [userMessage, setMessage] = useState("");
+  // const [userMessage, setMessage] = useState("");
   const [currentTab, setTab] = useState({ messages: false, items: false });
   const selectTab = (tabName) => {
     if (tabName === "messages") setTab({ messages: true, items: false });
     else setTab({ messages: false, items: true });
   };
 
-  const messagesContainer = useRef();
-  const updateScrollY = () => {
-    messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight
-    console.log('Updateing scroll! ', messagesContainer.current.scrollTop, messagesContainer.current.scrollHeight)
-  }
-  const handleAddMessage = async (e) => {
-    e.preventDefault();
-    const userId = user._id;
-    const userName = user.userName;
-    const roomId = currentRoom.roomId;
-    const message = { content: userMessage, userName, userId, roomId };
-    console.log("adding message to room ", message);
-    await addMessage(roomId, message);
-    console.log('component update fn is ', updateScrollY)
-    setMessage("");
-  };
+  // const messagesContainer = useRef();
+  // const updateScrollY = () => {
+  //   messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight
+  //   console.log('Updateing scroll! ', messagesContainer.current.scrollTop, messagesContainer.current.scrollHeight)
+  // }
+  // const handleAddMessage = async (e) => {
+  //   e.preventDefault();
+  //   const userId = user._id;
+  //   const userName = user.userName;
+  //   const roomId = currentRoom.roomId;
+  //   const message = { content: userMessage, userName, userId, roomId };
+  //   console.log("adding message to room ", message);
+  //   await addMessage(roomId, message);
+  //   console.log('component update fn is ', updateScrollY)
+  //   setMessage("");
+  // };
 
-  useEffect( () => {
-    updateScrollY()
-  }, [currentRoom])
+  // useEffect( () => {
+  //   updateScrollY()
+  // }, [currentRoom])
 
   return (
     <Box fill>
@@ -79,35 +81,8 @@ const Chat = (props) => {
           </Button>
         </div>
       </Header>
-      <Box style={!currentTab["messages"] ? { visibility: "hidden" } : {}} fill>
-        <section className="messages-container" ref={messagesContainer} >
-          <Box fill direction="row" pad="xsmall" />
-          {!!currentRoom.messages.length &&
-            currentRoom.messages.map((message) => (
-              <MessageCard
-                key={message._id}
-                content={message.content}
-                userName={message.userName}
-              />
-            ))}
-        </section>
-        <div className="chat-input-container">
-          <TextInput
-            value={userMessage}
-            onChange={(e) => setMessage(e.target.value)}
-          ></TextInput>
-          <div className="chat-input-menu">
-            <Button
-              plain={false}
-              icon={<Send size="small" />}
-              onClick={handleAddMessage}
-              disabled={
-                userMessage === "" || currentRoom.roomId === "" ? true : false
-              }
-            />
-          </div>
-        </div>
-      </Box>
+      <Messages visible={currentTab["messages"]} />
+      <ItemMenu visible={currentTab["items"]} />
     </Box>
   );
 };

@@ -6,6 +6,7 @@ import {
   setRoom,
   getMessages,
   getMembers,
+  getItems,
   deleteRoom,
 } from "../../store";
 import {
@@ -28,6 +29,7 @@ const Rooms = (props) => {
     deleteRoom,
     getMessages,
     getMembers,
+    getItems
   } = props;
   const [open, setOpen] = useState();
   const [roomName, setRoomName] = useState("");
@@ -52,7 +54,7 @@ const Rooms = (props) => {
     getMessages(roomId);
     getMembers(roomId);
     // await this.props.gotRoomId(roomId);
-    // await this.props.getItems(roomId);
+    getItems(roomId);
   };
 
   const onChange = (e) => {
@@ -68,7 +70,7 @@ const Rooms = (props) => {
       </Header>
       <div className="room-list-container">
         <Box gap="xxsmall" direction="column">
-          {Object.keys(rooms).length > 0 &&
+          {!!Object.keys(rooms).length > 0 &&
             Object.keys(rooms).map((id) => (
               <Box
                 key={id}
@@ -148,6 +150,7 @@ const mapDispatch = (dispatch) => {
     getMessages: (roomId) => dispatch(getMessages(roomId)),
     getMembers: (roomId) => dispatch(getMembers(roomId)),
     deleteRoom: (roomId) => dispatch(deleteRoom(roomId)),
+    getItems: (roomId) => dispatch(getItems(roomId)),
   };
 };
 
