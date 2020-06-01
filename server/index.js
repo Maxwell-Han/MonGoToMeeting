@@ -7,8 +7,8 @@ const app = express();
 const morgan = require("morgan");
 const path = require("path");
 const { db, User } = require("./db");
-const secrets = require("../secrets");
 const socketio = require("socket.io");
+const secrets = process.env.NODE_ENV === "development" ? require("../secrets") : null
 
 passport.serializeUser((user, done) => {
   done(null, user._id);
