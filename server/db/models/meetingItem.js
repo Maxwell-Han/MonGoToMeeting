@@ -2,17 +2,18 @@ const mongoose = require("mongoose");
 
 const meetingItemSchema = mongoose.Schema({
   roomId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Room"
-    },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Room",
+  },
   name: { type: String },
   description: { type: String },
-  status: { type: String, default: 'open', enum: ['open', 'closed'] },
-  score: { type: Number, min: 1, max: 100},
+  status: { type: String, default: "open", enum: ["open", "closed"] },
+  tags: { type: Array },
   votes: { type: Array },
+  defaultView: { type: String, default: "rating", enum: ["rating", "vote"] },
   rating: { type: Number, max: 5, min: 1 },
-  inFocus: {type: Boolean, default: false}
+  inFocus: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("MeetingItem", meetingItemSchema);
-module.exports.meetingItemSchema = meetingItemSchema
+module.exports.meetingItemSchema = meetingItemSchema;

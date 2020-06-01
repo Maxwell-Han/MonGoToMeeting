@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const { Room, User, MeetingItem } = require("../db/models/");
 
-const toObj = arr => {
+const toObj = (arr) => {
   const res = {};
-  arr.forEach(el => (res[el._id.toString()] = el));
+  arr.forEach((el) => (res[el._id.toString()] = el));
   return res;
 };
 
@@ -52,8 +52,8 @@ router.put("/:roomId/items/:itemId", async (req, res, next) => {
       {
         $set: {
           "items.$.inFocus": req.body.inFocus,
-          "items.$.status": req.body.status || 'open'
-        }
+          "items.$.status": req.body.status || "open",
+        },
       }
     );
     const { items } = await Room.findById(roomId).select("items");
@@ -70,6 +70,38 @@ router.get("/:roomId/users", async (req, res, next) => {
     const { users: userIds } = await Room.findById(roomId).select("users");
     const userData = await User.findUsersByIds(userIds);
     res.json(toObj(userData));
+  } catch (err) {
+    next(err);
+  }
+});
+
+// delete room
+router.delete("/:roomId", async (req, res, next) => {
+  try {
+    const roomId = req.params.roomId;
+    await Room.deleteRoom(roomId)
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// delete user from room
+router.delete("/:roomId/:userId", async (req, res, next) => {
+  try {
+    const roomId = req.params.roomId;
+    const userId = req.params.userId;
+    const { users } = await Room.findOneAndUpdate(
+      { _id: roomId },
+      { $pull: { users: userId } },
+      { new: true }
+    ).select("users").populate('users');
+    await User.findOneAndUpdate(
+      { _id: userId },
+      { $pull: { rooms: roomId } },
+      { new: true }
+    )
+    res.json(toObj(users));
   } catch (err) {
     next(err);
   }

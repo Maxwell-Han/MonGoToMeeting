@@ -42,6 +42,7 @@ router.get('/:userId/rooms/', async (req, res, next) => {
   try {
     const userId = req.params.userId
     const rooms = await Room.find({ users: userId})
+    console.log('get rooms  user is ', userId, ' rooms are ', rooms)
     res.json(toObj(rooms))
   } catch (err) {
     console.log('there was an error ', err)
@@ -55,9 +56,9 @@ router.post('/:userId/buddies/', async (req, res, next) => {
     const buddyId = req.body.buddyId
     console.log('the buddyId is ', buddyId, ' the body is ', req.body)
     const user = await User.findById(userId)
-    user.buddies.push(buddyId)
+    if(!user.buddies.includes(buddyId)) user.buddies.push(buddyId)
     await user.save()
-    const buddy = await User.findById(buddyId)
+    const buddy = await User.findById(buddyId).select('_id email userName')
     res.json(buddy)
   } catch (err) {
     console.log('there was an error ', err)

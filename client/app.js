@@ -12,7 +12,9 @@ const App = (props) => {
   useEffect(() => {
     props.loadInitialData();
   }, []);
+
   const { isLoggedIn } = props;
+
   return (
     <Switch>
       {/* Routes placed here are available to all visitors */}
@@ -24,6 +26,7 @@ const App = (props) => {
         <Switch>
           {/* Routes placed here are only available after logging in */}
           <Route path="/home" component={Layout} />
+          <Route component={Layout} />
         </Switch>
       )}
       {/* Displays our Login component as a fallback */}

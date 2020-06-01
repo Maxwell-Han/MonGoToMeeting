@@ -7,8 +7,8 @@ const app = express();
 const morgan = require("morgan");
 const path = require("path");
 const { db, User } = require("./db");
-const secrets = require("../secrets");
 const socketio = require("socket.io");
+const secrets = process.env.NODE_ENV === "development" ? require("../secrets") : null
 
 passport.serializeUser((user, done) => {
   done(null, user._id);
@@ -60,7 +60,7 @@ const createApp = () => {
 };
 
 const startListening = () => {
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 8080;
   const server = app.listen(port, function() {
     console.log("Starting up server from server/index.js");
     console.log(`Your server, listening on port ${port}`);

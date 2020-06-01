@@ -22,9 +22,10 @@ router.post('/', async (req, res, next) => {
   console.log('POST api/messages: create a new message')
   try {
     const userId = req.body.userId
+    const userName =  req.body.userName
     const roomId = req.body.roomId
     const text = req.body.text
-    const data = {userId, roomId, content: text}
+    const data = {userId, userName, roomId, content: text}
     const message = await Message.create(data)
     const room = await Room.findById(roomId)
     await room.messages.push(message)

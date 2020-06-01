@@ -1,21 +1,48 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import { logout } from "../store";
-import * as Space from "react-spaces";
-import { ViewPort, Fill, BottomResizable, LeftResizable } from "react-spaces";
-import { Header, Nav, Box, TextArea } from "grommet";
-import { Contacts, Rooms } from '../components'
+import {
+  Custom,
+  ViewPort,
+  Fill,
+  BottomResizable,
+  LeftResizable,
+  TopResizable,
+  Bottom,
+} from "react-spaces";
+import { Button, Header, Nav, Box, TextArea } from "grommet";
+import { Contacts, Rooms, Chat, Items, Focus } from "../components";
+import socket from "../socket";
 
 const Home = (props) => {
-  const { handleLogout } = props;
+  const [size, setSize] = useState(300);
+  const handleSize = (newSize) => {
+    setSize(newSize);
+  };
+  const logSockets = () => {
+    socket.emit("LOG_STATE");
+  };
   return (
-    <>
+    <section>
       <ViewPort>
-        {/* top nav menu */}
         <Fill>
-          {/* meeting items section */}
+          <Header>
+            <Button onClick={props.handleLogout}>Log Out</Button>
+            <Button onClick={logSockets}>Print Sockets Server</Button>
+          </Header>
+          <section className="meeting-space-container">
+            <Items />
+            <Focus />
+            <h4>done</h4>
+          </section>
         </Fill>
-        <BottomResizable size={500} style={{ border: "2px solid blue" }}>
+        <BottomResizable
+          trackSize={true}
+          size={365}
+          onResizeEnd={(newSize) => {
+            setSize(newSize);
+          }}
+        >
           <LeftResizable size={360} style={{ border: "2px solid blue" }}>
             <Fill>
               <Rooms />
@@ -23,35 +50,19 @@ const Home = (props) => {
             <BottomResizable
               size={200}
               style={{ border: "2px solid aliceblue" }}
+              trackSize={true}
+              maximumSize={Math.floor(size) - 50}
+              minimumSize={100}
             >
               <Contacts />
             </BottomResizable>
           </LeftResizable>
           <Fill>
-            <Box border={{ color: "brand", size: "large" }} fill>
-              <Header background="brand" height="xxsmall">
-                <h4>Chat Menu goes here</h4>
-              </Header>
-              <Box basis="3/4">
-                <h4>Chat messages go here</h4>
-                <a href="#" onClick={handleLogout}>
-                  Logout
-                </a>
-              </Box>
-              <Box basis="auto" align="end">
-                <Box fill>
-                  <TextArea
-                    value={
-                      "Hello world Hello world Hello worldHello world Hello world"
-                    }
-                  ></TextArea>
-                </Box>
-              </Box>
-            </Box>
+            <Chat />
           </Fill>
         </BottomResizable>
       </ViewPort>
-    </>
+    </section>
   );
 };
 

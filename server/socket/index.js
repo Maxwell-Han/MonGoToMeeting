@@ -7,9 +7,13 @@ module.exports = io => {
   io.on("connection", socket => {
     console.log(socket.id, " has made a persistent connection to the server!");
 
+    socket.on('LOG_STATE', () => {
+      console.log('ONLINE USERS ARE ', onlineUsers)
+      console.log('ROOMS ARE ', socket.rooms)
+    })
+
     socket.on("ADD_MESSAGE", message => {
       console.log("SERVER: socket got message: " + message);
-      console.log("SERVER: message was sent to room ", message.roomId);
       io.to(message.roomId).emit("ADD_MESSAGE", message);
     });
 
@@ -18,14 +22,14 @@ module.exports = io => {
       socket.emit("CREATE_ROOM", room);
       if (ownerId in onlineUsers) {
         socket.join(room._id);
+        console.log('owner is joining newly created room ', room._id)
       }
       console.log("Server socket emitting create-room ", room);
     });
 
     socket.on("ADD_BUDDY_TO_ROOM", buddy => {
-      console.log("socket on server: about to add buddy to room ", buddy);
       io.emit("ADD_BUDDY_TO_ROOM", buddy);
-      // handle so that those that are added are connected to new room
+      // handle so those that are added are connected to new room
       const userId = buddy._id;
       console.log("client socket is ", socket, socket.id);
       if (userId in onlineUsers) {
@@ -60,6 +64,7 @@ module.exports = io => {
     });
 
     socket.on("disconnect", async () => {
+      console.log('SOCKET SERVER LINE 63')
       const onlineIds = Object.values(onlineUsers);
       let userId
       for(let k in onlineUsers) {
