@@ -34,8 +34,14 @@ router.post("/:roomId/items", async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
     const room = await Room.findById(roomId);
-    const { name, description, status } = req.body;
-    const newItem = await room.addItem({ roomId, name, description, status });
+    const { name, description, status, defaultView } = req.body;
+    const newItem = await room.addItem({
+      roomId,
+      name,
+      description,
+      status,
+      defaultView: defaultView  === '' ? 'rating' : defaultView,
+    });
     res.json(newItem);
   } catch (err) {
     next(err);
@@ -79,7 +85,7 @@ router.get("/:roomId/users", async (req, res, next) => {
 router.delete("/:roomId", async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
-    await Room.deleteRoom(roomId)
+    await Room.deleteRoom(roomId);
     res.sendStatus(200);
   } catch (err) {
     next(err);
@@ -95,12 +101,14 @@ router.delete("/:roomId/:userId", async (req, res, next) => {
       { _id: roomId },
       { $pull: { users: userId } },
       { new: true }
-    ).select("users").populate('users');
+    )
+      .select("users")
+      .populate("users");
     await User.findOneAndUpdate(
       { _id: userId },
       { $pull: { rooms: roomId } },
       { new: true }
-    )
+    );
     res.json(toObj(users));
   } catch (err) {
     next(err);
