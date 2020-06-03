@@ -1,18 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { setFocusItem } from "../../store";
 import { Header, Button, Box } from "grommet";
-import { useDrop } from "react-dnd";
-import { ItemTypes } from "../../constants";
 import DropAreaFocus from "./DropAreaFocus";
-import { useEffect } from "react";
+import FocusItemCard from "./FocusItemCard";
 
 const Focus = (props) => {
   const { items } = props;
   const inFocusItems = Object.keys(items).filter(
     (id) => items[id].inFocus === true
   );
-  console.log('in focus items are ', inFocusItems)
+  console.log("in focus items are ", inFocusItems);
   return (
     <section className="focus-container">
       <Header>
@@ -21,7 +18,9 @@ const Focus = (props) => {
       <DropAreaFocus>
         {!!inFocusItems.length &&
           inFocusItems.map((id) => (
-            <div key={id}>{items[id].name}</div>
+            <FocusItemCard key={id} item={items[id]}>
+              {items[id].name}
+            </FocusItemCard>
           ))}
       </DropAreaFocus>
     </section>
