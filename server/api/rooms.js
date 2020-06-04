@@ -40,7 +40,7 @@ router.post("/:roomId/items", async (req, res, next) => {
       name,
       description,
       status,
-      defaultView: defaultView  === '' ? 'rating' : defaultView,
+      defaultView: defaultView === "" ? "rating" : defaultView,
     });
     res.json(newItem);
   } catch (err) {
@@ -48,17 +48,41 @@ router.post("/:roomId/items", async (req, res, next) => {
   }
 });
 
-router.put("/:roomId/items/:itemId", async (req, res, next) => {
-  console.log("PUT api/rooms/roomId/items/:itemId ");
+router.put("/:roomId/items/:itemId/rating", async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
     const itemId = req.params.itemId;
-    const _room = await Room.findById(roomId).update(
+    console.log('RATING IS NOW ', req.body.rating)
+    await Room.findOne({ _id: roomId }).findOneAndUpdate(
+      { "items._id": itemId },
+      {
+        $set: {
+          "items.$.rating": req.body.rating,
+        },
+      },
+      {new: true}
+    )
+    const {items} = await Room.findOne(
+      { _id: roomId, "items._id": itemId },
+      { "items.$": 1 }
+    );
+    res.json(items[0]);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put("/:roomId/items/:itemId", async (req, res, next) => {
+  console.log("PUT api/rooms/roomId/items/:itemId ", req.body.status);
+  try {
+    const roomId = req.params.roomId;
+    const itemId = req.params.itemId;
+    const _room = await Room.findById(roomId).findOneAndUpdate(
       { "items._id": itemId },
       {
         $set: {
           "items.$.inFocus": req.body.inFocus,
-          "items.$.status": req.body.status || "open",
+          "items.$.status": req.body.status ? req.body.status : "open",
         },
       }
     );

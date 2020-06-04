@@ -34,7 +34,6 @@ const Home = (props) => {
             <Items />
             <Focus />
             <ClosedItems />
-            <h4>done</h4>
           </section>
         </Fill>
         <BottomResizable

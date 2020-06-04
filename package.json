@@ -48,6 +48,7 @@
     "grommet": "^2.13.0",
     "history": "^4.10.1",
     "http-server": "^0.12.1",
+    "lodash": "^4.17.15",
     "mongodb": "^3.5.3",
     "mongoose": "^5.9.2",
     "mongoose-findorcreate": "^3.0.0",
