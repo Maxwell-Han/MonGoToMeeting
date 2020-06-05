@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { Header, Text } from "grommet";
-import { useDrag } from "react-dnd";
+import { DragPreviewImage, useDrag } from "react-dnd";
 import { ItemTypes } from "../../constants";
+import tempImage from '../grommet-card.png'
 
 const DragWrapper = (props) => {
   const { item } = props;
-  const [{ isDragging }, drag] = useDrag({
+  const [{ isDragging }, drag, preview] = useDrag({
     item: { type: ItemTypes.CARD, data: { ...item } },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -26,7 +27,7 @@ const DragWrapper = (props) => {
 };
 
 export const FocusItemDragWrapper = (props) => {
-  const [{ isDragging }, drag] = useDrag({
+  const [{ isDragging }, drag, preview] = useDrag({
     item: { type: ItemTypes.CARD, data: { ...props.item } },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -34,10 +35,11 @@ export const FocusItemDragWrapper = (props) => {
   });
 
   return (
-    <div ref={drag}>
-      {props.children}
-    </div>
+    <>
+      <DragPreviewImage connect={preview} src={tempImage} />
+      <div ref={drag}>{props.children}</div>
+    </>
   );
 };
 
-export default DragWrapper
+export default DragWrapper;

@@ -23,7 +23,8 @@ const FocusItemCard = (props) => {
       direction="column"
       align="center"
       justify="between"
-      elevation="medium"
+      elevation="xlarge"
+      className="focus-item-card"
     >
       <p>{item.name}</p>
       <Box direction="row">
