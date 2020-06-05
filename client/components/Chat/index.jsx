@@ -30,34 +30,13 @@ const Chat = (props) => {
     else setTab({ messages: false, items: true });
   };
 
-  // const messagesContainer = useRef();
-  // const updateScrollY = () => {
-  //   messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight
-  //   console.log('Updateing scroll! ', messagesContainer.current.scrollTop, messagesContainer.current.scrollHeight)
-  // }
-  // const handleAddMessage = async (e) => {
-  //   e.preventDefault();
-  //   const userId = user._id;
-  //   const userName = user.userName;
-  //   const roomId = currentRoom.roomId;
-  //   const message = { content: userMessage, userName, userId, roomId };
-  //   console.log("adding message to room ", message);
-  //   await addMessage(roomId, message);
-  //   console.log('component update fn is ', updateScrollY)
-  //   setMessage("");
-  // };
-
-  // useEffect( () => {
-  //   updateScrollY()
-  // }, [currentRoom])
-
   return (
     <Box fill>
       <Header
         background="brand"
-        height="xxsmall"
-        elevation="medium"
+        elevation="small"
         justify="start"
+        className="chat-area-header"
       >
         <h4>Menu</h4>
         <div className="tabs-container">

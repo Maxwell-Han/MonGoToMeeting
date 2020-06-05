@@ -44,6 +44,7 @@ const Messages = (props) => {
         <TextInput
           value={userMessage}
           onChange={(e) => setMessage(e.target.value)}
+          className="chat-input"
         ></TextInput>
         <div className="chat-input-menu">
           <Button

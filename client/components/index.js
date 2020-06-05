@@ -1,4 +1,5 @@
 export { Login, SignUp } from "./Auth";
+export { default as TopMenu } from "./TopMenu";
 export { default as Layout } from "./Layout";
 export { default as Contacts } from "./Contacts";
 export { default as Rooms } from "./Rooms";

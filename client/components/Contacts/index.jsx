@@ -7,7 +7,7 @@ import MenuCard from "../Card/MenuCard";
 import {
   UserAdd,
   FormClose,
-  StatusDisabled,
+  StatusPlaceholder,
   StatusInfoSmall,
 } from "grommet-icons";
 
@@ -32,7 +32,7 @@ const Contacts = (props) => {
   };
   return (
     <section className="contacts-container">
-      <Header background="brand" height="xxsmall" elevation="medium">
+      <Header background="brand" elevation="small" className="chat-area-header">
         <h3>Contacts</h3>
         <Button plain icon={<UserAdd />} onClick={onOpen} />
       </Header>
@@ -50,7 +50,7 @@ const Contacts = (props) => {
                       buttonHandler={deleteUserFromRoom}
                       buttonIcon={<FormClose />}
                       handlerArgs={[currentRoom.roomId, id]}
-                      statusIcon={[<StatusInfoSmall />, <StatusDisabled />]}
+                      statusIcon={[<StatusInfoSmall />, <StatusPlaceholder />]}
                     />
                   );
               })}

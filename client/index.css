@@ -15,7 +15,9 @@ body {
 .room-list-container {
   height: 100%;
   border: 1px solid yellow;
-  overflow-y:auto;
+  overflow-y: auto;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 .room-menu-container {
@@ -35,8 +37,6 @@ body {
   justify-content: space-between;
 }
 
-
-
 /* CHAT */
 .chat-input-container {
   width: 100%;
@@ -47,6 +47,16 @@ body {
 .chat-input-menu {
   display: flex;
   justify-content: flex-end;
+}
+
+.chat-input {
+  font-weight: normal !important;
+}
+
+.chat-area-header {
+  height: 2.5rem;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
 }
 
 /* CONTACTS */
@@ -72,6 +82,8 @@ body {
 
 .contact-list-container {
   height: 100%;
+  padding-left: 2px;
+  padding-right: 2px;
   overflow-y: auto;
 }
 
@@ -81,7 +93,6 @@ body {
   grid-template-rows: 1rem auto;
   width: 95%;
   padding-left: 0.75rem;
-
 }
 
 .messages-container {
@@ -101,30 +112,36 @@ body {
 .meeting-space-container {
   border: 2px solid orange;
   height: 96%;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  padding-bottom: 0.5rem;
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 25% 1fr 25%;
   justify-items: center;
-  aligin-items: center
+  align-items: center;
 }
 
-.items-container, .focus-container {
+.items-container,
+.focus-container {
   width: 100%;
   height: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-left: 1.2rem;
   box-sizing: border-box;
+  padding: 0.4rem;
 }
 
 /* ITEMS MENU */
 .items-list {
   width: 100%;
   height: 100%;
-  border: 1px solid black;
+  border: 2px solid #81fced;
+  border-radius: 7px;
   box-sizing: border-box;
   padding: 0.4rem;
+  overflow-y: auto;
 }
 
 .item-form {
@@ -135,24 +152,24 @@ body {
 
 /* CURRENT ITEMS */
 .focus-items-container {
- border: 1px dashed blue;
- border-radius: 5px;
- width: 100%;
- height: 100%;
- display: flex;
- justify-content: space-between;
- align-items: stretch;
- flex-wrap: wrap;
- padding: 0.5rem 0.5rem;
+  box-sizing: border-box;
+  border: 1px dashed #FFCA58;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  padding: 0.2rem 0.2rem;
 }
 
 .focus-items-container > div {
-  border: 3px solid red;
+  max-width: 375px;
   box-sizing: border-box;
   flex: 1 1 50%;
-  /* height: 100%; */
+  padding: 3px;
 }
-
 
 /* FOCUS SECTION */
 .votes-display {
@@ -170,8 +187,31 @@ body {
   text-align: center;
 }
 
-/* TODO/REFACTOR */
+/* CARDS */
+.menu-card {
+  height: 2.5rem !important;
+  padding-left: 0.6rem;
+}
 
-.temp-list-item {
-  border: 2px solid brown;
+.menu-card-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.menu-card-options > svg {
+  height: 1rem;
+}
+.room-card {
+  height: 2.5rem !important;
+}
+
+.item-card {
+  height: 2.7rem !important;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+}
+
+.focus-item-card {
+  border-radius: 1rem;
+  padding-bottom: 4px;
 }

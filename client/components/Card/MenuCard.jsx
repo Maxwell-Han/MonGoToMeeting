@@ -17,6 +17,7 @@ const MenuCard = ({
       align="center"
       justify="between"
       elevation="small"
+      className="menu-card"
     >
       <p>{displayName}</p>
       <div className="menu-card-options">

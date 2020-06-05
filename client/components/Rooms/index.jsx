@@ -64,7 +64,7 @@ const Rooms = (props) => {
 
   return (
     <section className="roomContainer">
-      <Header background="brand" height="xxsmall" elevation="medium">
+      <Header background="brand" elevation="small" className="chat-area-header">
         <h4>Rooms Menu</h4>
         <Button plain icon={<AddCircle />} onClick={onOpen} />
       </Header>
@@ -82,12 +82,13 @@ const Rooms = (props) => {
                 pad="small"
                 overflow="hidden"
                 height={{ max: "3rem" }}
+                className="room-card"
               >
                 <p className="room-name" onClick={() => handleSelectRoom(id)}>
                   {rooms[id].roomName}
                 </p>
                 <div className="room-menu-container">
-                  <p>#</p>
+                  <p></p>
                   <Button
                     plain
                     icon={<FormClose />}
