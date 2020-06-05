@@ -141,6 +141,7 @@ body {
   border-radius: 7px;
   box-sizing: border-box;
   padding: 0.4rem;
+  overflow-y: auto;
 }
 
 .item-form {
@@ -212,4 +213,5 @@ body {
 
 .focus-item-card {
   border-radius: 1rem;
+  padding-bottom: 4px;
 }

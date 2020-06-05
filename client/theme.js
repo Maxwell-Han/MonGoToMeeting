@@ -187,7 +187,7 @@ const hpe = {
     },
     "input": {
       "padding": "12px",
-      "weight": 600
+      "weight": 400
     },
     "opacity": {
       "strong": 0.8,
@@ -255,7 +255,7 @@ const hpe = {
   "button": {
     "border": {
       "width": "2px",
-      "radius": "0px"
+      "radius": "10px"
     },
     "primary": {},
     "disabled": {

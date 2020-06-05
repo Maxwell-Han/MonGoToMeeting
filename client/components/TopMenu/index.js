@@ -11,7 +11,13 @@ const TopMenu = (props) => {
         <Anchor icon={<Linkedin />} href="#" />
       </div>
       <Text weight="bold">MONGOTOMEETING</Text>
-      <Button icon={<Logout />} label="Log Out" onClick={props.handleLogout} />
+      <Button
+        plain
+        icon={<Logout />}
+        label="Log Out"
+        onClick={props.handleLogout}
+        style={{ paddingRight: "3px" }}
+      />
     </Header>
   );
 };
