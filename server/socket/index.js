@@ -63,6 +63,11 @@ module.exports = (io) => {
       });
     });
 
+    // handle meeting items
+    socket.on("DISPATCH_ITEM_ACTION", (roomId, itemOrItems, actionType) => {
+      io.to(roomId).emit("DISPATCH_ITEM_ACTION", itemOrItems, actionType);
+    });
+
     socket.on("disconnect", async () => {
       console.log("SOCKET SERVER LINE 63");
       const onlineIds = Object.values(onlineUsers);
@@ -86,14 +91,6 @@ module.exports = (io) => {
       console.log("found client id is", clientId);
       delete onlineUsers[clientId];
       console.log("deleted last user.  online users are ", onlineUsers);
-    });
-
-    socket.on("DISPATCH_ITEM_ACTION", (roomId, itemOrItems, actionType) => {
-      console.log('DISPATCHING ITEM EDIT SERVER SOCKET')
-      console.log('room id, items, type ', roomId, itemOrItems, actionType)
-      io.to(roomId).emit(
-        "DISPATCH_ITEM_ACTION", itemOrItems, actionType
-      );
     });
 
     socket.on("logout", async () => {

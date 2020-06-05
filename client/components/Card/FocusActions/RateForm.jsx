@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { udpateItemRating } from "../../../store";
 import { Button, TextInput } from "grommet";
 
 const Rating = ({ item, udpateItemRating, currentRoom }) => {
-  const defaultRating = item.rating ? item.rating : "TBD";
-  const [rating, setRating] = useState(defaultRating);
+
+  const [rating, setRating] = useState('');
+
+  useEffect(() => {
+    const defaultRating = item.rating ? item.rating : "TBD";
+    setRating(defaultRating)
+  }, [item])
+
   const handleRating = () => {
     udpateItemRating(currentRoom.roomId, item._id, rating)
   };
@@ -15,7 +21,6 @@ const Rating = ({ item, udpateItemRating, currentRoom }) => {
       <div>Rating</div>
       <div id="rating-input">
         <TextInput
-          placeholder={defaultRating === "TBD" ? "1 - 5" : defaultRating}
           value={rating}
           type="number"
           min={1}

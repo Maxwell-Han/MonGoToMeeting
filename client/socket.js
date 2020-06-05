@@ -8,7 +8,8 @@ import {
   gotConnectedBuddy,
   gotDisconnectedBuddy, ADD_MEETING_ITEM, addedItem,
   haveSetFocusItem, SET_FOCUS_ITEM, haveUnsetFocusItem, UNSET_FOCUS_ITEM,
-  MARK_DONE_ITEM, markedDoneItem
+  MARK_DONE_ITEM, markedDoneItem, UPDATE_ITEM_RATING, updatedItemRating,
+  UPDATE_ITEM_VOTE, updatedItemVote, UPDATE_ITEM_TAGS, updatedItemTag, REMOVED_ITEM_TAG, removedItemTag
 } from "./store";
 
 const socket = io(window.location.origin);
@@ -55,18 +56,30 @@ socket.on("JOIN_ROOMS", (user) => {
 socket.on('DISPATCH_ITEM_ACTION', (itemOrItems, actionType) => {
   switch (actionType) {
     case ADD_MEETING_ITEM:
-      console.log('CLIENT SOCKET ITEM ADDED IS ', itemOrItems)
       store.dispatch(addedItem(itemOrItems))
       break
     case SET_FOCUS_ITEM:
-      console.log('in client sockets! ', itemOrItems, actionType)
       store.dispatch(haveSetFocusItem(itemOrItems));
       break;
     case UNSET_FOCUS_ITEM:
       console.log('UNSET FOCUS ITEM')
       store.dispatch(haveUnsetFocusItem(itemOrItems))
+      break
     case MARK_DONE_ITEM:
       store.dispatch(markedDoneItem(itemOrItems))
+      break
+    case UPDATE_ITEM_RATING:
+      store.dispatch(updatedItemRating(itemOrItems))
+      break
+    case UPDATE_ITEM_VOTE:
+      store.dispatch(updatedItemVote(itemOrItems))
+      break
+    case UPDATE_ITEM_TAGS:
+      store.dispatch(updatedItemTag(itemOrItems))
+      break
+    case REMOVED_ITEM_TAG:
+      store.dispatch(removedItemTag(itemOrItems))
+      break
     default:
       break;
   }

@@ -9,10 +9,10 @@ export const ADD_MEETING_ITEM = "ADD_MEETING_ITEM";
 export const SET_FOCUS_ITEM = "SET_FOCUS_ITEM";
 export const UNSET_FOCUS_ITEM = "UNSET_FOCUS_ITEM";
 export const MARK_DONE_ITEM = "MARK_DONE_ITEM";
-const UPDATE_ITEM_RATING = "UPDATE_ITEM_RATING";
-const UPDATE_ITEM_VOTE = "UPDATE_ITEM_VOTE";
-const UPDATE_ITEM_TAGS = "UPDATE_ITEM_TAGS";
-const REMOVED_ITEM_TAG = "REMOVED_ITEM_TAG";
+export const UPDATE_ITEM_RATING = "UPDATE_ITEM_RATING";
+export const UPDATE_ITEM_VOTE = "UPDATE_ITEM_VOTE";
+export const UPDATE_ITEM_TAGS = "UPDATE_ITEM_TAGS";
+export const REMOVED_ITEM_TAG = "REMOVED_ITEM_TAG";
 
 // ACTION CREATORS
 export const gotItems = (items) => ({ type: GET_MEETING_ITEMS, items });
@@ -20,17 +20,16 @@ export const addedItem = (item) => ({ type: ADD_MEETING_ITEM, item });
 export const haveSetFocusItem = (items) => ({ type: SET_FOCUS_ITEM, items });
 export const haveUnsetFocusItem = (items) => ({ type: UNSET_FOCUS_ITEM, items });
 export const markedDoneItem = (items) => ({ type: MARK_DONE_ITEM, items });
-const updatedItemRating = (item) => ({ type: UPDATE_ITEM_RATING, item });
-const updatedItemVote = (item) => ({ type: UPDATE_ITEM_VOTE, item });
-const updatedItemTag = (item) => ({ type: UPDATE_ITEM_TAGS, item });
-const removedItemTag = (item) => ({ type: REMOVED_ITEM_TAG, item });
+export const updatedItemRating = (item) => ({ type: UPDATE_ITEM_RATING, item });
+export const updatedItemVote = (item) => ({ type: UPDATE_ITEM_VOTE, item });
+export const updatedItemTag = (item) => ({ type: UPDATE_ITEM_TAGS, item });
+export const removedItemTag = (item) => ({ type: REMOVED_ITEM_TAG, item });
 
 // THUNK CREATORS
 export const getItems = (roomId) => async (dispatch) => {
   try {
     console.log("thunk getting rooms from rom ", roomId);
     const { data } = await axios.get(`/api/rooms/${roomId}/items`);
-    console.log("thunk getting meeting items ", data);
     dispatch(gotItems(data));
   } catch (err) {
     console.error(err);
@@ -41,9 +40,7 @@ export const addItem = (item) => async (dispatch) => {
   try {
     const { roomId } = item;
     const { data: newItem } = await axios.post(`/api/rooms/${roomId}/items`, item);
-    console.log("thunk item to room ", newItem);
     socket.emit('DISPATCH_ITEM_ACTION', roomId, newItem, ADD_MEETING_ITEM)
-    // dispatch(addedItem(data));
   } catch (err) {
     console.error(err);
   }
@@ -59,9 +56,7 @@ export const setFocusItem = (roomId, itemId) => async (dispatch) => {
         status: "open",
       }
     );
-    console.log('client store items are ', items)
     socket.emit('DISPATCH_ITEM_ACTION', roomId, items, SET_FOCUS_ITEM)
-    // dispatch(haveSetFocusItem(items));
   } catch (err) {
     console.error(err);
   }
@@ -77,7 +72,6 @@ export const unsetFocusItem = (roomId, itemId) => async (dispatch) => {
       }
     );
     socket.emit('DISPATCH_ITEM_ACTION', roomId, items, UNSET_FOCUS_ITEM)
-    // dispatch(haveUnsetFocusItem(items));
   } catch (err) {
     console.error(err);
   }
@@ -93,7 +87,6 @@ export const markItemDone = (roomId, itemId) => async (dispatch) => {
       }
     );
     socket.emit('DISPATCH_ITEM_ACTION', roomId, items, MARK_DONE_ITEM)
-    // dispatch(markedDoneItem(items));
   } catch (err) {
     console.error(err);
   }
@@ -109,8 +102,7 @@ export const udpateItemRating = (roomId, itemId, rating) => async (
         rating: rating,
       }
     );
-    console.log("axios result item is  ", item);
-    dispatch(updatedItemRating(item));
+    socket.emit('DISPATCH_ITEM_ACTION', roomId, item, UPDATE_ITEM_RATING)
   } catch (err) {
     console.error(err);
   }
@@ -127,7 +119,7 @@ export const udpateItemVote = (roomId, itemId, userId, vote) => async (
         vote: vote,
       }
     );
-    dispatch(updatedItemVote(item));
+    socket.emit('DISPATCH_ITEM_ACTION', roomId, item, UPDATE_ITEM_VOTE)
   } catch (err) {
     console.error(err);
   }
@@ -138,7 +130,7 @@ export const udpateItemTags = (roomId, itemId, tag) => async (dispatch) => {
     const {
       data: item,
     } = await axios.put(`/api/rooms/${roomId}/items/${itemId}/tag`, { tag });
-    dispatch(updatedItemTag(item));
+    socket.emit('DISPATCH_ITEM_ACTION', roomId, item, UPDATE_ITEM_TAGS)
   } catch (err) {
     console.error(err);
   }
@@ -150,7 +142,7 @@ export const removeItemTags = (roomId, itemId, tag) => async (dispatch) => {
     const {
       data: item,
     } = await axios.post(`/api/rooms/${roomId}/items/${itemId}/tag/delete`, { tag: tag });
-    dispatch(removedItemTag(item));
+    socket.emit('DISPATCH_ITEM_ACTION', roomId, item, REMOVED_ITEM_TAG)
   } catch (err) {
     console.error(err);
   }
