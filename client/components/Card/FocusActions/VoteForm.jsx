@@ -1,30 +1,36 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { udpateItemVote } from "../../../store";
 import { Box, Button, Meter, Stack, Text } from "grommet";
 import { Clear, Checkmark } from "grommet-icons";
 
-const VoteForm = ({ item }) => {
-  const votesYes = item.votes.filter((el) => el === "yes");
-  const votesNo = item.votes.length - votesYes;
+const VoteForm = ({ currentRoom, item, udpateItemVote, user }) => {
+  const votesYes = item.votesYes.length;
+  const votesNo = item.votesNo.length;
+  const percentVal = Math.floor(votesYes / (votesYes + votesNo) * 100)
+  const handleVote = (vote) => {
+    udpateItemVote(currentRoom.roomId, item._id, user._id, vote);
+  };
   return (
     <>
       <div className="votes-display">
         <div>{`Y: `}</div>
         <div>{votesYes}</div>
-        <Button plain icon={<Clear />} onClick={() => {}} />
+        <Button plain icon={<Checkmark />} onClick={() => handleVote("yes")} />
         <div>{`N: `}</div>
         <div>{votesNo}</div>
-        <Button plain icon={<Checkmark />} onClick={() => {}} />
+        <Button plain icon={<Clear />} onClick={() => handleVote("no")} />
       </div>
       <Stack anchor="center">
         <Meter
           type="circle"
-          values={[{ value: 45 }]}
-          size="xsmall"
-          thickness="small"
+          values={[{ value: percentVal }]}
+          size="xxsmall"
+          thickness="xsmall"
         />
-        <Box direction="row" align="center" pad={{ bottom: "xsmall" }}>
-          <Text size="xlarge" weight="bold">
-            {45}
+        <Box direction="row" align="center" pad={{ bottom: "xxsmall" }}>
+          <Text size="large" weight="bold">
+            {percentVal}
           </Text>
           <Text size="small">%</Text>
         </Box>
@@ -33,4 +39,18 @@ const VoteForm = ({ item }) => {
   );
 };
 
-export default VoteForm;
+const mapState = (state) => {
+  return {
+    currentRoom: state.currentRoom,
+    user: state.user,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    udpateItemVote: (roomId, itemId, userId, vote) =>
+      dispatch(udpateItemVote(roomId, itemId, userId, vote)),
+  };
+};
+
+export default connect(mapState, mapDispatch)(VoteForm);

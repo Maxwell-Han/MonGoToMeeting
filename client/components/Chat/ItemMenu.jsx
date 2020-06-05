@@ -10,7 +10,7 @@ const ItemMenu = (props) => {
   const [description, setDescription] = useState("");
   const options = [
     { label: "Vote", value: "vote" },
-    { label: "Rank", value: "rank" },
+    { label: "Rating", value: "rating" },
   ];
 
   const handleAddItem = (data) => {

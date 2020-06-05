@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { udpateItemTags, removeItemTags } from "../../../store";
 import { Box, Button, Keyboard, TextInput, Text } from "grommet";
 import { FormClose } from "grommet-icons";
 
@@ -26,7 +28,14 @@ const TagEl = ({ children, onRemove, ...rest }) => {
   return tag;
 };
 
-const TagInput = ({ value = [], onAdd, onChange, onRemove, ...rest }) => {
+const TagInput = ({
+  value = [],
+  onAdd,
+  onChange,
+  onRemove,
+  itemId,
+  ...rest
+}) => {
   const [currentTag, setCurrentTag] = React.useState("");
   const [box, setBox] = React.useState();
   const boxRef = React.useCallback(setBox, []);
@@ -57,6 +66,7 @@ const TagInput = ({ value = [], onAdd, onChange, onRemove, ...rest }) => {
         margin="xxsmall"
         key={`${v}${index + 0}`}
         onRemove={() => onRemove(v)}
+        itemId={itemId}
       >
         {v}
       </TagEl>
@@ -64,7 +74,9 @@ const TagInput = ({ value = [], onAdd, onChange, onRemove, ...rest }) => {
 
   return (
     <>
-      <Box direction="row" wrap>{value.length > 0 && renderValue()}</Box>
+      <Box direction="row" wrap>
+        {value.length > 0 && renderValue()}
+      </Box>
       <Keyboard onEnter={onEnter}>
         <Box
           direction="row"
@@ -94,30 +106,41 @@ const TagInput = ({ value = [], onAdd, onChange, onRemove, ...rest }) => {
   );
 };
 
-const TagForm = () => {
+const TagForm = ({ item, currentRoom, udpateItemTags, removeItemTags }) => {
   const allSuggestions = [
     "all-star",
     "safe pair of hands",
-    "outstanding",
+    "strong",
     "needs improvement",
     "must do",
     "maybe",
     "in progress",
   ];
 
-  const [selectedTags, setSelectedTags] = useState(["foo", "sony"]);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [suggestions, setSuggestions] = useState(allSuggestions);
 
-  const onRemoveTag = (tag) => {
-    const removeIndex = selectedTags.indexOf(tag);
-    const newTags = [...selectedTags];
-    if (removeIndex >= 0) {
-      newTags.splice(removeIndex, 1);
-    }
-    setSelectedTags(newTags);
+  useEffect(() => {
+    setSelectedTags(item.tags);
+  }, [item]);
+
+  const onRemoveTag = async (tag) => {
+    console.log("CLICKED ON REMOVE ", currentRoom.roomId, item._id, tag);
+    removeItemTags(currentRoom.roomId, item._id, tag);
   };
 
-  const onAddTag = (tag) => setSelectedTags([...selectedTags, tag]);
+  const handleRemove = () => {
+    console.log(
+      "CLICKED HANDLE REEMOVE ",
+      currentRoom.roomId,
+      item._id,
+      "dummy tag"
+    );
+    removeItemTags(currentRoom.roomId, item._id, "dummy tag");
+  };
+  const onAddTag = (tag) => {
+    udpateItemTags(currentRoom.roomId, item._id, tag);
+  };
 
   const onFilterSuggestion = (value) =>
     setSuggestions(
@@ -129,6 +152,7 @@ const TagForm = () => {
 
   return (
     <Box pad="small">
+      <Button onClick={handleRemove}>Test STORE</Button>
       <TagInput
         placeholder="Add a tag..."
         suggestions={suggestions}
@@ -141,4 +165,19 @@ const TagForm = () => {
   );
 };
 
-export default TagForm;
+const mapState = (state) => {
+  return {
+    currentRoom: state.currentRoom,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    udpateItemTags: (roomId, itemId, tag) =>
+      dispatch(udpateItemTags(roomId, itemId, tag)),
+    removeItemTags: (roomId, itemId, tag) =>
+      dispatch(removeItemTags(roomId, itemId, tag)),
+  };
+};
+
+export default connect(mapState, mapDispatch)(TagForm);
