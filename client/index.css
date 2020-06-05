@@ -16,6 +16,8 @@ body {
   height: 100%;
   border: 1px solid yellow;
   overflow-y: auto;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 .room-menu-container {
@@ -47,6 +49,10 @@ body {
   justify-content: flex-end;
 }
 
+.chat-input {
+  font-weight: normal !important;
+}
+
 .chat-area-header {
   height: 2.5rem;
   padding-left: 0.6rem;
@@ -76,6 +82,8 @@ body {
 
 .contact-list-container {
   height: 100%;
+  padding-left: 2px;
+  padding-right: 2px;
   overflow-y: auto;
 }
 
@@ -159,6 +167,7 @@ body {
   max-width: 375px;
   box-sizing: border-box;
   flex: 1 1 50%;
+  padding: 3px;
 }
 
 /* FOCUS SECTION */
@@ -183,6 +192,14 @@ body {
   padding-left: 0.6rem;
 }
 
+.menu-card-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.menu-card-options > svg {
+  height: 1rem;
+}
 .room-card {
   height: 2.5rem !important;
 }

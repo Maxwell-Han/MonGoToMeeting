@@ -152,7 +152,6 @@ const TagForm = ({ item, currentRoom, udpateItemTags, removeItemTags }) => {
 
   return (
     <Box pad="small">
-      <Button onClick={handleRemove}>Test STORE</Button>
       <TagInput
         placeholder="Add a tag..."
         suggestions={suggestions}
