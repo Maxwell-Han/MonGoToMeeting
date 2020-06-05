@@ -11,7 +11,15 @@ import {
   Bottom,
 } from "react-spaces";
 import { Button, Header, Nav, Box, TextArea } from "grommet";
-import { Contacts, Rooms, Chat, Items, Focus, ClosedItems } from "../components";
+import {
+  Contacts,
+  Rooms,
+  Chat,
+  Items,
+  Focus,
+  ClosedItems,
+  TopMenu,
+} from "../components";
 import socket from "../socket";
 
 const Home = (props) => {
@@ -26,10 +34,7 @@ const Home = (props) => {
     <section>
       <ViewPort>
         <Fill>
-          <Header>
-            <Button onClick={props.handleLogout}>Log Out</Button>
-            <Button onClick={logSockets}>Print Sockets Server</Button>
-          </Header>
+          <TopMenu handleLogout={props.handleLogout} logSockets={logSockets} />
           <section className="meeting-space-container">
             <Items />
             <Focus />

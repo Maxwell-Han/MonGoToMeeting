@@ -15,7 +15,6 @@ const DragWrapper = (props) => {
   return (
     <div
       ref={drag}
-      className="temp-list-item"
       style={{
         display: isDragging ? "none" : "block",
         cursor: "move",

@@ -11,6 +11,7 @@ const ItemCard = (props) => {
       align="center"
       justify="between"
       elevation="medium"
+      className="item-card"
     >
       <p>{item.name}</p>
       <div className="item-card-display">
