@@ -1,7 +1,7 @@
 import axios from "axios";
 import history from "../history";
 import socket from "../socket";
-const cloneDeep = require("lodash/clonedeep");
+import cloneDeep from "lodash/clonedeep";
 
 // ACTION TYPES
 const GET_MEETING_ITEMS = "GET_MEETING_ITEMS";

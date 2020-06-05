@@ -28,9 +28,7 @@ const Rating = ({ item, udpateItemRating, currentRoom }) => {
           onChange={(event) => setRating(event.target.value)}
         />
       </div>
-      <Button primary onClick={handleRating}>
-        Update
-      </Button>
+      <Button primary onClick={handleRating}>Save</Button>
     </>
   );
 };
