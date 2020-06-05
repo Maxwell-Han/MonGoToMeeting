@@ -81,17 +81,21 @@ roomSchema.methods.addUser = async function (userId) {
 };
 
 roomSchema.methods.addMessage = async function (message) {
-  const newMessage = await Message.create(message);
-  this.messages.push(newMessage);
+  this.messages.push(message);
   await this.save();
-  return newMessage;
+  return message;
 };
 
 roomSchema.methods.addItem = async function (item) {
-  const newItem = await MeetingItem.create(item);
-  this.items.push(newItem);
-  await this.save();
-  return newItem;
+  try {
+    const newItem = await MeetingItem.create(item);
+    this.items.push(newItem);
+    await this.save();
+    return newItem;
+  } catch (error) {
+    console.log(error)
+  }
+
 };
 
 module.exports = mongoose.model("Room", roomSchema);

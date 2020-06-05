@@ -11,7 +11,7 @@ import {
   Bottom,
 } from "react-spaces";
 import { Button, Header, Nav, Box, TextArea } from "grommet";
-import { Contacts, Rooms, Chat, Items, Focus } from "../components";
+import { Contacts, Rooms, Chat, Items, Focus, ClosedItems } from "../components";
 import socket from "../socket";
 
 const Home = (props) => {
@@ -33,7 +33,7 @@ const Home = (props) => {
           <section className="meeting-space-container">
             <Items />
             <Focus />
-            <h4>done</h4>
+            <ClosedItems />
           </section>
         </Fill>
         <BottomResizable

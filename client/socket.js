@@ -1,9 +1,16 @@
 import io from "socket.io-client";
-import store from './store'
-import { addedMessage } from './store'
-import { addedBuddyToRoom } from './store/currentRoomUsers'
-// import { getRooms, createdRoom } from './store/rooms'
-import { gotConnectedBuddy, gotDisconnectedBuddy } from './store/onlineUsers'
+import store from "./store";
+import {
+  addedMessage,
+  addedBuddyToRoom,
+  getRooms,
+  createdRoom,
+  gotConnectedBuddy,
+  gotDisconnectedBuddy, ADD_MEETING_ITEM, addedItem,
+  haveSetFocusItem, SET_FOCUS_ITEM, haveUnsetFocusItem, UNSET_FOCUS_ITEM,
+  MARK_DONE_ITEM, markedDoneItem, UPDATE_ITEM_RATING, updatedItemRating,
+  UPDATE_ITEM_VOTE, updatedItemVote, UPDATE_ITEM_TAGS, updatedItemTag, REMOVED_ITEM_TAG, removedItemTag
+} from "./store";
 
 const socket = io(window.location.origin);
 
@@ -15,38 +22,68 @@ socket.on("ADD_MESSAGE", (message) => {
   store.dispatch(addedMessage(message));
 });
 
-socket.on('ADD_BUDDY_TO_ROOM', (buddy) => {
-  console.log('client recieved event to add buddy ', buddy)
-  console.log('socket here is ', socket.id, socket)
+socket.on("ADD_BUDDY_TO_ROOM", (buddy) => {
+  console.log("client recieved event to add buddy ", buddy);
+  console.log("socket here is ", socket.id, socket);
   // store.dispatch(addedBuddyToRoom(buddy))
+});
+
+socket.on("CREATE_ROOM", (room) => {
+  console.log("Client Socket dispatching createdRoom ", room);
+  store.dispatch(createdRoom(room));
+});
+
+socket.on("GET_ROOMS", (userId) => {
+  console.log("client recieved event to add buddy ");
+  store.dispatch(getRooms(userId));
+});
+
+socket.on("GOT_CONNECTED_BUDDY", (id) => {
+  console.log("your buddy ", id, " has just connected!");
+  store.dispatch(gotConnectedBuddy(id));
+});
+
+socket.on("GOT_DISCONNECTED_BUDDY", (id) => {
+  console.log("got disconnected buddy alert");
+  store.dispatch(gotDisconnectedBuddy(id));
+});
+
+socket.on("JOIN_ROOMS", (user) => {
+  socket.emit("GET_USER", user);
+  console.log(user, " is going to join the new rooom they were added to");
+});
+
+socket.on('DISPATCH_ITEM_ACTION', (itemOrItems, actionType) => {
+  switch (actionType) {
+    case ADD_MEETING_ITEM:
+      store.dispatch(addedItem(itemOrItems))
+      break
+    case SET_FOCUS_ITEM:
+      store.dispatch(haveSetFocusItem(itemOrItems));
+      break;
+    case UNSET_FOCUS_ITEM:
+      console.log('UNSET FOCUS ITEM')
+      store.dispatch(haveUnsetFocusItem(itemOrItems))
+      break
+    case MARK_DONE_ITEM:
+      store.dispatch(markedDoneItem(itemOrItems))
+      break
+    case UPDATE_ITEM_RATING:
+      store.dispatch(updatedItemRating(itemOrItems))
+      break
+    case UPDATE_ITEM_VOTE:
+      store.dispatch(updatedItemVote(itemOrItems))
+      break
+    case UPDATE_ITEM_TAGS:
+      store.dispatch(updatedItemTag(itemOrItems))
+      break
+    case REMOVED_ITEM_TAG:
+      store.dispatch(removedItemTag(itemOrItems))
+      break
+    default:
+      break;
+  }
 })
-
-socket.on('CREATE_ROOM', room => {
-  console.log('Client Socket dispatching createdRoom ', room)
-  store.dispatch(createdRoom(room))
-})
-
-socket.on('GET_ROOMS', (userId) => {
-  console.log('client recieved event to add buddy ')
-  store.dispatch(getRooms(userId))
-})
-
-socket.on('GOT_CONNECTED_BUDDY', id => {
-  console.log('your buddy ', id , ' has just connected!')
-  store.dispatch(gotConnectedBuddy(id))
-})
-
-socket.on('GOT_DISCONNECTED_BUDDY', id => {
-  console.log('got disconnected buddy alert')
-  store.dispatch(gotDisconnectedBuddy(id))
-})
-
-socket.on('JOIN_ROOMS', user => {
-  socket.emit('GET_USER', user)
-  console.log(user, ' is going to join the new rooom they were added to')
-})
-
-
 
 export default socket;
 

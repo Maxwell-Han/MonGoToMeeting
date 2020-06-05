@@ -5,3 +5,4 @@ export { default as Rooms } from "./Rooms";
 export { default as Chat } from "./Chat";
 export { default as Items } from "./Items";
 export { default as Focus } from "./Focus";
+export { default as ClosedItems } from "./ClosedItems";

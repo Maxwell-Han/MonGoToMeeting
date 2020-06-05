@@ -29,35 +29,127 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.post("/:roomId/items/:itemId/tag/delete", async (req, res, next) => {
+  try {
+    const { roomId, itemId } = req.params;
+    const {tag} = req.body
+    console.log('DELETE TAG ROUTE ', roomId, itemId, tag)
+    console.log('REQ BODY ', req.body)
+    const room = await Room.findOne({ _id: roomId });
+    const item = room.items.id(itemId)
+    if(item.tags.includes(tag)) {
+      item.tags = item.tags.filter(t => t !== tag)
+    }
+    await room.save()
+    res.json(item);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.post("/:roomId/items", async (req, res, next) => {
   console.log("POST api/rooms/roomId/items: creating new meeting item");
   try {
     const roomId = req.params.roomId;
     const room = await Room.findById(roomId);
-    const { name, description, status } = req.body;
-    const newItem = await room.addItem({ roomId, name, description, status });
+    const { name, description, status, defaultView } = req.body;
+    const newItem = await room.addItem({
+      roomId,
+      name,
+      description,
+      status,
+      defaultView: defaultView === "" ? "rating" : defaultView,
+    });
     res.json(newItem);
   } catch (err) {
     next(err);
   }
 });
 
-router.put("/:roomId/items/:itemId", async (req, res, next) => {
-  console.log("PUT api/rooms/roomId/items/:itemId ");
+router.put("/:roomId/items/:itemId/rating", async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
     const itemId = req.params.itemId;
-    const _room = await Room.findById(roomId).update(
+
+    await Room.findOne({ _id: roomId }).findOneAndUpdate(
+      { "items._id": itemId },
+      {
+        $set: {
+          "items.$.rating": req.body.rating,
+        },
+      },
+      { new: true }
+    );
+    const { items } = await Room.findOne(
+      { _id: roomId, "items._id": itemId },
+      { "items.$": 1 }
+    );
+    res.json(items[0]);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put("/:roomId/items/:itemId/vote", async (req, res, next) => {
+  try {
+    const { roomId, itemId } = req.params;
+    const { userId, vote } = req.body;
+    console.log(roomId, itemId, userId, vote);
+    const room = await Room.findOne({ _id: roomId });
+    const item = room.items.id(itemId)
+    if(vote === 'yes') {
+      if(!item.votesYes.includes(userId)) item.votesYes.push(userId)
+      if(item.votesNo.includes(userId)) {
+        item.votesNo = item.votesNo.filter(id => id !== userId)
+      }
+    } else {
+      if(!item.votesNo.includes(userId)) item.votesNo.push(userId)
+      if(item.votesYes.includes(userId)) {
+        item.votesYes = item.votesYes.filter(id => id !== userId)
+      }
+    }
+    await room.save()
+    res.json(item);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put("/:roomId/items/:itemId/tag", async (req, res, next) => {
+  try {
+    const { roomId, itemId } = req.params;
+    const { tag } = req.body;
+    const room = await Room.findOne({ _id: roomId });
+    const item = room.items.id(itemId)
+    if(item.tags.length === 5 || item.tags.includes(tag)) {
+      return res.json(item)
+    }else {
+      item.tags.push(tag)
+    }
+    await room.save()
+    res.json(item);
+  } catch (err) {
+    next(err);
+  }
+});
+
+
+router.put("/:roomId/items/:itemId", async (req, res, next) => {
+  console.log("PUT api/rooms/roomId/items/:itemId ", req.body.status);
+  try {
+    const roomId = req.params.roomId;
+    const itemId = req.params.itemId;
+    const _room = await Room.findById(roomId).findOneAndUpdate(
       { "items._id": itemId },
       {
         $set: {
           "items.$.inFocus": req.body.inFocus,
-          "items.$.status": req.body.status || "open",
+          "items.$.status": req.body.status ? req.body.status : "open",
         },
       }
     );
     const { items } = await Room.findById(roomId).select("items");
-    res.json(items);
+    res.json(toObj(items));
   } catch (err) {
     next(err);
   }
@@ -79,7 +171,7 @@ router.get("/:roomId/users", async (req, res, next) => {
 router.delete("/:roomId", async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
-    await Room.deleteRoom(roomId)
+    await Room.deleteRoom(roomId);
     res.sendStatus(200);
   } catch (err) {
     next(err);
@@ -95,12 +187,14 @@ router.delete("/:roomId/:userId", async (req, res, next) => {
       { _id: roomId },
       { $pull: { users: userId } },
       { new: true }
-    ).select("users").populate('users');
+    )
+      .select("users")
+      .populate("users");
     await User.findOneAndUpdate(
       { _id: userId },
       { $pull: { rooms: roomId } },
       { new: true }
-    )
+    );
     res.json(toObj(users));
   } catch (err) {
     next(err);

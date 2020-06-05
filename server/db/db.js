@@ -7,7 +7,7 @@ const dbName = "mongotomeeting"
 // Connection URL local
 const url =
   process.env.NODE_ENV === "development"
-    ? `mongodb://localhost/${dbName}`
+    ? `mongodb://localhost:27017/${dbName}`
     : process.env.MONGODB_URL;
 
 const db = mongoose.connect(url, { useNewUrlParser: true });
