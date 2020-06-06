@@ -12,15 +12,15 @@ const MessageCard = (props) => {
     mins = mins < 10 ? `0${mins}` : mins;
     return `${hrs}:${mins} ${meridiem}`;
   };
-  const userInitial = props.userName[0].toUpperCase()
+  const userInitial = props.userName[0].toUpperCase();
   const getAccent = () => {
-    let code = userInitial.charCodeAt()
-    let accent
-    if(code < 112) accent = "neutral-2"
-    else if(code < 119) accent = "accent-3"
-    else  accent = "accent-4"
-    return accent
-  }
+    let code = userInitial.charCodeAt();
+    let accent;
+    if (code < 112) accent = "neutral-2";
+    else if (code < 119) accent = "accent-3";
+    else accent = "accent-4";
+    return accent;
+  };
   return (
     <Box
       fill
@@ -33,7 +33,12 @@ const MessageCard = (props) => {
       className="message-card-container"
     >
       <Grommet theme={grommet}>
-        <Avatar background={getAccent()} size="xsmall" round="xxsmall">
+        <Avatar
+          background={getAccent()}
+          size="xsmall"
+          round="xxsmall"
+          style={{ fontSize: "16px" }}
+        >
           {userInitial}
         </Avatar>
       </Grommet>

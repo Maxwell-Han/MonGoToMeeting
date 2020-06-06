@@ -28,7 +28,7 @@ const ItemListDropArea = (props) => {
     <div
       ref={drop}
       className="items-list"
-      style={{ background: !!isOver ? "yellow" : "" }}
+      style={{ background: !!isOver ? "#F2F2F2" : "" }}
     >
       {props.children}
     </div>
