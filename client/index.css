@@ -57,6 +57,14 @@ body {
   font-weight: normal !important;
 }
 
+.typing-display {
+  font-size: 12px;
+  padding-left: 6px;
+  height: 12px;
+  box-sizing: border-box;
+  line-height: normal;
+}
+
 .chat-area-header {
   height: 2.5rem;
   padding-left: 0.6rem;

@@ -71,6 +71,15 @@ module.exports = (io) => {
       io.to(roomId).emit("DISPATCH_ITEM_ACTION", itemOrItems, actionType);
     });
 
+    // handle typing
+    socket.on('TYPING', (roomId, userName) => {
+      io.to(roomId).emit('TYPING', roomId, userName)
+    })
+
+    socket.on('STOP_TYPING', (roomId, userName) => {
+      io.to(roomId).emit('STOP_TYPING', roomId, userName)
+    })
+
     socket.on("disconnect", async () => {
       const onlineIds = Object.values(onlineUsers);
       let userId;

@@ -24,7 +24,7 @@ import store, {
   removedItemTag,
   removeRoom,
   resettedBuddies,
-  resettedItems,
+  resettedItems, didType, stoppedTyping
 } from "./store";
 
 const socket = io(window.location.origin);
@@ -75,6 +75,14 @@ socket.on("GOT_DISCONNECTED_BUDDY", (id) => {
 socket.on("JOIN_ROOMS", (user) => {
   socket.emit("GET_USER", user);
   console.log(user, " is going to join the new rooom they were added to");
+});
+
+socket.on("TYPING", (roomId, userName) => {
+  store.dispatch(didType(userName))
+});
+
+socket.on("STOP_TYPING", (roomId, userName) => {
+  store.dispatch(stoppedTyping(userName))
 });
 
 socket.on("DISPATCH_ITEM_ACTION", (itemOrItems, actionType) => {
