@@ -6,9 +6,17 @@ const TopMenu = (props) => {
   return (
     <Header background="brand" elevation="medium">
       <div className="social-icons">
-        <Anchor icon={<Globe />} href="#" />
-        <Anchor icon={<Github />} href="#" />
-        <Anchor icon={<Linkedin />} href="#" />
+        <Anchor icon={<Globe />} href="https://maxhan.dev" target="_blank" />
+        <Anchor
+          icon={<Github />}
+          href="https://github.com/Maxwell-Han/MonGoToMeeting"
+          target="_blank"
+        />
+        <Anchor
+          icon={<Linkedin />}
+          href="http://linkedin.com/in/maxwellhan"
+          target="_blank"
+        />
       </div>
       <Text weight="bold">MONGOTOMEETING</Text>
       <Button
