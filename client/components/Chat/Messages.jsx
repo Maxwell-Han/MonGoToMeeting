@@ -36,6 +36,7 @@ const Messages = (props) => {
             <MessageCard
               key={message._id}
               content={message.content}
+              createdAt={message.createdAt}
               userName={message.userName}
             />
           ))}

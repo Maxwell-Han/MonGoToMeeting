@@ -81,9 +81,10 @@ roomSchema.methods.addUser = async function (userId) {
 };
 
 roomSchema.methods.addMessage = async function (message) {
-  this.messages.push(message);
+  let newMessage = this.messages.create(message)
+  this.messages.push(newMessage);
   await this.save();
-  return message;
+  return newMessage;
 };
 
 roomSchema.methods.addItem = async function (item) {

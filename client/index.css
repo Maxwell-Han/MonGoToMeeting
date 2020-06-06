@@ -59,6 +59,19 @@ body {
   padding-right: 0.6rem;
 }
 
+.message-display{
+  display: flex;
+  align-items: baseline;
+}
+
+.message-user-name {
+  padding-right: 3px;
+}
+
+#chat-date {
+  font-size: 0.8rem;
+}
+
 /* CONTACTS */
 .contacts-container {
   height: 100%;

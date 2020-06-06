@@ -7,3 +7,6 @@ secrets.js
 .DS_Store
 npm-dubg.log
 yarn-error.log
+
+script/seed.js
+script/seedDeployed.js

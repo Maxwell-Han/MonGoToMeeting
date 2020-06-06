@@ -7,7 +7,9 @@ import { Clear, Checkmark } from "grommet-icons";
 const VoteForm = ({ currentRoom, item, udpateItemVote, user }) => {
   const votesYes = item.votesYes.length;
   const votesNo = item.votesNo.length;
-  const percentVal = Math.floor(votesYes / (votesYes + votesNo) * 100)
+  const percentVal = !item.votesYes.length
+    ? 0
+    : Math.floor((votesYes / (votesYes + votesNo)) * 100);
   const handleVote = (vote) => {
     udpateItemVote(currentRoom.roomId, item._id, user._id, vote);
   };
@@ -30,7 +32,7 @@ const VoteForm = ({ currentRoom, item, udpateItemVote, user }) => {
         />
         <Box direction="row" align="center" pad={{ bottom: "xxsmall" }}>
           <Text size="large" weight="bold">
-            {percentVal}
+            {parseInt(percentVal)}
           </Text>
           <Text size="small">%</Text>
         </Box>

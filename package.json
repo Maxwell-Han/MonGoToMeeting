@@ -11,6 +11,7 @@
     "build-client": "webpack",
     "build-client-watch": "webpack -w",
     "heroku-token": "script/encrypt-heroku-auth-token.js",
+    "seed": "node script/seedDeployed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
