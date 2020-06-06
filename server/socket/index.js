@@ -7,13 +7,13 @@ module.exports = (io) => {
   io.on("connection", (socket) => {
     console.log(socket.id, " has made a persistent connection to the server!");
 
+    // debugging
     socket.on("LOG_STATE", () => {
       console.log("ONLINE USERS ARE ", onlineUsers);
       console.log("ROOMS ARE ", socket.rooms);
     });
 
     socket.on("ADD_MESSAGE", (message) => {
-      console.log("SERVER: socket got message: " + message);
       io.to(message.roomId).emit("ADD_MESSAGE", message);
     });
 
@@ -22,41 +22,44 @@ module.exports = (io) => {
       socket.emit("CREATE_ROOM", room);
       if (ownerId in onlineUsers) {
         socket.join(room._id);
-        console.log("owner is joining newly created room ", room._id);
       }
-      console.log("Server socket emitting create-room ", room);
     });
 
     socket.on("ADD_BUDDY_TO_ROOM", (buddy) => {
       io.emit("ADD_BUDDY_TO_ROOM", buddy);
       // handle so those that are added are connected to new room
       const userId = buddy._id;
-      console.log("client socket is ", socket, socket.id);
       if (userId in onlineUsers) {
         io.to(onlineUsers[userId]).emit("GET_ROOMS", userId);
         io.to(onlineUsers[userId]).emit("JOIN_ROOMS", buddy);
-        const addedBuddySocket = onlineUsers[userId];
-        addedBuddySocket;
       }
     });
 
+    socket.on('REMOVED_BUDDY_FROM_ROOM', (roomId, userId) => {
+      console.log('removing buddy from room')
+      if(userId in onlineUsers) {
+        io.to(onlineUsers[userId]).emit("GET_ROOMS", userId)
+        // remove current room if buddy has it open
+        io.to(onlineUsers[userId]).emit("REMOVE_CURRENT_ROOM", roomId)
+      }
+    })
+
     socket.on("GET_USER", (user) => {
-      console.log("server socket got user ", user);
       if (!(user._id in onlineUsers)) {
         onlineUsers[user._id] = socket.id;
       }
       const buddies = user.buddies || [];
-      buddies.forEach((id) => {
-        if (!(id in onlineUsers)) return;
-        const buddySocket = onlineUsers[id];
+      buddies.forEach((buddyId) => {
+        if (!(buddyId in onlineUsers)) return;
+        const buddySocket = onlineUsers[buddyId];
         console.log("telling your buddies you are online ", buddySocket);
         io.to(buddySocket).emit("GOT_CONNECTED_BUDDY", user._id);
+        //add buddy to list of user's online buddies
+        io.to(onlineUsers[user._id]).emit("GOT_CONNECTED_BUDDY", buddyId);
       });
 
-      console.log("socket online users show as ", onlineUsers);
       if (!user.rooms) return;
       user.rooms.forEach((room) => {
-        console.log("user is in room ", room);
         socket.join(room);
         socket.emit("JOINED_ROOM", room);
         console.log(user.userName, " has joined rooms ", socket.rooms);
@@ -69,7 +72,6 @@ module.exports = (io) => {
     });
 
     socket.on("disconnect", async () => {
-      console.log("SOCKET SERVER LINE 63");
       const onlineIds = Object.values(onlineUsers);
       let userId;
       for (let k in onlineUsers) {

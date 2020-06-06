@@ -1,6 +1,7 @@
 import React from "react";
 import { Anchor, Button, Header, Text } from "grommet";
 import { Logout, Globe, Linkedin, Github } from "grommet-icons";
+import socket from "../../socket";
 
 const TopMenu = (props) => {
   return (
@@ -24,6 +25,7 @@ const TopMenu = (props) => {
           target="_blank"
           hoverIndicator
         />
+        <Button label="log sockets" onClick={() => socket.emit("LOG_STATE")} />
       </div>
       <Text weight="bold">MONGOTOMEETING</Text>
       <Button

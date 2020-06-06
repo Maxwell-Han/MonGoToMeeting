@@ -25,7 +25,7 @@ const MenuCard = ({
         {!Array.isArray(statusIcon) && onlineOrCount ? statusIcon : null}
         <Button
           icon={buttonIcon}
-          disabled={onlineOrCount}
+          // disabled={onlineOrCount}
           onClick={() => buttonHandler(...handlerArgs)}
         />
       </div>
