@@ -4,16 +4,15 @@ import { udpateItemRating } from "../../../store";
 import { Button, TextInput } from "grommet";
 
 const Rating = ({ item, udpateItemRating, currentRoom }) => {
-
-  const [rating, setRating] = useState('');
+  const [rating, setRating] = useState("");
 
   useEffect(() => {
     const defaultRating = item.rating ? item.rating : "TBD";
-    setRating(defaultRating)
-  }, [item])
+    setRating(defaultRating);
+  }, [item]);
 
   const handleRating = () => {
-    udpateItemRating(currentRoom.roomId, item._id, rating)
+    udpateItemRating(currentRoom.roomId, item._id, rating);
   };
 
   return (
@@ -28,7 +27,9 @@ const Rating = ({ item, udpateItemRating, currentRoom }) => {
           onChange={(event) => setRating(event.target.value)}
         />
       </div>
-      <Button primary onClick={handleRating}>Save</Button>
+      <Button primary onClick={handleRating} style={{ padding: "0 5px 0 5px" }}>
+        Save
+      </Button>
     </>
   );
 };

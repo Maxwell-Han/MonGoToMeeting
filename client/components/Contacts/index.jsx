@@ -34,7 +34,7 @@ const Contacts = (props) => {
     <section className="contacts-container">
       <Header background="brand" elevation="small" className="chat-area-header">
         <h3>Contacts</h3>
-        <Button plain icon={<UserAdd />} onClick={onOpen} />
+        <Button plain icon={<UserAdd />} onClick={onOpen} hoverIndicator />
       </Header>
       <div className="contact-list-container">
         <Box gap="xxsmall" direction="column" elevation="medium">
@@ -50,7 +50,7 @@ const Contacts = (props) => {
                       buttonHandler={deleteUserFromRoom}
                       buttonIcon={<FormClose />}
                       handlerArgs={[currentRoom.roomId, id]}
-                      statusIcon={[<StatusInfoSmall />, <StatusPlaceholder />]}
+                      statusIcon={[<StatusInfoSmall color="focus"/>, <StatusPlaceholder />]}
                     />
                   );
               })}

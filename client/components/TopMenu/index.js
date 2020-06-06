@@ -1,23 +1,24 @@
 import React from "react";
 import { Anchor, Button, Header, Text } from "grommet";
 import { Logout, Globe, Linkedin, Github } from "grommet-icons";
+import socket from "../../socket";
+import SocialIcons from "./SocialIcons";
 
 const TopMenu = (props) => {
   return (
     <Header background="brand" elevation="medium">
-      <div className="social-icons">
-        <Anchor icon={<Globe />} href="#" />
-        <Anchor icon={<Github />} href="#" />
-        <Anchor icon={<Linkedin />} href="#" />
-      </div>
-      <Text weight="bold">MONGOTOMEETING</Text>
-      <Button
-        plain
-        icon={<Logout />}
-        label="Log Out"
-        onClick={props.handleLogout}
-        style={{ paddingRight: "3px" }}
-      />
+      <section className="top-header-grid">
+        <SocialIcons />
+        <Text weight="bold">MONGOTOMEETING</Text>
+        <Button
+          plain
+          icon={<Logout />}
+          label="Log Out"
+          onClick={props.handleLogout}
+          hoverIndicator
+          className="logout-button"
+        />
+      </section>
     </Header>
   );
 };

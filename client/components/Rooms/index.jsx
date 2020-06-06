@@ -29,7 +29,7 @@ const Rooms = (props) => {
     deleteRoom,
     getMessages,
     getMembers,
-    getItems
+    getItems,
   } = props;
   const [open, setOpen] = useState();
   const [roomName, setRoomName] = useState("");
@@ -53,7 +53,6 @@ const Rooms = (props) => {
     props.setRoom(roomId);
     getMessages(roomId);
     getMembers(roomId);
-    // await this.props.gotRoomId(roomId);
     getItems(roomId);
   };
 
@@ -66,7 +65,7 @@ const Rooms = (props) => {
     <section className="roomContainer">
       <Header background="brand" elevation="small" className="chat-area-header">
         <h4>Rooms Menu</h4>
-        <Button plain icon={<AddCircle />} onClick={onOpen} />
+        <Button plain icon={<AddCircle />} onClick={onOpen} hoverIndicator />
       </Header>
       <div className="room-list-container">
         <Box gap="xxsmall" direction="column">
@@ -93,6 +92,7 @@ const Rooms = (props) => {
                     plain
                     icon={<FormClose />}
                     onClick={() => deleteRoom(id)}
+                    hoverIndicator
                   ></Button>
                 </div>
               </Box>

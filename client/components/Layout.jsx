@@ -47,14 +47,14 @@ const Home = (props) => {
           onResizeEnd={(newSize) => {
             setSize(newSize);
           }}
+          style={{borderTop: "2px solid #999999"}}
         >
-          <LeftResizable size={360} style={{ border: "2px solid blue" }}>
+          <LeftResizable size={360}>
             <Fill>
               <Rooms />
             </Fill>
             <BottomResizable
               size={200}
-              style={{ border: "2px solid aliceblue" }}
               trackSize={true}
               maximumSize={Math.floor(size) - 50}
               minimumSize={100}

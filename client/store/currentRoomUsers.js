@@ -7,6 +7,7 @@ import socket from "../socket";
 const GET_ROOM_MEMBERS = "GET_ROOM_MEMBERS";
 const ADD_BUDDY_TO_ROOM = "ADD_BUDDY_TO_ROOM";
 const DELETE_USER_FROM_ROOM = "DELETE_USER_FROM_ROOM";
+const RESET_CURRENT_BUDDIES = "RESET_CURRENT_BUDDIES";
 
 // ACTION CREATORS
 const gotMembers = (members) => ({ type: GET_ROOM_MEMBERS, members });
@@ -15,6 +16,10 @@ export const addedBuddyToRoom = (buddy) => ({ type: ADD_BUDDY_TO_ROOM, buddy });
 const deletedUserFromRoom = (users) => ({
   type: DELETE_USER_FROM_ROOM,
   users,
+});
+
+export const resettedBuddies = () => ({
+  type: RESET_CURRENT_BUDDIES,
 });
 
 // THUNK CREATORS
@@ -43,8 +48,10 @@ export const addBuddyToRoom = (roomId, buddyId) => async (dispatch) => {
 
 export const deleteUserFromRoom = (roomId, userId) => async (dispatch) => {
   try {
-    const { data: users } = await axios.delete(`/api/rooms/${roomId}/${userId}`);
-    console.log('GOT USERS are ', users)
+    const { data: users } = await axios.delete(
+      `/api/rooms/${roomId}/${userId}`
+    );
+    socket.emit("REMOVED_BUDDY_FROM_ROOM", roomId, userId);
     dispatch(deletedUserFromRoom(users));
   } catch (err) {
     console.error(err);
@@ -62,7 +69,9 @@ export default function (state = defaultMembers, action) {
     case ADD_BUDDY_TO_ROOM:
       return { ...state, [action.buddy._id]: action.buddy };
     case DELETE_USER_FROM_ROOM:
-      return action.users
+      return action.users;
+    case RESET_CURRENT_BUDDIES:
+      return defaultMembers;
     default:
       return state;
   }

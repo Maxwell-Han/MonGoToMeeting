@@ -159,6 +159,7 @@ const TagForm = ({ item, currentRoom, udpateItemTags, removeItemTags }) => {
         onRemove={onRemoveTag}
         onAdd={onAddTag}
         onChange={({ target: { value } }) => onFilterSuggestion(value)}
+        style={{height: "1rem"}}
       />
     </Box>
   );

@@ -1,15 +1,30 @@
 import io from "socket.io-client";
-import store from "./store";
-import {
+import store, {
   addedMessage,
   addedBuddyToRoom,
   getRooms,
   createdRoom,
   gotConnectedBuddy,
-  gotDisconnectedBuddy, ADD_MEETING_ITEM, addedItem,
-  haveSetFocusItem, SET_FOCUS_ITEM, haveUnsetFocusItem, UNSET_FOCUS_ITEM,
-  MARK_DONE_ITEM, markedDoneItem, UPDATE_ITEM_RATING, updatedItemRating,
-  UPDATE_ITEM_VOTE, updatedItemVote, UPDATE_ITEM_TAGS, updatedItemTag, REMOVED_ITEM_TAG, removedItemTag
+  gotDisconnectedBuddy,
+  ADD_MEETING_ITEM,
+  addedItem,
+  haveSetFocusItem,
+  SET_FOCUS_ITEM,
+  haveUnsetFocusItem,
+  UNSET_FOCUS_ITEM,
+  MARK_DONE_ITEM,
+  markedDoneItem,
+  UPDATE_ITEM_RATING,
+  updatedItemRating,
+  UPDATE_ITEM_VOTE,
+  updatedItemVote,
+  UPDATE_ITEM_TAGS,
+  updatedItemTag,
+  REMOVED_ITEM_TAG,
+  removedItemTag,
+  removeRoom,
+  resettedBuddies,
+  resettedItems, didType, stoppedTyping
 } from "./store";
 
 const socket = io(window.location.origin);
@@ -43,6 +58,15 @@ socket.on("GOT_CONNECTED_BUDDY", (id) => {
   store.dispatch(gotConnectedBuddy(id));
 });
 
+socket.on("REMOVE_CURRENT_ROOM", (roomId) => {
+  let currentRoomId = store.getState().currentRoom.roomId;
+  if (currentRoomId === roomId) {
+    store.dispatch(resettedBuddies());
+    store.dispatch(resettedItems());
+  }
+  store.dispatch(removeRoom(roomId));
+});
+
 socket.on("GOT_DISCONNECTED_BUDDY", (id) => {
   console.log("got disconnected buddy alert");
   store.dispatch(gotDisconnectedBuddy(id));
@@ -53,37 +77,45 @@ socket.on("JOIN_ROOMS", (user) => {
   console.log(user, " is going to join the new rooom they were added to");
 });
 
-socket.on('DISPATCH_ITEM_ACTION', (itemOrItems, actionType) => {
+socket.on("TYPING", (roomId, userName) => {
+  store.dispatch(didType(userName))
+});
+
+socket.on("STOP_TYPING", (roomId, userName) => {
+  store.dispatch(stoppedTyping(userName))
+});
+
+socket.on("DISPATCH_ITEM_ACTION", (itemOrItems, actionType) => {
   switch (actionType) {
     case ADD_MEETING_ITEM:
-      store.dispatch(addedItem(itemOrItems))
-      break
+      store.dispatch(addedItem(itemOrItems));
+      break;
     case SET_FOCUS_ITEM:
       store.dispatch(haveSetFocusItem(itemOrItems));
       break;
     case UNSET_FOCUS_ITEM:
-      console.log('UNSET FOCUS ITEM')
-      store.dispatch(haveUnsetFocusItem(itemOrItems))
-      break
+      console.log("UNSET FOCUS ITEM");
+      store.dispatch(haveUnsetFocusItem(itemOrItems));
+      break;
     case MARK_DONE_ITEM:
-      store.dispatch(markedDoneItem(itemOrItems))
-      break
+      store.dispatch(markedDoneItem(itemOrItems));
+      break;
     case UPDATE_ITEM_RATING:
-      store.dispatch(updatedItemRating(itemOrItems))
-      break
+      store.dispatch(updatedItemRating(itemOrItems));
+      break;
     case UPDATE_ITEM_VOTE:
-      store.dispatch(updatedItemVote(itemOrItems))
-      break
+      store.dispatch(updatedItemVote(itemOrItems));
+      break;
     case UPDATE_ITEM_TAGS:
-      store.dispatch(updatedItemTag(itemOrItems))
-      break
+      store.dispatch(updatedItemTag(itemOrItems));
+      break;
     case REMOVED_ITEM_TAG:
-      store.dispatch(removedItemTag(itemOrItems))
-      break
+      store.dispatch(removedItemTag(itemOrItems));
+      break;
     default:
       break;
   }
-})
+});
 
 export default socket;
 

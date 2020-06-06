@@ -2,70 +2,58 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { auth } from "../store";
-import { Button, Box, FormField, TextInput } from "grommet";
+import { Button, Box, FormField, TextInput, Text } from "grommet";
 import { Google } from "grommet-icons";
 import history from "../history";
+import SocialIcons from "./TopMenu/SocialIcons";
 
 const AuthForm = (props) => {
-  console.log("on authform props are ", props);
   const { name, displayName, handleSubmit, error } = props;
   const message =
     name === "login" ? "Log in as an existing user" : "Sign up as a new user";
   return (
-    <div>
+    <section className="auth-container">
+      <p className="title">
+        <Text color="brand" className="title-text">
+          MONGOTOMEETING
+        </Text>
+      </p>
       <Box
-        pad="large"
+        pad="small"
         align="center"
-        background={{ color: "light-2", opacity: "strong" }}
         round
         gap="small"
-        width="large"
+        background={{ color: "light-2", opacity: "strong" }}
+        style={{ width: "fit-content" }}
       >
-        <Box
-          border
-          round
-          gap="small"
-          pad="small"
-          hoverIndicator
-          onClick={() => history.push("/signup")}
-        >
-          Sign Up
+        <Box direction="row" className="auth-selection">
+          <Button
+            hoverIndicator
+            active={displayName === "Sign Up"}
+            onClick={() => history.push("/signup")}
+            label="Sign Up"
+          />
+          <Button
+            hoverIndicator
+            active={displayName === "Login"}
+            onClick={() => history.push("/login")}
+            label="Log In"
+          />
         </Box>
-        <Box
-          border
-          round
-          gap="small"
-          pad="small"
-          hoverIndicator
-          onClick={() => history.push("/login")}
-        >
-          Log In
-        </Box>
-        <h4>Welcome to MonGoToMeeting!</h4>
         <Button
           icon={<Google color="plain" />}
           label="Log in with Google"
           href="/auth/google"
+          color="active"
+          primary={true}
         />
         <div style={{ display: "flex" }}>
-          <hr
-            style={{
-              width: 130,
-              borderColor: "#0C62C1",
-              display: "inline-block",
-            }}
-          />{" "}
+          <hr className="horizontalRule" />
           <span>OR</span>
-          <hr
-            style={{
-              width: 130,
-              borderColor: "#0C62C1",
-              display: "inline-block",
-            }}
-          />
+          <hr className="horizontalRule" />
         </div>
-        <p>{message}</p>
-        <form onSubmit={handleSubmit} name={name}>
+        <div>{message}</div>
+        <form onSubmit={handleSubmit} name={name} className="auth-form">
           {name === "signup" && (
             <FormField
               name="userName"
@@ -79,24 +67,26 @@ const AuthForm = (props) => {
           <FormField name="email" htmlfor="email" label="Email" required>
             <TextInput id="email" name="email" />
           </FormField>
-          <FormField name="password" htmlfor="password" label="password">
+          <FormField name="password" htmlfor="password" label="Password">
             <TextInput id="password" name="password" type="password" />
           </FormField>
-          <div>
-            <Button
-              color="light-2"
-              plain={false}
-              hoverIndicator
-              primary
-              type="submit"
-            >
-              {displayName}
-            </Button>
-          </div>
+
+          <Button
+            color="accent-4"
+            plain={false}
+            hoverIndicator
+            primary
+            type="submit"
+          >
+            {displayName}
+          </Button>
           {error && error.response && <div> {error.response.data} </div>}
         </form>
       </Box>
-    </div>
+      <div>
+        <SocialIcons />
+      </div>
+    </section>
   );
 };
 
@@ -122,7 +112,7 @@ const mapDispatch = (dispatch) => {
       evt.preventDefault();
       console.log("handling submit ", evt.target.name);
       const formName = evt.target.name;
-      const userName = formName === 'login' ? '' : evt.target.userName.value
+      const userName = formName === "login" ? "" : evt.target.userName.value;
       const email = evt.target.email.value;
       const password = evt.target.password.value;
       dispatch(auth(userName, email, password, formName));

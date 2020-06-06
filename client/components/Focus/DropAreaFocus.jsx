@@ -28,7 +28,11 @@ const DropAreaFocus = (props) => {
   });
 
   return (
-    <div ref={drop} className="focus-items-container">
+    <div
+      ref={drop}
+      className="focus-items-container"
+      style={{ background: !!isOver ? "#2AD2C9" : "" }}
+    >
       {props.children}
     </div>
   );
