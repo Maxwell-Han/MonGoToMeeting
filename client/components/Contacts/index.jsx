@@ -34,7 +34,7 @@ const Contacts = (props) => {
     <section className="contacts-container">
       <Header background="brand" elevation="small" className="chat-area-header">
         <h3>Contacts</h3>
-        <Button plain icon={<UserAdd />} onClick={onOpen} />
+        <Button plain icon={<UserAdd />} onClick={onOpen} hoverIndicator />
       </Header>
       <div className="contact-list-container">
         <Box gap="xxsmall" direction="column" elevation="medium">

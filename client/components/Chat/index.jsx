@@ -46,6 +46,7 @@ const Chat = (props) => {
               borderBottom: currentTab["messages"] ? "3px solid aliceblue" : "",
             }}
             focusIndicator={false}
+            hoverIndicator
           >
             Messages
           </Button>
@@ -55,6 +56,7 @@ const Chat = (props) => {
               borderBottom: currentTab["items"] ? "3px solid aliceblue" : "",
             }}
             focusIndicator={false}
+            hoverIndicator
           >
             Items
           </Button>
