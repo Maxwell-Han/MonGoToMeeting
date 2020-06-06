@@ -257,3 +257,38 @@ body {
   justify-self: flex-end;
   padding-right: 1rem;
 }
+
+/* AUTH */
+.horizontalRule {
+  width: 130px;
+  border-radius: 5px;
+  background-color: #788e86;
+}
+
+.title {
+  text-align: center;
+}
+
+.title-text {
+  font-size: 5rem !important ;
+  font-weight: 800 !important ;
+}
+
+.auth-selection {
+  width: 14rem;
+  justify-content: space-between;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 4rem;
+}

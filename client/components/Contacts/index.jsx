@@ -50,7 +50,7 @@ const Contacts = (props) => {
                       buttonHandler={deleteUserFromRoom}
                       buttonIcon={<FormClose />}
                       handlerArgs={[currentRoom.roomId, id]}
-                      statusIcon={[<StatusInfoSmall />, <StatusPlaceholder />]}
+                      statusIcon={[<StatusInfoSmall color="focus"/>, <StatusPlaceholder />]}
                     />
                   );
               })}
