@@ -9,15 +9,19 @@ body {
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid red;
 }
 
 .room-list-container {
   height: 100%;
-  border: 1px solid yellow;
   overflow-y: auto;
   padding-left: 2px;
   padding-right: 2px;
+}
+
+.room-list-container,
+.contact-list-container {
+  border-right: 2px solid #999999;
+  border-radius: 5px;
 }
 
 .room-menu-container {
@@ -59,7 +63,7 @@ body {
   padding-right: 0.6rem;
 }
 
-.message-display{
+.message-display {
   display: flex;
   align-items: baseline;
 }
@@ -113,7 +117,7 @@ body {
   flex-direction: column;
   flex-grow: 1;
   overflow-y: scroll;
-  border: 2px solid yellow;
+  padding: 0.2rem;
 }
 
 .messages-container > :first-child {
@@ -123,16 +127,15 @@ body {
 
 /* MEETING SPACE */
 .meeting-space-container {
-  border: 2px solid orange;
   height: 96%;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
-  padding-bottom: 0.5rem;
+  padding-bottom: 1.3rem;
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 25% 1fr 25%;
   justify-items: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .items-container,
@@ -166,7 +169,7 @@ body {
 /* CURRENT ITEMS */
 .focus-items-container {
   box-sizing: border-box;
-  border: 1px dashed #FFCA58;
+  border: 1px dashed #ffca58;
   border-radius: 5px;
   width: 100%;
   height: 100%;
