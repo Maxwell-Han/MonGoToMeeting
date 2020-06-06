@@ -9,26 +9,35 @@ const Messages = (props) => {
   const { user, visible, currentRoom, addMessage } = props;
   const [userMessage, setMessage] = useState("");
   const messagesContainer = useRef();
+
   const updateScrollY = () => {
-    messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight
-    console.log('Updateing scroll! ', messagesContainer.current.scrollTop, messagesContainer.current.scrollHeight)
-  }
-  useEffect( () => {
-    updateScrollY()
-  }, [currentRoom])
+    messagesContainer.current.scrollTop =
+      messagesContainer.current.scrollHeight;
+  };
+
+  useEffect(() => {
+    updateScrollY();
+  }, [currentRoom]);
+
   const handleAddMessage = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     const userId = user._id;
     const userName = user.userName;
     const roomId = currentRoom.roomId;
     const message = { content: userMessage, userName, userId, roomId };
     console.log("adding message to room ", message);
     await addMessage(roomId, message);
-    console.log('component update fn is ', updateScrollY)
+    console.log("component update fn is ", updateScrollY);
     setMessage("");
   };
+
+  const handleEnterKey = (e) => {
+    if (event.key === "Enter") {
+      handleAddMessage();
+    }
+  };
   return (
-    <Box style={visible ? {} : {display: 'none'}} fill>
+    <Box style={visible ? {} : { display: "none" }} fill>
       <section className="messages-container" ref={messagesContainer}>
         <Box fill direction="row" pad="xsmall" />
         {!!currentRoom.messages.length &&
@@ -45,6 +54,7 @@ const Messages = (props) => {
         <TextInput
           value={userMessage}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleEnterKey}
           className="chat-input"
         ></TextInput>
         <div className="chat-input-menu">
@@ -76,4 +86,3 @@ const mapDispatch = (dispatch) => {
 };
 
 export default connect(mapState, mapDispatch)(Messages);
-
