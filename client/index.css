@@ -239,3 +239,21 @@ body {
   border-radius: 1rem;
   padding-bottom: 4px;
 }
+
+/* TOP HEADER */
+.top-header-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  flex: 1;
+}
+
+.social-icons {
+  justify-self: flex-start;
+}
+
+.logout-button {
+  justify-self: flex-end;
+  padding-right: 1rem;
+}

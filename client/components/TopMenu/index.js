@@ -6,36 +6,37 @@ import socket from "../../socket";
 const TopMenu = (props) => {
   return (
     <Header background="brand" elevation="medium">
-      <div className="social-icons">
+      <section className="top-header-grid">
+        <div className="social-icons">
+          <Button
+            icon={<Globe />}
+            href="https://maxhan.dev"
+            target="_blank"
+            hoverIndicator
+          />
+          <Button
+            icon={<Github />}
+            href="https://github.com/Maxwell-Han/MonGoToMeeting"
+            target="_blank"
+            hoverIndicator
+          />
+          <Button
+            icon={<Linkedin />}
+            href="http://linkedin.com/in/maxwellhan"
+            target="_blank"
+            hoverIndicator
+          />
+        </div>
+        <Text weight="bold">MONGOTOMEETING</Text>
         <Button
-          icon={<Globe />}
-          href="https://maxhan.dev"
-          target="_blank"
+          plain
+          icon={<Logout />}
+          label="Log Out"
+          onClick={props.handleLogout}
           hoverIndicator
+          className="logout-button"
         />
-        <Button
-          icon={<Github />}
-          href="https://github.com/Maxwell-Han/MonGoToMeeting"
-          target="_blank"
-          hoverIndicator
-        />
-        <Button
-          icon={<Linkedin />}
-          href="http://linkedin.com/in/maxwellhan"
-          target="_blank"
-          hoverIndicator
-        />
-        <Button label="log sockets" onClick={() => socket.emit("LOG_STATE")} />
-      </div>
-      <Text weight="bold">MONGOTOMEETING</Text>
-      <Button
-        plain
-        icon={<Logout />}
-        label="Log Out"
-        onClick={props.handleLogout}
-        style={{ paddingRight: "3px" }}
-        hoverIndicator
-      />
+      </section>
     </Header>
   );
 };
