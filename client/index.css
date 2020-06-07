@@ -77,11 +77,12 @@ body {
 }
 
 .message-user-name {
+  font-size: 0.8rem;
   padding-right: 3px;
 }
 
 #chat-date {
-  font-size: 0.8rem;
+  font-size: 0.65rem;
 }
 
 /* CONTACTS */
@@ -113,19 +114,26 @@ body {
 }
 
 /* MESSAGE CARD */
+.message-card-container {
+  justify-content: flex-start !important;
+}
+
 .message-content-container {
   display: grid;
   grid-template-rows: 1rem auto;
   width: 95%;
-  padding-left: 0.75rem;
+  margin-right: 1rem;
+  margin-left: 0.7rem;
+  box-sizing: content-box !important;
 }
 
 .messages-container {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding: 0.2rem;
+  padding-right: 1rem;
 }
 
 .messages-container > :first-child {
@@ -133,6 +141,11 @@ body {
   /* use !important to prevent breakage from child margin settings */
 }
 
+.message-text {
+  line-height: 1rem;
+  padding-top: 4px;
+  min-width: 640px;
+}
 /* MEETING SPACE */
 .meeting-space-container {
   height: 96%;

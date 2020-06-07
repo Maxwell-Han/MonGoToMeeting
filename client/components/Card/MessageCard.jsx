@@ -31,6 +31,7 @@ const MessageCard = (props) => {
       elevation="small"
       height={{ min: "2.4rem", max: "2.75rem" }}
       className="message-card-container"
+      style={{boxSizing: 'content-box'}}
     >
       <Grommet theme={grommet}>
         <Avatar
@@ -47,7 +48,7 @@ const MessageCard = (props) => {
           <div className="message-user-name">{props.userName}</div>
           <div id="chat-date">{toChatDate(props.createdAt)}</div>
         </div>
-        <section>{props.content}</section>
+        <section className="message-text">{props.content}</section>
       </div>
     </Box>
   );
