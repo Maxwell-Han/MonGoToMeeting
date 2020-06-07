@@ -55,8 +55,10 @@ roomSchema.statics.getRoomsForSockets = async function () {
 };
 
 roomSchema.methods.addUser = async function (userId) {
+  console.log('user id from model is ', userId)
   this.users.push(userId);
   const user = await User.findById(userId);
+  console.log('user from Model is  ', user)
   user.rooms.push(this._id);
   await user.save();
   await this.save();
@@ -67,14 +69,13 @@ roomSchema.methods.addUser = async function (userId) {
     users.map(async (user) => {
       if (!user.buddies.includes(userId)) {
         user.buddies.push(userId);
-        await user.save();
       }
       this.users.forEach(async memberId => {
         if(!user.buddies.includes(memberId)) {
           user.buddies.push(memberId)
-          await user.save()
         }
       })
+      await user.save()
     })
   );
   return this;
