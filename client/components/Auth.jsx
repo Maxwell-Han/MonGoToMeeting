@@ -21,7 +21,6 @@ const AuthForm = (props) => {
         formRef.current.dispatchEvent(new Event("submit"))
       );
     handleTyping("email", "MichaelS@paper.com", handleSecond);
-    console.log(formRef.current);
   };
 
   const handleTyping = (fieldName, value, callback, i = 0) => {
@@ -72,7 +71,7 @@ const AuthForm = (props) => {
             label="Log In"
           />
         </Box>
-        <Box>
+        <Box className="auth-buttons">
           <Button
             icon={<View />}
             label="DEMO USER"
