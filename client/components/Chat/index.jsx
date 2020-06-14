@@ -20,7 +20,6 @@ extendDefaultTheme(
 const Chat = (props) => {
   const { user, currentRoom, currentRoomUsers, addMessage } = props;
 
-  // const [userMessage, setMessage] = useState("");
   const [currentTab, setTab] = useState({ messages: false, items: false });
   const selectTab = (tabName) => {
     if (tabName === "messages") setTab({ messages: true, items: false });

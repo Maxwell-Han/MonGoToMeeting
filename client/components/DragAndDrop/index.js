@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { Header, Text } from "grommet";
+import React from "react";
 import { DragPreviewImage, useDrag } from "react-dnd";
 import { ItemTypes } from "../../constants";
 import tempImage from '../grommet-card.png'
@@ -17,7 +16,7 @@ const DragWrapper = (props) => {
     <div
       ref={drag}
       style={{
-        display: isDragging ? "none" : "block",
+        opacity: isDragging ? 0.5 : 1,
         cursor: "move",
       }}
     >

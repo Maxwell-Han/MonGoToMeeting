@@ -125,17 +125,10 @@ const TagForm = ({ item, currentRoom, udpateItemTags, removeItemTags }) => {
   }, [item]);
 
   const onRemoveTag = async (tag) => {
-    console.log("CLICKED ON REMOVE ", currentRoom.roomId, item._id, tag);
     removeItemTags(currentRoom.roomId, item._id, tag);
   };
 
   const handleRemove = () => {
-    console.log(
-      "CLICKED HANDLE REEMOVE ",
-      currentRoom.roomId,
-      item._id,
-      "dummy tag"
-    );
     removeItemTags(currentRoom.roomId, item._id, "dummy tag");
   };
   const onAddTag = (tag) => {
@@ -159,7 +152,7 @@ const TagForm = ({ item, currentRoom, udpateItemTags, removeItemTags }) => {
         onRemove={onRemoveTag}
         onAdd={onAddTag}
         onChange={({ target: { value } }) => onFilterSuggestion(value)}
-        style={{height: "1rem"}}
+        style={{ height: "1rem" }}
       />
     </Box>
   );

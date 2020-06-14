@@ -9,7 +9,6 @@ const ItemListDropArea = (props) => {
   const [{ isOver, canDrop, item }, drop] = useDrop({
     accept: ItemTypes.CARD,
     drop: () => {
-      console.log("Card being moved BACK over to item LIST area", item);
       handleDroppedItem(item.data._id)
     },
     collect: (mon) => ({
@@ -20,7 +19,6 @@ const ItemListDropArea = (props) => {
   });
 
   const handleDroppedItem = itemId => {
-    console.log("handling dropped item");
     unsetFocusItem(props.currentRoom.roomId, itemId);
   };
 
@@ -37,7 +35,6 @@ const ItemListDropArea = (props) => {
 
 const mapState = (state) => {
   return {
-    // inFocusItem: state.inFocusItem,
     currentRoom: state.currentRoom,
   };
 };
