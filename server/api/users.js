@@ -9,7 +9,6 @@ const toObj = arr => {
 }
 
 router.get('/', async (req, res, next) => {
-  console.log('Hit the get route on the api/users route!')
   try {
     const data = await User.find()
     const parsedData = toObj(data)
@@ -20,7 +19,6 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/testSocket', async (req, res, next) => {
-  console.log('TESTING sockets')
   console.log(io)
   const rooms = await Room.getRoomsForSockets()
   res.json(rooms)
@@ -38,7 +36,6 @@ router.get('/:userId/buddies/', async (req, res, next) => {
 })
 
 router.get('/:userId/rooms/', async (req, res, next) => {
-  console.log('GET users rooms')
   try {
     const userId = req.params.userId
     const rooms = await Room.find({ users: userId})
@@ -50,7 +47,6 @@ router.get('/:userId/rooms/', async (req, res, next) => {
 })
 
 router.post('/:userId/buddies/', async (req, res, next) => {
-  console.log('POST add friend')
   try {
     const userId = req.params.userId
     const buddyId = req.body.buddyId

@@ -8,7 +8,6 @@ const toObj = arr => {
 }
 
 router.get('/', async (req, res, next) => {
-  console.log('GET api/messages: getting all of your rooms')
   try {
     const data = await Message.find()
     const parsedData = toObj(data)
@@ -19,7 +18,6 @@ router.get('/', async (req, res, next) => {
 })
 
 router.post('/', async (req, res, next) => {
-  console.log('POST api/messages: create a new message')
   try {
     const userId = req.body.userId
     const userName =  req.body.userName
