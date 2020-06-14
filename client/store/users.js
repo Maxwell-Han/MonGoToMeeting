@@ -22,7 +22,6 @@ const gotUsers = users => ({type: GET_USERS, users});
 export const getUsers = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/users');
-    console.log('got users are ', data)
     dispatch(gotUsers(data));
   } catch (err) {
     console.error(err);

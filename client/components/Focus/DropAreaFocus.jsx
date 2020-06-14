@@ -9,15 +9,12 @@ const DropAreaFocus = (props) => {
   const { setFocusItem } = props;
 
   const handleDroppedItem = (itemId) => {
-    console.log("handling dropped item");
     setFocusItem(props.currentRoom.roomId, itemId);
   };
 
   const [{ isOver, canDrop, item }, drop] = useDrop({
     accept: ItemTypes.CARD,
     drop: () => {
-      console.log("dropping item");
-      console.log(item.data);
       handleDroppedItem(item.data._id);
     },
     collect: (mon) => ({

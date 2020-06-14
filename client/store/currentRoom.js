@@ -19,7 +19,6 @@ export const removeRoom = (roomId) => ({ type: REMOVE_CURRENT_ROOM, roomId });
 export const getMessages = (roomId) => async (dispatch) => {
   try {
     const { data: messages } = await axios.get(`/api/rooms/${roomId}/messages`);
-    console.log("room messages are ", roomId, messages);
     dispatch(gotMessages(messages));
   } catch (err) {
     console.error(err);
@@ -29,7 +28,6 @@ export const getMessages = (roomId) => async (dispatch) => {
 export const addMessage = (roomId, message) => async () => {
   try {
     const { data } = await axios.post(`/api/rooms/${roomId}`, message);
-    console.log("thunk posted message for addMessage is ", data);
     // ../socket.js will dispatch
     socket.emit("ADD_MESSAGE", data);
   } catch (err) {

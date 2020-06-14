@@ -9,8 +9,6 @@ const DoneItemDropArea = (props) => {
   const [{ isOver, canDrop, item }, drop] = useDrop({
     accept: ItemTypes.CARD,
     drop: () => {
-      console.log("Card being moved to Done area", item);
-      console.log(item.data);
       handleDroppedItem(item.data._id);
     },
     collect: (mon) => ({
@@ -21,7 +19,6 @@ const DoneItemDropArea = (props) => {
   });
 
   const handleDroppedItem = async (itemId) => {
-    console.log("handling dropped item");
     await markItemDone(currentRoom.roomId, itemId);
   };
 
