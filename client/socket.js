@@ -37,24 +37,15 @@ socket.on("ADD_MESSAGE", (message) => {
   store.dispatch(addedMessage(message));
 });
 
-socket.on("ADD_BUDDY_TO_ROOM", (buddy) => {
-  console.log("client recieved event to add buddy ", buddy);
-  console.log("socket here is ", socket.id, socket);
-  // store.dispatch(addedBuddyToRoom(buddy))
-});
-
 socket.on("CREATE_ROOM", (room) => {
-  console.log("Client Socket dispatching createdRoom ", room);
   store.dispatch(createdRoom(room));
 });
 
 socket.on("GET_ROOMS", (userId) => {
-  console.log("client recieved event to add buddy ");
   store.dispatch(getRooms(userId));
 });
 
 socket.on("GOT_CONNECTED_BUDDY", (id) => {
-  console.log("your buddy ", id, " has just connected!");
   store.dispatch(gotConnectedBuddy(id));
 });
 
@@ -68,7 +59,6 @@ socket.on("REMOVE_CURRENT_ROOM", (roomId) => {
 });
 
 socket.on("GOT_DISCONNECTED_BUDDY", (id) => {
-  console.log("got disconnected buddy alert");
   store.dispatch(gotDisconnectedBuddy(id));
 });
 
@@ -137,22 +127,3 @@ export default socket;
 
 //   return socket;
 // };
-
-// export default configureSocket;
-
-// export const initSocket = dispatch => {
-//   console.log('initializing SOCKET')
-//   socket.on('connect', () => {
-//     console.log('Connected!')
-//   })
-
-//   socket.on('ADD_MESSAGE', message => {
-//     console.log('Client socket caught add message from server')
-//     dispatch({type: 'ADD_MESSAGE', message})
-//   })
-// }
-
-// socket.on('ADD_MESSAGE', message => {
-//   console.log('testing client socket')
-
-// })

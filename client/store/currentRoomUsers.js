@@ -39,7 +39,6 @@ export const addBuddyToRoom = (roomId, buddyId) => async (dispatch) => {
       userId: buddyId,
     });
     socket.emit(ADD_BUDDY_TO_ROOM, buddy);
-    // console.log("addBuddytoRoom thunk  has socket of ", socket.id, socket);
     dispatch(addedBuddyToRoom(buddy));
   } catch (err) {
     console.error(err);
