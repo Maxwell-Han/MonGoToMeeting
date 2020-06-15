@@ -1,6 +1,5 @@
 const { Room, User } = require("../db/models");
 
-// const rooms = Room.getRoomsForSockets()
 const onlineUsers = {};
 
 module.exports = (io) => {

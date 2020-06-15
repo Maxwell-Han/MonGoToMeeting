@@ -1,20 +1,16 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getItems } from "../../store";
-import { Header, Text } from "grommet";
 import ItemCard from "../Card/ItemCard";
 import OpenItemsDropArea from "./OpenItemsDropArea";
 import DragWrapper from "../DragAndDrop";
 
 const Items = (props) => {
-  const { getItems, items, currentRoom } = props;
+  const { items } = props;
   const openItemIds = Object.keys(items).filter((id) => {
     return items[id].inFocus === false && items[id].status === "open";
   });
-  console.log(
-    "open item ids are ",
-    Object.keys(openItemIds).map((id) => items[id])
-  );
+
   return (
     <section className="items-container">
       <div>Meeting Items</div>

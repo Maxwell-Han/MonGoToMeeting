@@ -21,9 +21,7 @@ export const getBuddies = (userId) => async dispatch => {
 
 export const addBuddy = (userId, buddyId) => async dispatch => {
   try {
-    console.log('ADD BUDDY THUNK is ', buddyId)
     const {data} = await axios.post(`api/users/${userId}/buddies`, {buddyId: buddyId});
-    console.log('thunk data is ', data)
     dispatch(addedBuddy(data));
   } catch (err) {
     console.error(err);

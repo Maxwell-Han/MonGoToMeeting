@@ -1,16 +1,47 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { auth } from "../store";
 import { Button, Box, FormField, TextInput, Text } from "grommet";
-import { Google } from "grommet-icons";
+import { Google, View } from "grommet-icons";
 import history from "../history";
 import SocialIcons from "./TopMenu/SocialIcons";
 
 const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
+  const [email, setEmail] = useState("");
+  const [pw, setPw] = useState("");
+  const formRef = useRef();
+
+  const handleDemo = () => {
+    setEmail("");
+    setPw("");
+    const handleSecond = () =>
+      handleTyping("pw", "123", () =>
+        formRef.current.dispatchEvent(new Event("submit"))
+      );
+    handleTyping("email", "MichaelS@paper.com", handleSecond);
+  };
+
+  const handleTyping = (fieldName, value, callback, i = 0) => {
+    const handleSetState = fieldName === "email" ? setEmail : setPw;
+    if (i === value.length) return callback();
+    handleSetState(value.slice(0, i + 1));
+    setTimeout(() => {
+      handleTyping(fieldName, value, callback, i + 1);
+    }, 100);
+  };
+
+  useEffect(() => {
+    const isDemo = props.match.path === "/login-demo";
+    if(isDemo) {
+      setTimeout(() => handleDemo(), 120)
+    }
+  },[props.match.path]);
+
   const message =
     name === "login" ? "Log in as an existing user" : "Sign up as a new user";
+
   return (
     <section className="auth-container">
       <p className="title">
@@ -40,20 +71,32 @@ const AuthForm = (props) => {
             label="Log In"
           />
         </Box>
-        <Button
-          icon={<Google color="plain" />}
-          label="Log in with Google"
-          href="/auth/google"
-          color="active"
-          primary={true}
-        />
+        <Box className="auth-buttons">
+          <Button
+            icon={<View />}
+            label="DEMO USER"
+            onClick={() => history.push("/login-demo")}
+          />
+          <Button
+            icon={<Google color="plain" />}
+            label="Log in with Google"
+            href="/auth/google"
+            color="active"
+            primary={true}
+          />
+        </Box>
         <div style={{ display: "flex" }}>
           <hr className="horizontalRule" />
           <span>OR</span>
           <hr className="horizontalRule" />
         </div>
         <div>{message}</div>
-        <form onSubmit={handleSubmit} name={name} className="auth-form">
+        <form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          name={name}
+          className="auth-form"
+        >
           {name === "signup" && (
             <FormField
               name="userName"
@@ -65,10 +108,21 @@ const AuthForm = (props) => {
             </FormField>
           )}
           <FormField name="email" htmlfor="email" label="Email" required>
-            <TextInput id="email" name="email" />
+            <TextInput
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </FormField>
           <FormField name="password" htmlfor="password" label="Password">
-            <TextInput id="password" name="password" type="password" />
+            <TextInput
+              id="password"
+              name="password"
+              type="password"
+              value={pw}
+              onChange={(e) => setPw(e.target.value)}
+            />
           </FormField>
 
           <Button

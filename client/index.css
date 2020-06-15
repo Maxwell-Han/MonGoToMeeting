@@ -305,3 +305,9 @@ body {
   align-items: center;
   padding-top: 4rem;
 }
+
+.auth-buttons {
+  height: 6rem;
+  margin-top: 5px;
+  justify-content: space-between;
+}

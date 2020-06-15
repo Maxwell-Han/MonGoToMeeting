@@ -36,7 +36,6 @@ const AddContactsMenu = (props) => {
   };
 
   const handleAddContact = async (roomId, buddyId, userId) => {
-    console.log("handling add a contact");
     await addBuddyToRoom(roomId, buddyId);
     await addBuddy(userId, buddyId);
   };

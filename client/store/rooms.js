@@ -27,7 +27,6 @@ export const createRoom = (roomName, ownerId) => async (dispatch) => {
     const data = { roomName, ownerId };
     const res = await axios.post("/api/rooms", data);
     socket.emit(CREATE_ROOM, res.data);
-    console.log("thunk creator for creating room");
     dispatch(createdRoom(res.data));
   } catch (err) {
     console.error(err);
@@ -37,8 +36,6 @@ export const createRoom = (roomName, ownerId) => async (dispatch) => {
 export const deleteRoom = (roomId) => async (dispatch) => {
   try {
     const res = await axios.delete(`/api/rooms/${roomId}`);
-    console.log('deleted room action res is ', res)
-    // socket.emit(CREATE_ROOM, res.data);
     dispatch(deletedRoom(roomId));
   } catch (err) {
     console.error(err);

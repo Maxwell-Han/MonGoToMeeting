@@ -145,7 +145,6 @@ export const udpateItemTags = (roomId, itemId, tag) => async (dispatch) => {
 };
 
 export const removeItemTags = (roomId, itemId, tag) => async (dispatch) => {
-  console.log("args are from store ", roomId, itemId, tag);
   try {
     const {
       data: item,

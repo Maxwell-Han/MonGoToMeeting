@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { udpateItemVote } from "../../../store";
 import { Box, Button, Meter, Stack, Text } from "grommet";
@@ -10,9 +10,11 @@ const VoteForm = ({ currentRoom, item, udpateItemVote, user }) => {
   const percentVal = !item.votesYes.length
     ? 0
     : Math.floor((votesYes / (votesYes + votesNo)) * 100);
-  const handleVote = (vote) => {
+
+    const handleVote = (vote) => {
     udpateItemVote(currentRoom.roomId, item._id, user._id, vote);
   };
+
   return (
     <>
       <div className="votes-display">

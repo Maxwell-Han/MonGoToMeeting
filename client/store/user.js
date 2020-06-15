@@ -15,7 +15,6 @@ export const me = () => async dispatch => {
   try {
     const res = await axios.get("/auth/me");
     dispatch(getUser(res.data || defaultUser));
-    console.log('ME THUNK ', res.data)
     socket.emit('GET_USER', res.data)
   } catch (err) {
     console.error(err);
@@ -29,7 +28,6 @@ export const auth = (
   method,
 ) => async dispatch => {
   let res;
-  console.log('dispatching auth ', userName, email, password, method)
   try {
     res = await axios.post(`/auth/${method}`, {
       userName,
@@ -42,10 +40,8 @@ export const auth = (
 
   try {
     dispatch(getUser(res.data));
-    console.log('socket from AUTH thunk ', res.data)
     history.push("/home");
     socket.emit('GET_USER', res.data)
-    console.log(history)
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr);
   }

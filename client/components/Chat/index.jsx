@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { Header, Box, Button, TextInput, extendDefaultTheme } from "grommet";
-import { Send } from "grommet-icons";
 import { base } from "grommet/themes";
 import { deepMerge } from "grommet/utils";
 import { logout, addMessage } from "../../store";
-import { getRooms } from "../../store/rooms";
-import MessageCard from "../Card/MessageCard";
 import ItemMenu from "./ItemMenu";
 import Messages from "./Messages";
 
@@ -23,12 +20,15 @@ extendDefaultTheme(
 const Chat = (props) => {
   const { user, currentRoom, currentRoomUsers, addMessage } = props;
 
-  // const [userMessage, setMessage] = useState("");
   const [currentTab, setTab] = useState({ messages: false, items: false });
   const selectTab = (tabName) => {
     if (tabName === "messages") setTab({ messages: true, items: false });
     else setTab({ messages: false, items: true });
   };
+
+  useEffect(() => {
+    selectTab("messages")
+  }, [currentRoom.roomId])
 
   return (
     <Box fill>
