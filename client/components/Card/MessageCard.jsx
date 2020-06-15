@@ -16,8 +16,8 @@ const MessageCard = (props) => {
   const getAccent = () => {
     let code = userInitial.charCodeAt();
     let accent;
-    if (code < 112) accent = "neutral-2";
-    else if (code < 119) accent = "accent-3";
+    if (code < 72) accent = "neutral-2";
+    else if (code < 81) accent = "accent-3";
     else accent = "accent-4";
     return accent;
   };

@@ -1,14 +1,7 @@
 import React, { useState } from "react";
-import { Box, Button, Keyboard, TextInput, Meter, Stack, Text } from "grommet";
-import {
-  Clear,
-  Checkmark,
-  Scorecard,
-  Checkbox,
-  Tag,
-  FormClose,
-} from "grommet-icons";
-import { TagForm, RateForm, VoteForm } from './FocusActions';
+import { Box, Button, TextInput } from "grommet";
+import { Scorecard, Checkbox, Tag } from "grommet-icons";
+import { TagForm, RateForm, VoteForm } from "./FocusActions";
 
 const FocusItemCard = (props) => {
   const { item } = props;
@@ -17,6 +10,7 @@ const FocusItemCard = (props) => {
   const handleView = (view) => {
     setView(view);
   };
+
   return (
     <Box
       fill
