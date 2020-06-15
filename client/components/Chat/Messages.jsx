@@ -56,7 +56,7 @@ const Messages = (props) => {
     isTyping(currentRoom.roomId, user.userName);
     let newTimer = setTimeout(() => {
       stopTyping(currentRoom.roomId, user.userName);
-    }, 2800);
+    }, 2400);
     setTypingTimer(newTimer);
   };
 

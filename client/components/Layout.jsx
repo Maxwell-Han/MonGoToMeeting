@@ -1,16 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { logout } from "../store";
-import {
-  Custom,
-  ViewPort,
-  Fill,
-  BottomResizable,
-  LeftResizable,
-  TopResizable,
-  Bottom,
-} from "react-spaces";
-import { Button, Header, Nav, Box, TextArea } from "grommet";
+import { ViewPort, Fill, BottomResizable, LeftResizable } from "react-spaces";
 import {
   Contacts,
   Rooms,
@@ -21,15 +12,18 @@ import {
   TopMenu,
 } from "../components";
 import socket from "../socket";
+import user from "../store/user";
 
 const Home = (props) => {
   const [size, setSize] = useState(300);
+
   const handleSize = (newSize) => {
     setSize(newSize);
   };
   const logSockets = () => {
     socket.emit("LOG_STATE");
   };
+
   return (
     <section>
       <ViewPort>
@@ -47,7 +41,7 @@ const Home = (props) => {
           onResizeEnd={(newSize) => {
             setSize(newSize);
           }}
-          style={{borderTop: "2px solid #999999"}}
+          style={{ borderTop: "2px solid #999999" }}
         >
           <LeftResizable size={360}>
             <Fill>

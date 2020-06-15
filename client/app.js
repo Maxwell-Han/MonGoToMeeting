@@ -3,6 +3,7 @@ import { me } from "./store";
 import { connect } from "react-redux";
 import { withRouter, Route, Switch } from "react-router-dom";
 import { SignUp, Login, Layout } from "./components";
+import Loading from "./components/Loading";
 
 export const DispatchContext = createContext(null);
 
@@ -29,7 +30,8 @@ const App = (props) => {
         </Switch>
       )}
       {/* Displays our Login component as a fallback */}
-      <Route component={Login} />
+      {/* <Route component={Login} /> */}
+      <Route component={Loading} />
     </Switch>
   );
 };
