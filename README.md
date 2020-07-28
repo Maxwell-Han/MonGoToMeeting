@@ -3,14 +3,13 @@
 # MonGoToMeeting
 [![Build Status](https://travis-ci.org/Maxwell-Han/MonGoToMeeting.svg?branch=master)](https://travis-ci.org/Maxwell-Han/MonGoToMeeting)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-
 #### MonGoToMeeting is a real-time chat and meeting collaboration tool.  Focus on your meeting, not taking notes!
 
 ## Tech Stack
 - [Node.js](https://nodejs.org/en/)
 - [Express](http://expressjs.com/)
 - [MongoDB](https://www.mongodb.com/) and [Mongoose](https://mongoosejs.com/)
-- [React](https://facebook.github.io/react/) using React Hooks
+- [React](https://facebook.github.io/react/) and React Hooks
 - [Redux](https://redux.js.org/)
 - [React-DnD](https://react-dnd.github.io/react-dnd/about)
 - [Socket.io](http://socket.io/)
