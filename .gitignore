@@ -10,3 +10,5 @@ yarn-error.log
 
 script/seed.js
 script/seedDeployed.js
+
+readmeDraft.md
