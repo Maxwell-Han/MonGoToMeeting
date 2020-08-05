@@ -6,6 +6,7 @@ import { Button, Box, FormField, TextInput, Text } from "grommet";
 import { Google, View } from "grommet-icons";
 import history from "../history";
 import SocialIcons from "./TopMenu/SocialIcons";
+import { logEvent } from "./Tracking";
 
 const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
@@ -34,10 +35,10 @@ const AuthForm = (props) => {
 
   useEffect(() => {
     const isDemo = props.match.path === "/login-demo";
-    if(isDemo) {
-      setTimeout(() => handleDemo(), 120)
+    if (isDemo) {
+      setTimeout(() => handleDemo(), 120);
     }
-  },[props.match.path]);
+  }, [props.match.path]);
 
   const message =
     name === "login" ? "Log in as an existing user" : "Sign up as a new user";
@@ -169,6 +170,11 @@ const mapDispatch = (dispatch) => {
       const userName = formName === "login" ? "" : evt.target.userName.value;
       const email = evt.target.email.value;
       const password = evt.target.password.value;
+      const isDemo = props.match.path === "/login-demo";
+      const actionName = isDemo
+        ? "Demo Login"
+        : `${formName[0].toUpperCase()}${formName.slice(1)}`;
+      logEvent("MongoToMeeting", actionName, "Auth Page");
       dispatch(auth(userName, email, password, formName));
     },
   };

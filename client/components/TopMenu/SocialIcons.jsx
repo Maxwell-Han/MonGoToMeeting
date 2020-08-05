@@ -1,13 +1,13 @@
 import React from "react";
 import { Button } from "grommet";
-import { Logout, Globe, Linkedin, Github } from "grommet-icons";
+import { Globe, Linkedin, Github } from "grommet-icons";
 
 const SocialIcons = (props) => {
   return (
     <div className="social-icons">
       <Button
         icon={<Globe />}
-        href="https://maxhan.dev"
+        href="https://bit.ly/2PuojpO"
         target="_blank"
         hoverIndicator
       />

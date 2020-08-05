@@ -4,12 +4,15 @@ import { connect } from "react-redux";
 import { withRouter, Route, Switch } from "react-router-dom";
 import { SignUp, Login, Layout } from "./components";
 import Loading from "./components/Loading";
+import { PageView, initGA } from "./components/Tracking";
 
 export const DispatchContext = createContext(null);
 
 const App = (props) => {
   useEffect(() => {
     props.loadInitialData();
+    initGA()
+    PageView()
   }, []);
 
   const { isLoggedIn } = props;
