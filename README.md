@@ -1,4 +1,4 @@
-### [LIVE APP](https://github.com/Maxwell-Han/MonGoToMeeting)
+### [LIVE APP](https://mongotomeeting.herokuapp.com/)
 
 # MonGoToMeeting
 [![Build Status](https://travis-ci.org/Maxwell-Han/MonGoToMeeting.svg?branch=master)](https://travis-ci.org/Maxwell-Han/MonGoToMeeting)
