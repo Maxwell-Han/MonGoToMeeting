@@ -170,10 +170,10 @@ const mapDispatch = (dispatch) => {
       const userName = formName === "login" ? "" : evt.target.userName.value;
       const email = evt.target.email.value;
       const password = evt.target.password.value;
-      const isDemo = props.match.path === "/login-demo";
-      const actionName = isDemo
-        ? "Demo Login"
-        : `${formName[0].toUpperCase()}${formName.slice(1)}`;
+      const actionName =
+        userName === "MichaelS@paper.com"
+          ? "Demo Login"
+          : `${formName[0].toUpperCase()}${formName.slice(1)}`;
       logEvent("MongoToMeeting", actionName, "Auth Page");
       dispatch(auth(userName, email, password, formName));
     },
