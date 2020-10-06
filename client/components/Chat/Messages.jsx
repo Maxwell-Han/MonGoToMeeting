@@ -54,7 +54,11 @@ const Messages = (props) => {
     setMessage("");
   };
   const handleTyping = (textVal) => {
-    setMessage(textVal);
+    if(textVal.isEmoji) {
+      const newMessage = userMessage + textVal.native
+      setMessage(newMessage)
+    } else setMessage(textVal);
+
     clearTimeout(typingTimer);
     isTyping(currentRoom.roomId, user.userName);
     let newTimer = setTimeout(() => {
@@ -71,7 +75,8 @@ const Messages = (props) => {
 
   const showEmojiSelector = () => setEmojiVisibliity(!emojiVisibility);
   const addEmoji = (emoji) => {
-    handleTyping(emoji.native)
+    emoji.isEmoji = true
+    handleTyping(emoji)
   }
   return (
     <Box style={visible ? {} : { display: "none" }} fill>
@@ -103,6 +108,8 @@ const Messages = (props) => {
             right: "38px",
             visibility: emojiVisibility ? "" : "hidden",
           }}
+          showPreview={false}
+          useButton={true}
           onSelect={addEmoji}
         />
         <div className="chat-input-menu">
