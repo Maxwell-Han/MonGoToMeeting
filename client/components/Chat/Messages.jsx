@@ -100,18 +100,17 @@ const Messages = (props) => {
           onKeyDown={handleEnterKey}
           className="chat-input"
         ></TextInput>
-        <Picker
+        {!!emojiVisibility && <Picker
           set="apple"
           style={{
             position: "fixed",
             bottom: "45px",
-            right: "38px",
-            visibility: emojiVisibility ? "" : "hidden",
+            right: "38px"
           }}
           showPreview={false}
           useButton={true}
           onSelect={addEmoji}
-        />
+        />}
         <div className="chat-input-menu">
           <Button
             style={{ margin: "2px", padding: "5px" }}
