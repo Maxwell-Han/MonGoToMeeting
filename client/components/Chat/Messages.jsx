@@ -4,7 +4,10 @@ import { addMessage, isTyping, stopTyping } from "../../store";
 import MessageCard from "../Card/MessageCard";
 import TypingNotification from "./TypingNotification";
 import { Box, Button, TextInput } from "grommet";
-import { Send } from "grommet-icons";
+import { Send, Emoji } from "grommet-icons";
+
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
 
 const Messages = (props) => {
   const {
@@ -19,7 +22,7 @@ const Messages = (props) => {
   } = props;
   const [userMessage, setMessage] = useState("");
   const [typingTimer, setTypingTimer] = useState(null);
-
+  const [emojiVisibility, setEmojiVisibliity] = useState(false);
   const messagesContainer = useRef();
 
   const updateScrollY = () => {
@@ -51,7 +54,11 @@ const Messages = (props) => {
     setMessage("");
   };
   const handleTyping = (textVal) => {
-    setMessage(textVal);
+    if(textVal.isEmoji) {
+      const newMessage = userMessage + textVal.native
+      setMessage(newMessage)
+    } else setMessage(textVal);
+
     clearTimeout(typingTimer);
     isTyping(currentRoom.roomId, user.userName);
     let newTimer = setTimeout(() => {
@@ -65,6 +72,12 @@ const Messages = (props) => {
       handleAddMessage();
     }
   };
+
+  const showEmojiSelector = () => setEmojiVisibliity(!emojiVisibility);
+  const addEmoji = (emoji) => {
+    emoji.isEmoji = true
+    handleTyping(emoji)
+  }
   return (
     <Box style={visible ? {} : { display: "none" }} fill>
       <section className="messages-container" ref={messagesContainer}>
@@ -87,10 +100,29 @@ const Messages = (props) => {
           onKeyDown={handleEnterKey}
           className="chat-input"
         ></TextInput>
+        {!!emojiVisibility && <Picker
+          set="apple"
+          style={{
+            position: "fixed",
+            bottom: "45px",
+            right: "38px"
+          }}
+          showPreview={false}
+          useButton={true}
+          onSelect={addEmoji}
+        />}
         <div className="chat-input-menu">
           <Button
+            style={{ margin: "2px", padding: "5px" }}
             plain={false}
-            icon={<Send size="small" />}
+            icon={<Emoji />}
+            onClick={showEmojiSelector}
+            disabled={currentRoom.roomId === "" ? true : false}
+          />
+          <Button
+            style={{ margin: "2px", padding: "5px" }}
+            plain={false}
+            icon={<Send />}
             onClick={handleAddMessage}
             disabled={
               userMessage === "" || currentRoom.roomId === "" ? true : false
