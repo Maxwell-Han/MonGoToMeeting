@@ -26,8 +26,8 @@ const ItemCard = (props) => {
 };
 
 const Votes = ({ item }) => {
-  const votesYes = item.votes.filter((el) => el === "yes");
-  const votesNo = item.votes.length - votesYes;
+  const votesYes = !!item.votes ? item.votes.filter((el) => el === "yes") : 0;
+  const votesNo = !!item.votes ? item.votes.length - votesYes : 0;
   return (
     <>
       <div>{`Y: ${votesYes}`}</div>
@@ -37,7 +37,7 @@ const Votes = ({ item }) => {
 };
 
 const Rating = ({ item }) => {
-  const rating = item.rating ? item.rating : 'TBD'
+  const rating = item.rating ? item.rating : "TBD";
   return (
     <>
       <div>{`Rating: ${rating}`}</div>
