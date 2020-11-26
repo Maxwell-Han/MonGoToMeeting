@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - 12 # uses version 12
 services:
-  - mongodb # starts up mongodb
+  - postgresql # starts up postgres
 addons:
   postgresql: '10' # recent postgres version on Travis
 dist: xenial # uses xenial environment
@@ -13,11 +13,12 @@ notifications:
 install:
   - npm ci # faster, goes only from package-lock
 before_script:
-  - # remember to change this name if you change it elsewhere (e.g. package.json)
-    mongo mongotomeeting --eval
-    'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
+  # remember to change this name if you change it elsewhere (e.g. package.json)
+  - mongo mongotomeeting --eval
+    'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'change it
+    elsewhere (e.g. package.json)
 script:
-  # - npm test # test the code
+  #- npm test # test the code
   - npm run build-client # make the bundle
 before_deploy: # omit node_modules, since we set skip_cleanup below
   - rm -rf node_modules
@@ -29,4 +30,4 @@ deploy: # see README for details on these keys
   app: mongotomeeting
   # the secure key indicates an encrypted value; see README
   api_key:
-    secure: DxfgwxDKt7cpLzm9L0mWdbPIc48S6ppAZtMxq81iKg971XRmxVfrR+8H3AbzQMP7/XGsR6ff7J6wgQe8T2E+5rLzQm+EmY7n1gW1R0EJZKVtaBkmuPOgjxcfgXn19e2LbiTFIjK5c5bnhTGjq34+0Eu9nZAucLVj7mauDZbL/J4UCfmcBR6mw/Fh3/BxT6DeYrIp8GE7ml8OxKBKUd/WfpL0JWkR27/Lm8RHfgoC0cJ3/OO7fMH5jM8YEEM64B/rI0//8D2PbDjMkHI2zM611R3BUXC03wTn+BUiyuMpr+FsfjqlEUzT816NdhuEwLZBQwH91Kt2gXTqDg8kPCMkmaueTuRKMZ/X0pv12sq8J+aUaL+/4i7ihMtP34qNLJCuz3l1A3LxkRjE19FmFB2XuamKRNZa9mTWHKc2Wks23B9B8343gVYLu5a0aenoW+wci0qq+ngM6Fda559DklZDjLZMB4itNKS3Syaqg65bBeEXVv8cc+cjcu6xOL0tMA6/IilSgqshs6n28POfGZEEG3WUFdV3sW/Dp1YSVR0hi5WTBE2/rJ3AGc2X9S+F0eOXZXziwhG6LwrkVtFgcbjBSFeqTPm6W+aZykXuCGOxyCf0bumi4Dev5ZZXA+SNlAGE80RXuyKJViw/APpHxdHopJ+qvXI7RMiQGSkUPkepmMs=
+    secure: rTLujoIWX+cS3eh+gg52EdCR88R+zcAivDvwvK49+/f012CsEwYRGfHROG4UDEjtpmWjHR22pzJ+WR1Qaar2ExH5me6xlsy1Un115w5FX57ArOanilBlTr+ChUClW9Q8iTelF14zi5xpV7JVsndQSnDNLS9FKqAoTn4eCwRocLVMTeTDc8pQFT7YHyHe+PN6ZAIHGQ9xMhwPJyBMCoQCY/HZAbKiXgb0n3kFIbmSaMvQSmFHwCz36xepuvHMvfgqgXjLIaWGJPlebmg7nrIgA+LibIUUwq45uSnQJviLix3TxRXp5TKKg2CXPxLjJeFRkotzBOkOl9LTJjVc+htG6FXcppMC9PY6h5oMNre0+R0iTuJnLA3cneqEYeH7whRhgIRiLbUrFp3TsuRAink/CiEorVdlP9/weaLkcvvCGMrC7l435graRHMRSL5Uwtd/2826uyCVieWTDirbCvb8ID0Q3VdcRYq6n1jlLwMbuKe2WAHHMvhxXbOkvBqZiaTa1C2Hm1zSF9/AaProwDegY1AH7VGcOcxjDUioUXMtRYk2F/CtnUCbu3722eD3iftKSzKpcq2ea15sYPHrdQpyhJfZ38NR9OjNSCfCsCgmCkGDNGL30HYfTC9tT9OWWgo7eyYiQjGKNW93BtzmKn501f53lH731PZjuN8XntLfzqE=
